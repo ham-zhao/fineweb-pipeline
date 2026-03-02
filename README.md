@@ -101,13 +101,16 @@ graph LR
 fineweb-pipeline/
 ├── configs/          # 统一配置（run_mode 切换 + pipeline 参数）
 ├── data/             # 数据目录（不入 git）
-├── notebooks/        # 9 个 Jupyter Notebook（理论 + 实验）
+├── docs/             # FAQ、交互记录等文档
+├── notebooks/        # 10 个 Jupyter Notebook（理论 + 实验）
 ├── src/
-│   ├── gen1/         # 第一代：Heuristic Filtering
+│   ├── gen1/         # 第一代：Heuristic Filtering（英文）
+│   ├── gen1_zh/      # 第一代：中文专用 Pipeline
 │   ├── gen2/         # 第二代：Model-based Filtering
 │   ├── gen3/         # 第三代：Hybrid Pipeline
 │   ├── dedup/        # 去重（精确 + MinHash）
 │   ├── evaluation/   # 统一评估体系（独立于 pipeline）
+│   ├── proxy_model/  # Proxy Model 评估器（阶段四）
 │   └── utils/        # 公共工具（config_loader, tokenizer...）
 ├── scripts/          # 可直接运行的 pipeline 脚本
 └── results/          # 输出结果（图表、报告、模型）
@@ -156,6 +159,8 @@ jupyter lab notebooks/
 | `07_ablation_study` | 消融实验：哪个组件最关键 | 分析 |
 | `08_chinese_extension` | 中文场景适配与挑战 | 扩展 |
 | `09_proxy_model_validation` | 端到端验证（可选进阶） | 验证 |
+
+> 📖 常见问题参见 [docs/FAQ.md](docs/FAQ.md)
 
 ---
 
