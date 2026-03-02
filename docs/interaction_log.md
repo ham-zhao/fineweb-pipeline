@@ -57,4 +57,57 @@
 
 ---
 
-*后续阶段的交互记录将在此文件末尾追加。*
+---
+
+## 阶段三：中文扩展 + Git 初始化 + CI
+
+### 交互 4: 阶段三启动（用户指令：启动方案 3）
+- **类型**：确认指令
+- **用户输入**：启动方案 3
+- **执行内容**：
+  - **src/gen1_zh/**：`chinese_text_utils.py`（CJK 字符计数、简繁体检测、垃圾评分、token 估算）、`chinese_quality_filter.py`（`ChineseQualityFilter`，7 重过滤）、`pipeline.py`（`ChineseGen1Pipeline`，语言检测→标准化→质量过滤→简繁统计）
+  - **.github/workflows/ci.yml**：4 个 Job（lint/import-check/smoke-test/test-chinese）
+  - **git init + commit**：65 个文件，11327 行，commit hash e119911
+
+### 交互 5: 阶段四补全（用户指令：你替我继续完成吧）
+- **类型**：继续指令
+- **执行内容**：
+  - **src/proxy_model/evaluator.py**：`ProxyModelEvaluator`（加载 model.pt、compute_perplexity、generate、completion_accuracy、load_all）
+  - **notebooks/09_proxy_model_validation.ipynb**：10 个 cell，涵盖训练曲线、Val PPL 对比、Chinchilla Scaling 分析、文本生成样本、训练效率、结论汇总
+  - 第二次 commit：将 Notebook 09 + proxy_model 模块一起提交
+
+### 关键设计决策记录（阶段三）
+1. **中文过滤单位**：字符数（CJK chars）而非 word count，因中文无天然空格分词边界
+2. **简繁体不过滤**：两种字体均保留，只做 script_type 元数据标注，下游可按需过滤
+3. **垃圾检测纯规则**：`compute_spam_score()` 用 9 个正则模式加权，避免额外模型依赖
+4. **CI 使用 CPU 版 torch**：GitHub Actions 无 GPU/MPS，通过 `--index-url .../cpu` 安装 CPU 版
+5. **ProxyModelEvaluator 内联模型定义**：evaluator.py 内部重建模型架构，不依赖 run_proxy_training.py 中的类，避免循环导入
+
+### 最终项目结构（全量）
+```
+fineweb-pipeline/
+├── .github/workflows/ci.yml       # CI: lint + import-check + smoke-test + zh-unit-test
+├── configs/                       # 6 个配置文件（run/api/gen1/2/3/eval）
+├── docs/interaction_log.md        # 本文件
+├── notebooks/                     # 00-09 共 10 个 Jupyter Notebook
+├── requirements.txt
+├── scripts/
+│   ├── run_gen1/2/3.py
+│   ├── generate_comparison_report.py
+│   ├── run_proxy_training.py      # 阶段四独立脚本
+│   └── download_sample.sh
+├── setup.sh
+└── src/
+    ├── dedup/                     # exact_dedup + minhash_dedup
+    ├── evaluation/                # 6 个评估模块（独立于 pipeline）
+    ├── gen1/filters/ + pipeline   # 6 个 Heuristic 过滤器
+    ├── gen1_zh/                   # 中文专用 Pipeline（阶段三新增）
+    ├── gen2/                      # DCLM fastText + 阈值调参 + pipeline
+    ├── gen3/                      # 集成分类 + bypass + LLM 改写 + pipeline
+    ├── proxy_model/               # 评估器（阶段四新增）
+    └── utils/                     # config_loader / downloader / tokenizer_utils
+```
+
+---
+
+*项目全部阶段完成（阶段一～三已 commit，阶段四脚本就绪，Notebook 09 已生成）。*
