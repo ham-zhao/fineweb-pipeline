@@ -1,0 +1,31 @@
+# configs/run_config.yaml
+# 数据规模控制：smoke_test（验证流程）或 full_run（正式结果）
+# 所有 pipeline 和 notebook 统一读取此文件的 run_mode 字段
+
+run_mode: "smoke_test"  # 可选: "smoke_test" | "full_run"
+
+smoke_test:
+  doc_limit: 1000           # 从 WARC 中只取 1000 条文档
+  eval_sample_size: 200     # 每阶段评估采样 200 条
+  audit_sample_size: 20     # 过滤精度抽检 20 条
+  rewrite_count: 50         # LLM 改写 50 条
+  description: "10-15分钟跑完全流程，验证代码无报错"
+
+full_run:
+  doc_limit: 50000          # 一个完整 WARC 文件（约5万条）
+  eval_sample_size: 1000    # 每阶段评估采样 1000 条
+  audit_sample_size: 50     # 过滤精度抽检 50 条
+  rewrite_count: 300        # LLM 改写 300 条
+  description: "2-3小时跑完，产出有统计意义的对比数据"
+
+# 随机种子，确保可复现
+random_seed: 42
+
+# 数据路径（相对于项目根目录）
+paths:
+  raw_data: "data/raw"
+  gen1_output: "data/gen1_output"
+  gen2_output: "data/gen2_output"
+  gen3_output: "data/gen3_output"
+  reference_data: "data/reference"
+  results: "results"

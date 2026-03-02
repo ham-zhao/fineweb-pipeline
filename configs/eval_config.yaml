@@ -1,0 +1,76 @@
+# configs/eval_config.yaml
+# 统一评估体系配置
+# 三代方法论用同一把尺子衡量
+
+# 评估专用质量分类器（与 pipeline 分类器独立！）
+eval_classifier:
+  model_path: "results/quality_scores/eval_classifier.bin"
+  # 正样本：Wikipedia 摘要（纯知识密度高的内容）
+  positive_sources:
+    - type: "wikipedia"
+      path: "data/reference/wikipedia_abstracts.jsonl"
+  # 负样本：原始 Common Crawl（不同于第二代用的 OpenHermes）
+  negative_sources:
+    - type: "common_crawl_raw"
+      path: "data/raw"
+  # fastText 参数（与 pipeline 分类器用不同超参，进一步确保独立性）
+  fasttext:
+    dim: 32           # 维度更低（与 gen2 的 64 不同）
+    wordNgrams: 1     # 只用 unigram（与 gen2 的 2 不同）
+    lr: 0.05
+    epoch: 3
+    minCount: 10
+
+# Perplexity 打分器
+perplexity:
+  model: "gpt2"       # 备选: "kenlm"（若 kenlm 安装失败用 gpt2）
+  # GPT-2 模型路径（会自动从 HuggingFace 下载）
+  gpt2_model: "gpt2"
+  # 文档截断长度（避免 OOM）
+  max_tokens: 512
+  # MPS 加速（Mac M 系列芯片）
+  device: "auto"      # "auto" | "mps" | "cpu"
+  batch_size: 16
+
+# 毒性打分器
+toxicity:
+  model: "unitary/toxic-bert"   # detoxify 默认模型
+  # 评估时的阈值（仅用于统计，不过滤）
+  eval_threshold: 0.5
+  dimensions:
+    - "toxicity"
+    - "severe_toxicity"
+    - "obscene"
+    - "threat"
+    - "insult"
+    - "identity_attack"
+
+# 多样性指标
+diversity:
+  ngram_sizes: [1, 2, 3]
+  # 领域分布（用域名作为代理）
+  compute_domain_entropy: true
+  top_k_domains: 50
+
+# 逐阶段追踪
+stage_tracker:
+  # 每个阶段追踪以下指标
+  metrics:
+    - "doc_count"
+    - "retention_rate"
+    - "quality_score_mean"
+    - "quality_score_p50"
+    - "quality_score_p90"
+    - "perplexity_p50"
+    - "toxicity_p90"
+    - "unique_3gram_ratio"
+    - "token_count"
+  # 输出文件
+  output_path: "results/quality_scores/stage_metrics.json"
+  figures_path: "results/figures"
+
+# 过滤精度抽检
+filter_auditor:
+  output_dir: "results/reports/audit"
+  # 每个过滤器保存的被过滤样本数（用于人工审计）
+  samples_per_filter: 20

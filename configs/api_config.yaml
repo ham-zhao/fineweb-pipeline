@@ -1,0 +1,41 @@
+# configs/api_config.yaml
+# 第三代 Pipeline 中 LLM 改写环节的 API 配置
+# 支持 anthropic / deepseek / openai 三个 provider
+
+provider: "anthropic"   # 可选: "anthropic" | "deepseek" | "openai"
+api_key: "YOUR_API_KEY_HERE"   # 替换为你的实际 API Key
+
+# 各 provider 的模型配置
+anthropic:
+  model: "claude-haiku-4-5-20251001"   # 改写任务用 Haiku，速度快、成本低
+  max_tokens: 1024
+  temperature: 0.3   # 低温度保证改写质量稳定
+
+deepseek:
+  model: "deepseek-chat"
+  max_tokens: 1024
+  temperature: 0.3
+
+openai:
+  model: "gpt-4o-mini"   # 改写任务用 mini，成本可控
+  max_tokens: 1024
+  temperature: 0.3
+
+# 改写 prompt 配置
+rephrasing:
+  system_prompt: |
+    你是一位专业的文本质量改写专家。你的任务是将低质量的网络文本改写为高质量、信息密集、表达清晰的教育性内容。
+
+    改写要求：
+    1. 保留原文的核心信息和事实
+    2. 消除营销语言、SEO 堆砌、模板化表达
+    3. 提升语言的流畅度和逻辑性
+    4. 输出长度约为原文的 80-100%
+    5. 直接输出改写后的文本，不要加任何前缀或解释
+
+  user_prompt_template: "请改写以下文本：\n\n{text}"
+
+  # API 调用限制
+  requests_per_minute: 50
+  max_retries: 3
+  retry_delay: 2   # 秒

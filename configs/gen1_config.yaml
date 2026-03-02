@@ -1,0 +1,113 @@
+# configs/gen1_config.yaml
+# 第一代：Heuristic Filtering Pipeline 配置
+# 代表论文：FineWeb (HuggingFace 2024), C4, Gopher, RefinedWeb
+
+pipeline:
+  name: "gen1_heuristic"
+  description: "基于规则的过滤，按 FineWeb 实际过滤顺序执行"
+
+# 各过滤器开关（可单独启用/禁用做消融实验）
+filters:
+  url_filter:
+    enabled: true
+    # 黑名单域名（成人内容、垃圾邮件、恶意软件等）
+    blacklist_domains:
+      - "xxx.com"
+      - "spam.com"
+    # URL 中的黑名单关键词
+    blacklist_keywords:
+      - "porn"
+      - "adult"
+      - "xxx"
+      - "casino"
+
+  language_filter:
+    enabled: true
+    target_language: "en"   # 英文 pipeline
+    min_confidence: 0.65    # fastText-langid 置信度阈值
+
+  gopher_quality:
+    enabled: true
+    # 文档长度（词数）
+    min_words: 50
+    max_words: 100000
+    # 平均句子长度（词数）
+    min_avg_sentence_length: 3
+    max_avg_sentence_length: 1000
+    # 字母字符占比
+    min_alpha_ratio: 0.7
+    # 停用词检查（至少包含 N 个停用词）
+    min_stop_words: 2
+    # 省略号行占比上限
+    max_ellipsis_lines_ratio: 0.3
+    # 非字母非空格开头的行占比上限
+    max_non_alpha_words_ratio: 0.2
+
+  c4_quality:
+    enabled: true
+    # 行末标点（保留以句末标点结尾的行）
+    terminal_punctuation: [".", "?", "!", "\"", "\""]
+    # JavaScript 内容过滤
+    filter_javascript: true
+    # Lorem ipsum 过滤
+    filter_lorem_ipsum: true
+    # 单行文档上限（行数）
+    min_lines: 3
+    # 每行最少字数
+    min_words_per_line: 3
+
+  gopher_repetition:
+    enabled: true
+    # 行级重复：相同行占总行数比例上限
+    max_duplicate_line_fraction: 0.3
+    # 段落级重复
+    max_duplicate_paragraph_fraction: 0.3
+    # Top N-gram 重复：前 N 个 unigram/bigram/trigram 占总词数比例上限
+    max_top_ngram_fraction:
+      "2gram": 0.2
+      "3gram": 0.18
+      "4gram": 0.16
+    # 重复子串占比上限
+    max_duplicate_5gram_fraction: 0.15
+    max_duplicate_6gram_fraction: 0.14
+    max_duplicate_7gram_fraction: 0.13
+    max_duplicate_8gram_fraction: 0.12
+    max_duplicate_9gram_fraction: 0.11
+    max_duplicate_10gram_fraction: 0.10
+
+  fineweb_quality:
+    enabled: true
+    # 行首空格比例上限
+    max_lines_starting_with_bullet: 0.9
+    # 省略号结尾行比例上限
+    max_lines_ending_with_ellipsis: 0.3
+    # 包含 "Lorem ipsum" 的段落上限
+    max_lorem_ipsum_ratio: 0.0
+    # 字母词占比下限
+    min_alpha_words_ratio: 0.6
+
+  pii_filter:
+    enabled: true
+    # 脱敏模式（mask 替换为占位符，remove 删除整段）
+    mode: "mask"
+    patterns:
+      email: true
+      phone: true
+      ip_address: true
+      # 信用卡、SSN 等（更严格）
+      credit_card: true
+      ssn: true
+
+  toxicity_filter:
+    enabled: true
+    # detoxify 阈值（0-1，越高越严格）
+    toxicity_threshold: 0.85
+    severe_toxicity_threshold: 0.5
+    # 过滤掉文档还是仅标记
+    action: "filter"   # "filter" | "flag"
+
+# 输出配置
+output:
+  format: "jsonl"
+  save_filtered_samples: true   # 保存被过滤的样本（用于审计）
+  filtered_sample_size: 100     # 每个过滤器保存多少被过滤的样本

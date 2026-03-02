@@ -1,0 +1,61 @@
+# configs/gen3_config.yaml
+# 第三代：Hybrid Pipeline + Data Recovery 配置
+# 代表论文：Nemotron-CC (NVIDIA 2024), GneissWeb (IBM 2024)
+
+pipeline:
+  name: "gen3_hybrid"
+  description: "分类器集成 + 条件性 Heuristic Bypass + 合成数据改写"
+
+# 核心创新1：分类器集成（Classifier Ensembling）
+classifier_ensemble:
+  classifiers:
+    - name: "fasttext_dclm"
+      type: "fasttext"
+      model_path: "results/quality_scores/gen2_classifier.bin"  # 复用第二代
+      weight: 0.4
+      positive_sources: ["openhermes", "eli5"]
+
+    - name: "fasttext_edu"
+      type: "fasttext"
+      model_path: "results/quality_scores/gen3_edu_classifier.bin"
+      weight: 0.4
+      positive_sources: ["wikipedia", "textbooks"]  # 教育质量风格
+
+    - name: "tfidf_lr"
+      type: "sklearn"
+      model_path: "results/quality_scores/gen3_tfidf_lr.pkl"
+      weight: 0.2
+      positive_sources: ["wikipedia", "stackexchange"]
+
+  # 集成策略
+  ensemble_strategy: "union"   # "union" | "intersection" | "weighted_avg"
+  # union: 任一分类器判为高质量 → 高质量
+  # intersection: 所有分类器判为高质量 → 高质量
+  # weighted_avg: 加权平均分 > threshold → 高质量
+  union_threshold: 0.5         # union 策略中每个分类器的单独阈值
+
+# 核心创新2：条件性 Heuristic Bypass
+conditional_bypass:
+  # 分层阈值（基于集成后的综合分数）
+  high_quality_threshold: 0.7   # 高质量：跳过 heuristic，直接保留
+  medium_quality_threshold: 0.3 # 中等：应用 heuristic 过滤
+  # 低质量（< medium_quality_threshold）：送去改写或丢弃
+
+  # Heuristic 只对中等质量数据应用（复用 gen1 的过滤器）
+  heuristic_config: "configs/gen1_config.yaml"
+
+# 核心创新3：合成数据改写（Synthetic Rephrasing）
+synthetic_rephrasing:
+  enabled: true
+  # 低质量中选分数最高的进行改写（有改写价值的）
+  rephrase_score_range: [0.1, 0.3]   # 只改写中低质量区间
+  api_config: "configs/api_config.yaml"
+
+  # 改写后质量验证
+  post_rephrase_filter:
+    min_quality_score: 0.4   # 改写后必须达到这个分数才保留
+    check_perplexity: true   # 检查 Perplexity 是否合理
+
+output:
+  format: "jsonl"
+  save_routing_decisions: true   # 记录每条文档被路由到哪条路径（高质/中等/改写/丢弃）

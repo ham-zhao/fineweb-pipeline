@@ -1,0 +1,49 @@
+# configs/gen2_config.yaml
+# 第二代：Model-based Filtering Pipeline 配置
+# 代表论文：DCLM (NeurIPS 2024), FineWeb-Edu
+
+pipeline:
+  name: "gen2_model_based"
+  description: "fastText 质量分类器过滤，复现 DCLM 核心发现"
+
+classifier:
+  # 训练数据配置
+  positive_sources:
+    - type: "openhermes"        # DCLM 使用的正样本
+      weight: 0.5
+    - type: "eli5"              # Stack Exchange ELI5 高赞回答
+      weight: 0.3
+    - type: "wikipedia"         # Wikipedia 摘要（补充）
+      weight: 0.2
+
+  negative_sources:
+    - type: "common_crawl_raw"  # 原始 CC（负样本）
+      weight: 1.0
+
+  # fastText 训练参数
+  fasttext:
+    model_path: "results/quality_scores/gen2_classifier.bin"
+    dim: 64          # 词向量维度
+    wordNgrams: 2    # unigram + bigram（DCLM 核心设置）
+    lr: 0.1          # 学习率
+    epoch: 5         # 训练轮数
+    minCount: 5      # 最小词频
+
+  # 阈值实验配置
+  threshold_experiments:
+    - 0.05   # top 5%
+    - 0.10   # top 10%（DCLM 最优）
+    - 0.15
+    - 0.20
+    - 0.30
+    - 0.50
+
+  # 生产阈值（选一个）
+  production_threshold: 0.10   # 保留 top 10%（DCLM 核心发现）
+
+# Heuristic 前处理开关（DCLM 做法：先 heuristic 再 model-based）
+use_heuristic_preprocessing: true
+
+output:
+  format: "jsonl"
+  save_classifier_scores: true   # 保存每条文档的分类器分数
