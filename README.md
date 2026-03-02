@@ -144,6 +144,8 @@ src/
 
 ```
 results/
+├── smoke_test/         # smoke_test 模式的 Pipeline 输出（JSONL 文件）
+├── full_run/           # full_run 模式的输出
 ├── reports/
 │   └── comparison_report.md    # 三代对比 Markdown 报告（用浏览器/VS Code 打开）
 ├── figures/
@@ -217,8 +219,6 @@ caffeinate -i python scripts/run_gen3.py --no-rephrase
 | 运行时间 | 10-15 分钟 | 2-4 小时 |
 | 用途 | 验证环境不报错 | 产出正式实验结果 |
 | 切换方式 | `configs/run_config.yaml` 第一行 | 同左 |
-
-> 📖 常见问题参见 [docs/FAQ.md](docs/FAQ.md)
 
 ---
 
