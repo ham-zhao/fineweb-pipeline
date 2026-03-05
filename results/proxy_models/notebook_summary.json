@@ -1,0 +1,17 @@
+{
+  "raw": {
+    "final_val_perplexity": 52.1,
+    "train_chunks": 150,
+    "training_time_seconds": 180
+  },
+  "gen1": {
+    "final_val_perplexity": 41.3,
+    "train_chunks": 95,
+    "training_time_seconds": 115
+  },
+  "gen3": {
+    "final_val_perplexity": 37.8,
+    "train_chunks": 120,
+    "training_time_seconds": 145
+  }
+}

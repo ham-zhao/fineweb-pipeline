@@ -1,0 +1,36 @@
+{
+  "routing": {
+    "total": 417,
+    "high_quality": {
+      "count": 7,
+      "rate": 0.0168
+    },
+    "heuristic_passed": {
+      "count": 352,
+      "rate": 0.8441
+    },
+    "heuristic_filtered": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "to_rephrase": {
+      "count": 39,
+      "rate": 0.0935
+    },
+    "discarded": {
+      "count": 19,
+      "rate": 0.0456
+    },
+    "total_kept": 359
+  },
+  "bypass_analysis": {
+    "high_quality_count": 7,
+    "would_be_filtered_count": 0,
+    "would_be_filtered_rate": 0.0,
+    "sample_false_kills": []
+  },
+  "rephrasing": {
+    "skipped": true
+  },
+  "elapsed_seconds": 0.39366888999938965
+}

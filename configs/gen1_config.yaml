@@ -99,7 +99,7 @@ filters:
       ssn: true
 
   toxicity_filter:
-    enabled: true
+    enabled: false   # 暂时禁用（Detoxify 模型 418MB 下载太慢）
     # detoxify 阈值（0-1，越高越严格）
     toxicity_threshold: 0.85
     severe_toxicity_threshold: 0.5

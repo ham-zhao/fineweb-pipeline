@@ -71,7 +71,7 @@ def get_common_crawl_warc_url(
     # 这里使用已知的一个样本 WARC 路径
     base = "https://data.commoncrawl.org"
     # 使用 CC-MAIN-2024-10 的第一个 WARC 文件
-    path = f"crawl-data/{crawl_id}/segments/1706751526641.52/warc/CC-MAIN-20240131195710-20240131225710-00000.warc.gz"
+    path = f"crawl-data/{crawl_id}/segments/1707947473347.0/warc/CC-MAIN-20240220211055-20240221001055-00000.warc.gz"
     return f"{base}/{path}"
 
 
@@ -104,7 +104,7 @@ def download_fineweb_sample(dest_dir: Path, num_shards: int = 1) -> list[Path]:
         下载的文件路径列表
     """
     # FineWeb sample-10BT 的 HF 数据集文件
-    base_url = "https://huggingface.co/datasets/HuggingFaceFW/fineweb/resolve/main/sample/10BT"
+    base_url = "https://huggingface.co/datasets/HuggingFaceFW/fineweb/resolve/main/data/CC-MAIN-2024-10"
     dest_dir = Path(dest_dir)
     dest_dir.mkdir(parents=True, exist_ok=True)
 
@@ -139,11 +139,10 @@ def download_wikipedia_abstracts(dest_dir: Path, max_docs: int = 10000) -> Path:
     from datasets import load_dataset
 
     dataset = load_dataset(
-        "wikipedia",
-        "20220301.en",
+        "wikimedia/wikipedia",
+        "20231101.en",
         split="train",
         streaming=True,
-        trust_remote_code=True,
     )
 
     count = 0

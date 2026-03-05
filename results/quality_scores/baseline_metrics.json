@@ -1,0 +1,180 @@
+{
+  "doc_count": 1000,
+  "avg_tokens_per_doc": 648.76,
+  "estimated_total_tokens": 648760,
+  "diversity": {
+    "ngram_diversity": {
+      "unigram": {
+        "unique_ratio": 0.2114,
+        "total_ngrams": 97054,
+        "unique_ngrams": 20520,
+        "top10_ngrams": [
+          {
+            "the": 4959
+          },
+          {
+            "and": 2574
+          },
+          {
+            "to": 2407
+          },
+          {
+            "of": 2392
+          },
+          {
+            "a": 2015
+          },
+          {
+            "in": 1744
+          },
+          {
+            "for": 1033
+          },
+          {
+            "is": 976
+          },
+          {
+            "that": 820
+          },
+          {
+            "on": 729
+          }
+        ]
+      },
+      "bigram": {
+        "unique_ratio": 0.7225,
+        "total_ngrams": 96854,
+        "unique_ngrams": 69980,
+        "top10_ngrams": [
+          {
+            "of the": 536
+          },
+          {
+            "in the": 427
+          },
+          {
+            "2012) -": 259
+          },
+          {
+            "to the": 226
+          },
+          {
+            "on the": 182
+          },
+          {
+            "for the": 176
+          },
+          {
+            "at the": 139
+          },
+          {
+            "and the": 130
+          },
+          {
+            "to be": 125
+          },
+          {
+            "in a": 123
+          }
+        ]
+      },
+      "trigram": {
+        "unique_ratio": 0.9393,
+        "total_ngrams": 96654,
+        "unique_ngrams": 90788,
+        "top10_ngrams": [
+          {
+            "16, 2012) -": 37
+          },
+          {
+            "(may 16, 2012)": 34
+          },
+          {
+            "one of the": 33
+          },
+          {
+            "2012) - facebook": 31
+          },
+          {
+            "as well as": 30
+          },
+          {
+            "abyss web server": 27
+          },
+          {
+            "17, 2012) -": 26
+          },
+          {
+            "2013) - google": 25
+          },
+          {
+            "15, 2012) -": 24
+          },
+          {
+            "2012) - google": 23
+          }
+        ]
+      }
+    },
+    "length_distribution": {
+      "mean": 485.3,
+      "median": 348.5,
+      "p10": 80.9,
+      "p25": 147.0,
+      "p75": 582.5,
+      "p90": 1060.7,
+      "p99": 2359.5,
+      "min": 49,
+      "max": 5702,
+      "total_words": 97054
+    },
+    "domain_entropy": {
+      "entropy": 5.6067,
+      "max_entropy": 5.6439,
+      "normalized_entropy": 0.9934,
+      "n_domains": 196,
+      "top_10_domains": [
+        {
+          "domain": "rutlandherald.com",
+          "count": 2
+        },
+        {
+          "domain": "theregister.co.uk",
+          "count": 2
+        },
+        {
+          "domain": "finance.yahoo.com",
+          "count": 2
+        },
+        {
+          "domain": "basspro.com",
+          "count": 2
+        },
+        {
+          "domain": "daytimeroyaltyonline.com",
+          "count": 1
+        },
+        {
+          "domain": "endogenousretrovirus.blogspot.com",
+          "count": 1
+        },
+        {
+          "domain": "news.cancerconnect.com",
+          "count": 1
+        },
+        {
+          "domain": "sharingsolution.com",
+          "count": 1
+        },
+        {
+          "domain": "supermarketnews.com",
+          "count": 1
+        },
+        {
+          "domain": "augustana.edu",
+          "count": 1
+        }
+      ]
+    }
+  }
+}

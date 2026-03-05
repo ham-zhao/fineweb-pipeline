@@ -28,11 +28,16 @@ data/gen2_output/*.jsonl
 data/gen3_output/*.jsonl
 data/reference/*.jsonl
 data/reference/*.parquet
+data/reference/fineweb_sample/
+data/raw/*.jsonl
+data/models/
+notebooks/data/
 
 # ── 模型文件 ─────────────────────────────────────────────
-*.bin          # fastText 模型
-*.pkl          # scikit-learn 模型
-*.pt           # PyTorch checkpoint
+# fastText / scikit-learn / PyTorch 模型
+*.bin
+*.pkl
+*.pt
 *.pth
 
 # ── 结果文件（图表和报告保留，大文件不保留）────────────

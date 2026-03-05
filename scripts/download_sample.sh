@@ -33,8 +33,8 @@ echo ""
 echo "1️⃣  下载 Common Crawl WARC 文件..."
 echo "   来源: CC-MAIN-2024-10（2024年第一个 Crawl）"
 
-WARC_URL="https://data.commoncrawl.org/crawl-data/CC-MAIN-2024-10/segments/1706751526641.52/warc/CC-MAIN-20240131195710-20240131225710-00000.warc.gz"
-WARC_FILE="data/raw/CC-MAIN-20240131195710-20240131225710-00000.warc.gz"
+WARC_URL="https://data.commoncrawl.org/crawl-data/CC-MAIN-2024-10/segments/1707947473347.0/warc/CC-MAIN-20240220211055-20240221001055-00000.warc.gz"
+WARC_FILE="data/raw/CC-MAIN-20240220211055-20240221001055-00000.warc.gz"
 
 if [ -f "$WARC_FILE" ]; then
     echo "   ⏭️  WARC 文件已存在，跳过下载: $WARC_FILE"
@@ -65,7 +65,7 @@ else
          --retry 3 --retry-delay 5 \
          -H "Accept: application/json" \
          -o "$FINEWEB_FILE" \
-         "https://huggingface.co/datasets/HuggingFaceFW/fineweb/resolve/main/sample/10BT/train-00000-of-00099.parquet"
+         "https://huggingface.co/datasets/HuggingFaceFW/fineweb/resolve/main/data/CC-MAIN-2024-10/train-00000-of-00009.parquet"
     echo "   ✅ FineWeb 分片下载完成: $FINEWEB_FILE"
     ls -lh "$FINEWEB_FILE"
 fi
@@ -104,7 +104,7 @@ if output_path.exists():
     print(f"  ⏭️  StackExchange 数据已存在: {output_path}")
 else:
     print("  ⬇️  下载 StackExchange ELI5 高赞回答...")
-    ds = load_dataset("eli5", split="train_eli5", streaming=True, trust_remote_code=True)
+    ds = load_dataset("eli5", split="train_eli5", streaming=True)
     count = 0
     with open(output_path, "w", encoding="utf-8") as f:
         for doc in ds:
