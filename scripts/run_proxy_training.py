@@ -234,9 +234,9 @@ def prepare_datasets(cfg: Dict, skip_pipeline: bool) -> Dict[str, Path]:
 
     # ── gen1 ────────────────────────────────────────────────────
     gen1_candidates = [
+        ROOT / "data/gen1_output/gen1_output.jsonl",
         ROOT / "results/gen1_output/gen1_output.jsonl",
         ROOT / "results/smoke_test/gen1_output/gen1_output.jsonl",
-        ROOT / "results/full_run/gen1_output/gen1_output.jsonl",
     ]
     gen1_file = next((p for p in gen1_candidates if p.exists()), None)
 
@@ -256,9 +256,9 @@ def prepare_datasets(cfg: Dict, skip_pipeline: bool) -> Dict[str, Path]:
 
     # ── gen3 ────────────────────────────────────────────────────
     gen3_candidates = [
+        ROOT / "data/gen3_output/gen3_output.jsonl",
         ROOT / "results/gen3_output/gen3_output.jsonl",
         ROOT / "results/smoke_test/gen3_output/gen3_output.jsonl",
-        ROOT / "results/full_run/gen3_output/gen3_output.jsonl",
     ]
     gen3_file = next((p for p in gen3_candidates if p.exists()), None)
 

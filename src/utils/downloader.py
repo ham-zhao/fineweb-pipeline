@@ -110,7 +110,7 @@ def download_fineweb_sample(dest_dir: Path, num_shards: int = 1) -> list[Path]:
 
     paths = []
     for i in range(num_shards):
-        filename = f"train-{i:05d}-of-00099.parquet"
+        filename = f"train-{i:05d}-of-00009.parquet"
         url = f"{base_url}/{filename}"
         dest_path = dest_dir / filename
         paths.append(download_file(url, dest_path, desc=f"FineWeb shard {i}"))

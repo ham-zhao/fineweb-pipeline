@@ -55,7 +55,7 @@ echo "   来源: HuggingFace HuggingFaceFW/fineweb"
 
 FINEWEB_DIR="data/reference/fineweb_sample"
 mkdir -p "$FINEWEB_DIR"
-FINEWEB_FILE="$FINEWEB_DIR/train-00000-of-00099.parquet"
+FINEWEB_FILE="$FINEWEB_DIR/train-00000-of-00009.parquet"
 
 if [ -f "$FINEWEB_FILE" ]; then
     echo "   ⏭️  FineWeb 分片已存在，跳过下载"
