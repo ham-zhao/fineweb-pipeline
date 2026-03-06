@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-03-06T15:59:02.442206",
+  "filter_stats": {
+    "url_filter": {
+      "total_filtered": 100,
+      "filter_rate": 0.001001041082726035,
+      "audit_sample_size": 100
+    },
+    "language_filter": {
+      "total_filtered": 100,
+      "filter_rate": 0.001015723398204201,
+      "audit_sample_size": 100
+    },
+    "quality_filter": {
+      "total_filtered": 100,
+      "filter_rate": 0.004162157662532257,
+      "audit_sample_size": 100
+    },
+    "repetition_filter": {
+      "total_filtered": 100,
+      "filter_rate": 0.01529285823520416,
+      "audit_sample_size": 100
+    }
+  },
+  "audit_csv_paths": {
+    "url_filter": "data/reports/audit/gen1/full_run/url_filter_audit.csv",
+    "language_filter": "data/reports/audit/gen1/full_run/language_filter_audit.csv",
+    "quality_filter": "data/reports/audit/gen1/full_run/quality_filter_audit.csv",
+    "repetition_filter": "data/reports/audit/gen1/full_run/repetition_filter_audit.csv"
+  }
+}

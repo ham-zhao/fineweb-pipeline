@@ -24,8 +24,12 @@ data/raw/*.warc.gz
 data/raw/*.warc
 data/raw/*.parquet
 data/gen1_output/*.jsonl
+data/gen1_output/**/*.jsonl
 data/gen2_output/*.jsonl
+data/gen2_output/**/*.jsonl
 data/gen3_output/*.jsonl
+data/gen3_output/**/*.jsonl
+data/*_fineweb_bak/
 data/reference/*.jsonl
 data/reference/*.parquet
 data/reference/fineweb_sample/

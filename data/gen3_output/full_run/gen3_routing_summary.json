@@ -1,0 +1,57 @@
+{
+  "routing": {
+    "total": 3242,
+    "high_quality": {
+      "count": 6,
+      "rate": 0.0019
+    },
+    "heuristic_passed": {
+      "count": 54,
+      "rate": 0.0167
+    },
+    "heuristic_filtered": {
+      "count": 2158,
+      "rate": 0.6656
+    },
+    "to_rephrase": {
+      "count": 167,
+      "rate": 0.0515
+    },
+    "discarded": {
+      "count": 857,
+      "rate": 0.2643
+    },
+    "total_kept": 60
+  },
+  "bypass_analysis": {
+    "high_quality_count": 6,
+    "would_be_filtered_count": 6,
+    "would_be_filtered_rate": 1.0,
+    "sample_false_kills": [
+      {
+        "text": "Chief Bowles Monument\nChief Bowles Monument, 1991\nThis 1936 Texas historical marker is out in the middle of a cow pasture with the looming high-power electrical structure in the background. It is loca",
+        "reason": "c4:low_terminal_punct_ratio:0.33<0.7"
+      },
+      {
+        "text": "FIDE Women Grand Prix\nPairings & Results\nStandings\nCross Tables\nGames (PGN)\nELO\nMain Page\nSchedule\nPlayers\nOrganisers\nContact\nChengdu - the Chess City\nChengdu, a renowned historical and cultural city,",
+        "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
+      },
+      {
+        "text": "Deliverance (1972) | The Terror Trap\n26 February 2024\nDeliverance (1972)\n109 min.\nDirected by John Boorman.\nWith Jon Voight, Burt Reynolds, Ned Beatty, Ronny Cox, James Dickey, Billy McKinney, Herbert",
+        "reason": "c4:low_terminal_punct_ratio:0.69<0.7"
+      },
+      {
+        "text": "﻿ Xian Zhen 先軫 (www.chinaknowledge.de)\nChinaKnowledge.de -\nAn Encyclopaedia on Chinese History, Literature and Art\nHOME\nHistory/Politics\nLiterature\nLanguage/Script\nArt\nPhilosophy\nReligions\nXian Zhen 先",
+        "reason": "c4:low_terminal_punct_ratio:0.26<0.7"
+      },
+      {
+        "text": "Conophytum longibracteatum\nConophytum longibracteatum (Brakfontein)\nThis was lost to cultivation for many years until rediscovered by Peter Bruyns in the 1990s. It grows south of Komaggas which is the",
+        "reason": "c4:low_terminal_punct_ratio:0.33<0.7"
+      }
+    ]
+  },
+  "rephrasing": {
+    "skipped": true
+  },
+  "elapsed_seconds": 4.3129448890686035
+}

@@ -10,7 +10,7 @@ src/gen2/quality_classifier.py
 
 差异对照表：
   项目          Pipeline 分类器（本文件）     评估分类器
-  正样本来源    OpenHermes / ELI5            Wikipedia 摘要
+  正样本来源    Wikipedia 摘要               Wikipedia 摘要（独立训练集）
   负样本来源    原始 Common Crawl            原始 Common Crawl
   dim           64                            32
   wordNgrams    2（unigram + bigram）         1（只用 unigram）
@@ -33,7 +33,7 @@ from typing import List, Dict, Optional, Tuple
 class Gen2QualityClassifier:
     """
     第二代 Pipeline 专用 fastText 质量分类器。
-    正样本：OpenHermes / ELI5 Stack Exchange（更接近人类写作精华）
+    正样本：Wikipedia 摘要（高质量百科文本）
     负样本：原始 Common Crawl
     """
 
@@ -64,7 +64,7 @@ class Gen2QualityClassifier:
         训练 Pipeline 专用分类器。
 
         Args:
-            positive_texts: 高质量文本（OpenHermes / ELI5 高赞回答）
+            positive_texts: 高质量文本（Wikipedia 摘要）
             negative_texts: 低质量文本（原始 CC 采样）
             output_path: 模型保存路径
 

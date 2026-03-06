@@ -34,6 +34,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="第三代 Hybrid Pipeline")
     parser.add_argument("--run-config", default="configs/run_config.yaml")
     parser.add_argument("--config", default="configs/gen3_config.yaml")
+    parser.add_argument("--run-mode", default=None, choices=["smoke_test", "full_run"],
+                        help="覆盖 run_config.yaml 中的 run_mode（不修改文件）")
     parser.add_argument("--no-rephrase", action="store_true", help="跳过 LLM 改写（不需要 API Key）")
     parser.add_argument("--strategy", default="union", choices=["union", "intersection", "weighted_avg"])
     return parser.parse_args()
@@ -42,7 +44,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    run_cfg = load_run_config(args.run_config)
+    run_cfg = load_run_config(args.run_config, run_mode_override=args.run_mode)
     pipe_cfg = load_pipeline_config(3, args.config)
 
     print_config_summary(run_cfg)

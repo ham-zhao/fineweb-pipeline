@@ -34,6 +34,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="第一代 Heuristic Filtering Pipeline")
     parser.add_argument("--config", default="configs/gen1_config.yaml", help="Pipeline 配置文件")
     parser.add_argument("--run-config", default="configs/run_config.yaml", help="运行配置文件")
+    parser.add_argument("--run-mode", default=None, choices=["smoke_test", "full_run"],
+                        help="覆盖 run_config.yaml 中的 run_mode（不修改文件）")
     parser.add_argument("--input", default=None, help="输入数据文件路径（WARC 或 JSONL）")
     parser.add_argument("--output", default=None, help="输出目录路径")
     parser.add_argument("--no-eval", action="store_true", help="跳过评估（加快速度）")
@@ -44,7 +46,7 @@ def main():
     args = parse_args()
 
     # ── 加载配置 ─────────────────────────────────────────────
-    run_cfg = load_run_config(args.run_config)
+    run_cfg = load_run_config(args.run_config, run_mode_override=args.run_mode)
     pipe_cfg = load_pipeline_config(1, args.config)
     eval_cfg = load_eval_config()
 
@@ -58,8 +60,10 @@ def main():
     auditor = None
 
     if not args.no_eval:
+        run_mode = run_cfg.get("run_mode", "smoke_test")
+        audit_dir = Path("data/reports/audit/gen1") / run_mode
         auditor = FilterAuditor(
-            output_dir=str(output_dir.parent / "reports" / "audit" / "gen1"),
+            output_dir=str(audit_dir),
             audit_sample_size=run_cfg.get("audit_sample_size", 20),
             random_seed=run_cfg.get("random_seed", 42),
         )
@@ -70,11 +74,15 @@ def main():
         input_path = Path(args.input)
     else:
         # 自动寻找输入文件，优先 CC WET 数据
+        # full_run (100K) 使用 cc_wet_full.jsonl，其他模式用 cc_wet_sample.jsonl
+        cc_wet_full = Path("data/raw/cc_wet_full.jsonl")
         cc_wet_file = Path("data/raw/cc_wet_sample.jsonl")
         warc_files = list(Path("data/raw").glob("*.warc.gz"))
         jsonl_files = list(Path("data/raw").glob("*.jsonl"))
 
-        if cc_wet_file.exists():
+        if doc_limit and doc_limit > 12000 and cc_wet_full.exists():
+            input_path = cc_wet_full
+        elif cc_wet_file.exists():
             input_path = cc_wet_file
         elif warc_files:
             input_path = warc_files[0]
@@ -92,20 +100,6 @@ def main():
         docs = read_warc_texts(input_path, doc_limit=doc_limit)
     elif input_path.suffix == ".jsonl":
         docs = read_jsonl(input_path, doc_limit=doc_limit)
-    elif input_path.suffix == ".parquet":
-        # FineWeb parquet 格式
-        import pandas as pd
-        df = pd.read_parquet(input_path)
-        text_col = "text" if "text" in df.columns else df.columns[0]
-        url_col = "url" if "url" in df.columns else None
-        docs = [
-            {
-                "text": row[text_col],
-                "url": row[url_col] if url_col else "",
-                "source": "fineweb",
-            }
-            for _, row in df.iterrows()
-        ][:doc_limit]
     else:
         print(f"❌ 不支持的文件格式: {input_path.suffix}")
         sys.exit(1)

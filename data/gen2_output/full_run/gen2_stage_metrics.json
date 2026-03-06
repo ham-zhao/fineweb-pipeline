@@ -1,0 +1,34 @@
+[
+  {
+    "stage": "gen2_input",
+    "timestamp": "2026-03-06T15:59:08.039342",
+    "doc_count": 3242,
+    "retention_rate": 1.0,
+    "sample_size": 2000,
+    "unigram_unique_ratio": 0.0852,
+    "bigram_unique_ratio": 0.4868,
+    "trigram_unique_ratio": 0.7982,
+    "estimated_total_tokens": 3757931,
+    "avg_tokens_per_doc": 1159.1,
+    "domain_entropy": 5.509,
+    "n_unique_domains": 1829
+  },
+  {
+    "stage": "gen2_output",
+    "timestamp": "2026-03-06T15:59:09.888123",
+    "doc_count": 325,
+    "retention_rate": 0.1002,
+    "sample_size": 325,
+    "quality_score_mean": 0.5264,
+    "quality_score_p50": 0.5244,
+    "quality_score_p90": 0.536,
+    "quality_score_std": 0.007,
+    "unigram_unique_ratio": 0.1646,
+    "bigram_unique_ratio": 0.6409,
+    "trigram_unique_ratio": 0.8941,
+    "estimated_total_tokens": 374133,
+    "avg_tokens_per_doc": 1151.2,
+    "domain_entropy": 5.4206,
+    "n_unique_domains": 305
+  }
+]

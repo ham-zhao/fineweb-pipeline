@@ -898,7 +898,7 @@ Phase A 中需实现：在 `src/utils/error_handler.py` 中实现 `PipelineError
 | Gen1 存活率过高（>80%） | 低 | 数据不够脏 -> 换其他 CC dump 或选非英文比例更高的 segment |
 | Gen2 MAE >1.5 | 低 | 增加 LLM 标注量（500->1000）、调整 fastText 超参（dim 64->128, epoch 25->50）、检查 LLM 评分 rubric 是否清晰 |
 | 去重率仍为 0% | 中 | 单 WET segment 内文档来自不同网站，确实可能无重复。在 Notebook 中标注说明，不算失败 |
-| Wikipedia 参考数据缺失 | 低 | 重新执行 `download_sample.sh` 第三步，或用 StackExchange 数据替代 |
+| Wikipedia 参考数据缺失 | 低 | 重新执行 `download_sample.sh` 的 Wikipedia 下载步骤 |
 | LLM 改写 API 失败/超时 | 低 | 单条失败自动重试 3 次；批量失败 -> 检查 API 配额/网络；全部失败 -> 降级为不改写（改写贡献仅 ~2-5%，不影响核心结论） |
 | LLM 改写质量不达标 | 低 | quality_gate 过滤低质量改写；成功率 <50% -> 调整 prompt 或换模型；仍不达标 -> 降级为不改写 |
 | Notebook 执行报错 | 中 | 逐个排查修复，报错 Notebook 不阻塞其他 Notebook |

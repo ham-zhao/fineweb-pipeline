@@ -2,6 +2,7 @@
 src/utils/config_loader.py
 统一配置加载器：所有 pipeline 和 notebook 通过此模块读取配置，
 确保 run_mode 切换（smoke_test / full_run）对全局生效。
+两档运行模式：smoke_test (12K docs) / full_run (100K docs)。
 """
 
 import os
@@ -20,9 +21,13 @@ def _load_yaml(path: Path) -> Dict[str, Any]:
         return yaml.safe_load(f)
 
 
-def load_run_config(config_path: Optional[str] = None) -> Dict[str, Any]:
+def load_run_config(config_path: Optional[str] = None, run_mode_override: Optional[str] = None) -> Dict[str, Any]:
     """
     加载运行模式配置，返回当前 run_mode 下的参数字典。
+
+    Args:
+        config_path: 自定义配置文件路径（可选）
+        run_mode_override: 命令行覆盖 run_mode（可选，优先于 YAML 文件中的值）
 
     Returns:
         dict，包含 run_mode、当前模式的所有参数、以及 paths 配置。
@@ -36,9 +41,9 @@ def load_run_config(config_path: Optional[str] = None) -> Dict[str, Any]:
     path = Path(config_path) if config_path else PROJECT_ROOT / "configs" / "run_config.yaml"
     raw = _load_yaml(path)
 
-    run_mode = raw["run_mode"]
-    if run_mode not in ("smoke_test", "medium_run", "full_run"):
-        raise ValueError(f"run_mode 必须是 'smoke_test'、'medium_run' 或 'full_run'，当前值: {run_mode}")
+    run_mode = run_mode_override or raw["run_mode"]
+    if run_mode not in ("smoke_test", "full_run"):
+        raise ValueError(f"run_mode 必须是 'smoke_test' 或 'full_run'，当前值: {run_mode}")
 
     # 将当前模式的参数提升到顶层，方便直接访问
     mode_params = raw[run_mode]
@@ -111,6 +116,12 @@ def get_output_path(generation: int, run_cfg: Optional[Dict] = None) -> Path:
     """
     获取指定代次的输出目录路径（绝对路径）。
 
+    不同 run_mode 的输出隔离在子目录中，防止互相覆盖：
+        data/gen1_output/smoke_test/
+        data/gen1_output/full_run/
+
+    raw_data (generation=0) 不分 run_mode（两档共用同一份原始数据）。
+
     Args:
         generation: 0 = 原始数据, 1/2/3 = 各代输出
         run_cfg: load_run_config() 的返回值（可选，不传则自动加载）
@@ -119,13 +130,22 @@ def get_output_path(generation: int, run_cfg: Optional[Dict] = None) -> Path:
         run_cfg = load_run_config()
 
     paths = run_cfg.get("paths", {})
+    run_mode = run_cfg.get("run_mode", "smoke_test")
+
     mapping = {
         0: paths.get("raw_data", "data/raw"),
         1: paths.get("gen1_output", "data/gen1_output"),
         2: paths.get("gen2_output", "data/gen2_output"),
         3: paths.get("gen3_output", "data/gen3_output"),
     }
-    return PROJECT_ROOT / mapping[generation]
+
+    base = PROJECT_ROOT / mapping[generation]
+
+    # raw_data 不分 run_mode
+    if generation == 0:
+        return base
+
+    return base / run_mode
 
 
 def print_config_summary(run_cfg: Optional[Dict] = None) -> None:
@@ -145,4 +165,5 @@ def print_config_summary(run_cfg: Optional[Dict] = None) -> None:
     print(f"  audit_sample_size: {run_cfg.get('audit_sample_size', 'N/A'):,}")
     print(f"  rewrite_count   : {run_cfg.get('rewrite_count', 'N/A'):,}")
     print(f"  random_seed     : {run_cfg.get('random_seed', 42)}")
+    print(f"  output_subdir   : .../<run_mode>/ = .../{mode}/")
     print(f"{'=' * 50}")

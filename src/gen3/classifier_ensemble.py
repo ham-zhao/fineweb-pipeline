@@ -3,9 +3,8 @@ src/gen3/classifier_ensemble.py
 第三代核心创新 1：分类器集成（Classifier Ensembling）
 
 Nemotron-CC 的核心发现：
-  单一 fastText 分类器（无论正样本是 OpenHermes 还是 Wikipedia）
-  都会有覆盖盲区——某些高质量内容被所有正样本分布所遗漏。
-  例如：技术博客可能被"OpenHermes 风格"分类器低估，
+  单一 fastText 分类器都会有覆盖盲区——某些高质量内容被正样本分布所遗漏。
+  例如：技术博客可能被"百科风格"分类器低估，
   却被"教育类文本风格"分类器高估。
 
 解决方案：集成多个分类器，取并集（Union）而非交集（Intersection）：

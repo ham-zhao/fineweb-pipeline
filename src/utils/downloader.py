@@ -1,6 +1,6 @@
 """
 src/utils/downloader.py
-数据下载工具：Common Crawl WARC、FineWeb parquet、参考数据集。
+数据下载工具：Common Crawl WARC、Wikipedia 参考数据集。
 """
 
 import os
@@ -91,31 +91,6 @@ def download_warc_sample(dest_dir: Path, crawl_id: str = "CC-MAIN-2024-10") -> P
     print(f"   URL: {url}")
     return download_file(url, dest_path, desc="CC WARC")
 
-
-def download_fineweb_sample(dest_dir: Path, num_shards: int = 1) -> list[Path]:
-    """
-    从 HuggingFace 下载 FineWeb sample-10BT 的 parquet 分片。
-
-    Args:
-        dest_dir: 保存目录
-        num_shards: 下载的分片数量（每片约 500MB）
-
-    Returns:
-        下载的文件路径列表
-    """
-    # FineWeb sample-10BT 的 HF 数据集文件
-    base_url = "https://huggingface.co/datasets/HuggingFaceFW/fineweb/resolve/main/data/CC-MAIN-2024-10"
-    dest_dir = Path(dest_dir)
-    dest_dir.mkdir(parents=True, exist_ok=True)
-
-    paths = []
-    for i in range(num_shards):
-        filename = f"train-{i:05d}-of-00009.parquet"
-        url = f"{base_url}/{filename}"
-        dest_path = dest_dir / filename
-        paths.append(download_file(url, dest_path, desc=f"FineWeb shard {i}"))
-
-    return paths
 
 
 def download_wikipedia_abstracts(dest_dir: Path, max_docs: int = 10000) -> Path:

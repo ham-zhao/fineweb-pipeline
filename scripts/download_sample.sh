@@ -4,8 +4,7 @@
 #
 # 包含：
 #   1. Common Crawl WARC 文件（约 1-1.5GB 压缩）
-#   2. FineWeb sample-10BT 的 1 个 parquet 分片（对比参考）
-#   3. 正样本参考数据：Wikipedia 摘要（分类器训练用）
+#   2. 正样本参考数据：Wikipedia 摘要（分类器训练用）
 #
 # 用法: bash scripts/download_sample.sh
 # 预计耗时: 10-20 分钟（取决于网速）
@@ -48,31 +47,9 @@ else
     ls -lh "$WARC_FILE"
 fi
 
-# ── 2. FineWeb parquet 分片 ─────────────────────────────
+# ── 2. 正样本参考数据（Python 下载）────────────────────
 echo ""
-echo "2️⃣  下载 FineWeb sample-10BT parquet 分片..."
-echo "   来源: HuggingFace HuggingFaceFW/fineweb"
-
-FINEWEB_DIR="data/reference/fineweb_sample"
-mkdir -p "$FINEWEB_DIR"
-FINEWEB_FILE="$FINEWEB_DIR/train-00000-of-00009.parquet"
-
-if [ -f "$FINEWEB_FILE" ]; then
-    echo "   ⏭️  FineWeb 分片已存在，跳过下载"
-else
-    echo "   ⬇️  下载中（约 400-600MB）..."
-    curl -L --progress-bar \
-         --retry 3 --retry-delay 5 \
-         -H "Accept: application/json" \
-         -o "$FINEWEB_FILE" \
-         "https://huggingface.co/datasets/HuggingFaceFW/fineweb/resolve/main/data/CC-MAIN-2024-10/train-00000-of-00009.parquet"
-    echo "   ✅ FineWeb 分片下载完成: $FINEWEB_FILE"
-    ls -lh "$FINEWEB_FILE"
-fi
-
-# ── 3. 正样本参考数据（Python 下载）────────────────────
-echo ""
-echo "3️⃣  下载正样本参考数据（Wikipedia 摘要）..."
+echo "2️⃣  下载正样本参考数据（Wikipedia 摘要）..."
 echo "   使用 HuggingFace datasets 库（需要 Python 环境已激活）"
 
 source .venv/bin/activate 2>/dev/null || true
@@ -88,39 +65,6 @@ output_path = download_wikipedia_abstracts(
     max_docs=10000,
 )
 print(f"✅ Wikipedia 摘要: {output_path}")
-PYEOF
-
-# ── 4. StackExchange 高赞回答（可选）────────────────────
-echo ""
-echo "4️⃣  下载 StackExchange 高赞回答（正样本补充）..."
-
-python3 - <<'PYEOF'
-import json
-from pathlib import Path
-from datasets import load_dataset
-
-output_path = Path("data/reference/stackexchange_top.jsonl")
-if output_path.exists():
-    print(f"  ⏭️  StackExchange 数据已存在: {output_path}")
-else:
-    print("  ⬇️  下载 StackExchange ELI5 高赞回答...")
-    ds = load_dataset("eli5", split="train_eli5", streaming=True)
-    count = 0
-    with open(output_path, "w", encoding="utf-8") as f:
-        for doc in ds:
-            # 取得分最高的回答
-            answers = doc.get("answers", {})
-            texts = answers.get("text", [])
-            scores = answers.get("score", [])
-            if texts and scores:
-                best_idx = scores.index(max(scores))
-                text = texts[best_idx].strip()
-                if len(text.split()) >= 50:  # 至少 50 词
-                    f.write(json.dumps({"text": text, "source": "eli5_stackexchange"}, ensure_ascii=False) + "\n")
-                    count += 1
-            if count >= 5000:
-                break
-    print(f"  ✅ StackExchange 高赞回答: {count:,} 条 → {output_path}")
 PYEOF
 
 # ── 完成 ─────────────────────────────────────────────────

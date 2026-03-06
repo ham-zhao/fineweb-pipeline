@@ -41,6 +41,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="第二代 Model-based Filtering Pipeline")
     parser.add_argument("--run-config", default="configs/run_config.yaml")
     parser.add_argument("--config", default="configs/gen2_config.yaml")
+    parser.add_argument("--run-mode", default=None, choices=["smoke_test", "full_run"],
+                        help="覆盖 run_config.yaml 中的 run_mode（不修改文件）")
     parser.add_argument("--from-raw", action="store_true", help="从原始数据开始（跳过 Gen1 输出）")
     parser.add_argument("--top-fraction", type=float, default=0.10, help="保留比例（默认 0.10 即 top-10%%）")
     parser.add_argument("--retrain-classifier", action="store_true", help="强制重新训练分类器")
@@ -161,8 +163,7 @@ def load_or_train_classifier(pipe_cfg, run_cfg, gen1_docs=None, gen2_output_dir=
 def _load_wiki_texts():
     """加载 Wikipedia 正样本。"""
     texts = []
-    for path in [Path("data/reference/wikipedia_abstracts.jsonl"),
-                 Path("data/reference/stackexchange_top.jsonl")]:
+    for path in [Path("data/reference/wikipedia_abstracts.jsonl")]:
         if path.exists():
             with open(path) as f:
                 for line in f:
@@ -176,8 +177,8 @@ def _load_wiki_texts():
 def _load_raw_texts(run_cfg):
     """加载原始数据作为负样本。"""
     texts = []
-    # 优先 CC WET
-    raw_file = Path("data/raw/cc_wet_sample.jsonl")
+    # 优先 CC WET（full_run 用 cc_wet_full.jsonl）
+    raw_file = Path("data/raw/cc_wet_full.jsonl") if run_cfg.get("doc_limit", 0) > 12000 and Path("data/raw/cc_wet_full.jsonl").exists() else Path("data/raw/cc_wet_sample.jsonl")
     if not raw_file.exists():
         raw_files = list(Path("data/raw").glob("*.jsonl"))
         raw_file = raw_files[0] if raw_files else None
@@ -197,7 +198,7 @@ def _load_raw_texts(run_cfg):
 def main():
     args = parse_args()
 
-    run_cfg = load_run_config(args.run_config)
+    run_cfg = load_run_config(args.run_config, run_mode_override=args.run_mode)
     pipe_cfg = load_pipeline_config(2, args.config)
 
     print_config_summary(run_cfg)
@@ -213,7 +214,7 @@ def main():
         docs = read_jsonl(gen1_file, doc_limit=doc_limit)
     else:
         print(f"\nGen1 output not found, loading raw data...")
-        cc_wet = Path("data/raw/cc_wet_sample.jsonl")
+        cc_wet = Path("data/raw/cc_wet_full.jsonl") if run_cfg.get("doc_limit", 0) > 12000 and Path("data/raw/cc_wet_full.jsonl").exists() else Path("data/raw/cc_wet_sample.jsonl")
         raw_files = list(Path("data/raw").glob("*.warc.gz")) + list(Path("data/raw").glob("*.jsonl"))
         if cc_wet.exists():
             input_path = cc_wet

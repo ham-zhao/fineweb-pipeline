@@ -3,7 +3,7 @@
 # 支持 anthropic / deepseek / openai 三个 provider
 
 provider: "anthropic"   # 可选: "anthropic" | "deepseek" | "openai"
-api_key: "YOUR_API_KEY_HERE"   # 替换为你的实际 API Key
+api_key: "YOUR_API_KEY_HERE"  # 实际密钥请存入 .env 文件或环境变量 FINEWEB_API_KEY
 
 # 各 provider 的模型配置
 anthropic:

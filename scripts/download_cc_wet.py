@@ -38,6 +38,7 @@ def parse_args():
     parser.add_argument("--output", default="data/raw/cc_wet_sample.jsonl", help="Output JSONL path")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--min-text-len", type=int, default=50, help="Minimum text length in chars")
+    parser.add_argument("--workers", type=int, default=5, help="Parallel download workers")
     return parser.parse_args()
 
 
@@ -121,24 +122,31 @@ def main():
     # Step 1: Get segment paths
     segment_paths = download_wet_paths(args.seed, args.segments)
 
-    # Step 2: Download from each segment
+    # Step 2: Download from each segment (parallel)
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
     per_segment = args.count // len(segment_paths) + 1
     all_docs = []
     failed_segments = 0
+    workers = min(args.workers, len(segment_paths))
 
-    for i, seg_path in enumerate(segment_paths):
-        remaining = args.count - len(all_docs)
-        if remaining <= 0:
-            break
-        target = min(per_segment, remaining + 100)  # slight overshoot to compensate
-        print(f"  [{i+1}/{len(segment_paths)}] Downloading ~{target} docs from segment...")
-        docs = download_segment_docs(seg_path, target, args.min_text_len)
-        if docs:
-            all_docs.extend(docs)
-            print(f"    Got {len(docs):,} docs (total: {len(all_docs):,})")
-        else:
-            failed_segments += 1
-            print(f"    FAILED (total failures: {failed_segments})")
+    print(f"  Downloading with {workers} parallel workers...")
+
+    def _download_one(i_seg):
+        i, seg_path = i_seg
+        docs = download_segment_docs(seg_path, per_segment, args.min_text_len)
+        return i, seg_path, docs
+
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {executor.submit(_download_one, (i, sp)): i for i, sp in enumerate(segment_paths)}
+        for future in as_completed(futures):
+            i, seg_path, docs = future.result()
+            if docs:
+                all_docs.extend(docs)
+                print(f"    [{i+1}/{len(segment_paths)}] Got {len(docs):,} docs (total: {len(all_docs):,})")
+            else:
+                failed_segments += 1
+                print(f"    [{i+1}/{len(segment_paths)}] FAILED (total failures: {failed_segments})")
 
     # Step 3: Shuffle and deduplicate by URL
     rng = random.Random(args.seed)

@@ -9,12 +9,8 @@ pipeline:
 classifier:
   # 训练数据配置
   positive_sources:
-    - type: "openhermes"        # DCLM 使用的正样本
-      weight: 0.5
-    - type: "eli5"              # Stack Exchange ELI5 高赞回答
-      weight: 0.3
-    - type: "wikipedia"         # Wikipedia 摘要（补充）
-      weight: 0.2
+    - type: "wikipedia"         # Wikipedia 摘要（高质量百科文本）
+      weight: 1.0
 
   negative_sources:
     - type: "common_crawl_raw"  # 原始 CC（负样本）

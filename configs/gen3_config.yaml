@@ -13,7 +13,7 @@ classifier_ensemble:
       type: "fasttext"
       model_path: "results/quality_scores/gen2_classifier.bin"  # 复用第二代
       weight: 0.4
-      positive_sources: ["openhermes", "eli5"]
+      positive_sources: ["wikipedia"]
 
     - name: "fasttext_edu"
       type: "fasttext"
@@ -25,7 +25,7 @@ classifier_ensemble:
       type: "sklearn"
       model_path: "results/quality_scores/gen3_tfidf_lr.pkl"
       weight: 0.2
-      positive_sources: ["wikipedia", "stackexchange"]
+      positive_sources: ["wikipedia"]
 
   # 集成策略
   ensemble_strategy: "union"   # "union" | "intersection" | "weighted_avg"

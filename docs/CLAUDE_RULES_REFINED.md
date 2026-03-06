@@ -97,10 +97,8 @@ for f in REQUIRED:
 所有数量参数（doc_limit、sample_size、epoch、batch_size 等）集中在 `configs/run_config.yaml`。多档运行通过切换 `run_mode` 实现：
 
 ```yaml
-run_mode: "smoke_test"   # 切换到 "medium_run" 或 "full_run" 即可放大规模
+run_mode: "smoke_test"   # 切换到 "full_run" 即可放大规模
 smoke_test:
-  doc_limit: 3000
-medium_run:
   doc_limit: 12000
 full_run:
   doc_limit: 100000

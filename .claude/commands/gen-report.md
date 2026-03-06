@@ -70,7 +70,27 @@
 
 附带 Quality-Quantity Trade-off 散点图描述。
 
-### 8. Limitations & Next Steps（局限与改进方向）
+### 8. Deviation Analysis（预期 vs 实际偏差）
+
+参照 METHODOLOGY_PATTERNS.md 模式 #8（核对清单驱动的偏差反馈循环）：
+
+```markdown
+| 指标 | 预期值（论文基准） | 实际值 | 偏差方向 | 原因分析 |
+```
+
+每个偏差需标注：偏高/偏低/正常，以及建议（继续/调参/排查）。
+
+### 9. Reproducibility Record（可复现记录）
+
+参照 Datasheets for Datasets (Gebru et al. 2021) + DCLM 标准化训练 recipe：
+- 运行模式和配置文件路径
+- Git commit hash
+- Python 版本和关键库版本
+- 随机种子
+- 数据源 URI
+- 各步执行耗时
+
+### 10. Limitations & Next Steps（局限与改进方向）
 
 - 当前方案的已知局限
 - 未执行的组件（如 LLM 改写、full_run）
