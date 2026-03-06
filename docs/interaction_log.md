@@ -111,3 +111,30 @@ fineweb-pipeline/
 ---
 
 *项目全部阶段完成（阶段一～三已 commit，阶段四脚本就绪，Notebook 09 已生成）。*
+
+---
+
+## 阶段六：数据源替换 + CC WET 全量重跑
+
+### 交互 7: CLAUDE.md 规则精炼 + Phase A-E 执行（2026-03-06）
+
+- **类型**：规则优化 + 全量执行
+- **用户输入**：精炼 CLAUDE.md 规则 + 按 PLAN_data_overhaul.md 执行 Phase A-E
+- **关键决策**：
+  1. CLAUDE.md 从粗略规则升级为 253 行精炼版（含 before/after 示例、验证命令、来源标注）
+  2. CC WET 数据从 10 个随机 segment 采样 12K docs，确保域名多样性（10,334 unique domains）
+  3. C4 terminal_punct_min_ratio 从 0.7 降至 0.1（CC WET p50=0.11）
+  4. JS 检测精简为仅 "javascript"（C4 论文原始规则）
+  5. Gen1 Pipeline 修复：config 阈值传参（之前全部使用硬编码默认值）
+
+- **执行结果**：
+  - Gen1: 12K -> 409 (3.4%), LIFT +4.3%
+  - Gen2: 409 -> 41 (10.0%), LIFT +6.1%
+  - Gen3: 409 -> 17 (4.2%), LIFT +5.3%（无 LLM 改写）
+  - 三代质量差异明显：quality_mean 0.4945 -> 0.5158 -> 0.5246
+  - 5 个核心 Notebook (01/02/03/04/06) 重新执行完毕
+
+- **遗留问题**：
+  1. LLM 改写未执行（API Key 未配置），Gen3 数据回收能力未完全展示
+  2. 语言过滤 75.4%（CC WET 英文仅 ~25%），如需多语种需调整
+  3. 评估分类器区分度有限（quality_mean 差异仅 0.03）

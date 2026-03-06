@@ -1,177 +1,177 @@
 {
-  "doc_count": 1000,
-  "avg_tokens_per_doc": 648.76,
-  "estimated_total_tokens": 648760,
+  "doc_count": 12000,
+  "avg_tokens_per_doc": 3879.22,
+  "estimated_total_tokens": 46550640,
   "diversity": {
     "ngram_diversity": {
       "unigram": {
-        "unique_ratio": 0.2114,
-        "total_ngrams": 97054,
-        "unique_ngrams": 20520,
+        "unique_ratio": 0.2913,
+        "total_ngrams": 154887,
+        "unique_ngrams": 45124,
         "top10_ngrams": [
           {
-            "the": 4959
+            "to": 2387
           },
           {
-            "and": 2574
+            "de": 1421
           },
           {
-            "to": 2407
+            "in": 1369
           },
           {
-            "of": 2392
+            "..": 1346
           },
           {
-            "a": 2015
+            "the": 1252
           },
           {
-            "in": 1744
+            "and": 1214
           },
           {
-            "for": 1033
+            "book": 1133
           },
           {
-            "is": 976
+            "one": 1121
           },
           {
-            "that": 820
+            "a": 1052
           },
           {
-            "on": 729
+            "cab": 1012
           }
         ]
       },
       "bigram": {
-        "unique_ratio": 0.7225,
-        "total_ngrams": 96854,
-        "unique_ngrams": 69980,
+        "unique_ratio": 0.6147,
+        "total_ngrams": 171345,
+        "unique_ngrams": 105325,
         "top10_ngrams": [
           {
-            "of the": 536
+            "(1) ►": 2043
           },
           {
-            "in the": 427
+            "one way": 949
           },
           {
-            "2012) -": 259
+            "su tesisatçısı": 812
           },
           {
-            "to the": 226
+            "way cab": 810
           },
           {
-            "on the": 182
+            "mahallesi su": 788
           },
           {
-            "for the": 176
+            "cab hire": 729
           },
           {
-            "at the": 139
+            "book one": 707
           },
           {
-            "and the": 130
+            "hire from": 707
           },
           {
-            "to be": 125
+            ".. book": 486
           },
           {
-            "in a": 123
+            "cab, taxi,": 404
           }
         ]
       },
       "trigram": {
-        "unique_ratio": 0.9393,
-        "total_ngrams": 96654,
-        "unique_ngrams": 90788,
+        "unique_ratio": 0.7706,
+        "total_ngrams": 186313,
+        "unique_ngrams": 143576,
         "top10_ngrams": [
           {
-            "16, 2012) -": 37
+            "one way cab": 810
           },
           {
-            "(may 16, 2012)": 34
+            "mahallesi su tesisatçısı": 788
           },
           {
-            "one of the": 33
+            "way cab hire": 726
           },
           {
-            "2012) - facebook": 31
+            "book one way": 707
           },
           {
-            "as well as": 30
+            "cab hire from": 707
           },
           {
-            "abyss web server": 27
+            "cab, taxi, car": 399
           },
           {
-            "17, 2012) -": 26
+            ".. book one": 358
           },
           {
-            "2013) - google": 25
+            "taxi, car rental,": 247
           },
           {
-            "15, 2012) -": 24
+            "hire from vadodara": 222
           },
           {
-            "2012) - google": 23
+            "shipping to :": 209
           }
         ]
       }
     },
     "length_distribution": {
-      "mean": 485.3,
-      "median": 348.5,
-      "p10": 80.9,
-      "p25": 147.0,
-      "p75": 582.5,
-      "p90": 1060.7,
-      "p99": 2359.5,
-      "min": 49,
-      "max": 5702,
-      "total_words": 97054
+      "mean": 864.1,
+      "median": 345.0,
+      "p10": 55.8,
+      "p25": 137.0,
+      "p75": 809.2,
+      "p90": 1545.7,
+      "p99": 8654.5,
+      "min": 7,
+      "max": 37258,
+      "total_words": 432052
     },
     "domain_entropy": {
       "entropy": 5.6067,
       "max_entropy": 5.6439,
       "normalized_entropy": 0.9934,
-      "n_domains": 196,
+      "n_domains": 496,
       "top_10_domains": [
         {
-          "domain": "rutlandherald.com",
+          "domain": "lisikon.se",
           "count": 2
         },
         {
-          "domain": "theregister.co.uk",
+          "domain": "lsab.free.fr",
           "count": 2
         },
         {
-          "domain": "finance.yahoo.com",
+          "domain": "ibas.ncac.torun.pl",
           "count": 2
         },
         {
-          "domain": "basspro.com",
+          "domain": "archives.lib.byu.edu",
           "count": 2
         },
         {
-          "domain": "daytimeroyaltyonline.com",
+          "domain": "ejpch.org",
           "count": 1
         },
         {
-          "domain": "endogenousretrovirus.blogspot.com",
+          "domain": "interwall.jp",
           "count": 1
         },
         {
-          "domain": "news.cancerconnect.com",
+          "domain": "blog.rursus.de",
           "count": 1
         },
         {
-          "domain": "sharingsolution.com",
+          "domain": "cooks.kz",
           "count": 1
         },
         {
-          "domain": "supermarketnews.com",
+          "domain": "beket.com.ua",
           "count": 1
         },
         {
-          "domain": "augustana.edu",
+          "domain": "econ.korea.ac.kr",
           "count": 1
         }
       ]

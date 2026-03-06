@@ -34,8 +34,8 @@ filters:
     # 平均句子长度（词数）
     min_avg_sentence_length: 3
     max_avg_sentence_length: 1000
-    # 字母字符占比
-    min_alpha_ratio: 0.7
+    # 字母字符占比（CC WET 原始文本含较多数字/符号，0.5 更合理）
+    min_alpha_ratio: 0.5
     # 停用词检查（至少包含 N 个停用词）
     min_stop_words: 2
     # 省略号行占比上限
@@ -47,6 +47,8 @@ filters:
     enabled: true
     # 行末标点（保留以句末标点结尾的行）
     terminal_punctuation: [".", "?", "!", "\"", "\""]
+    # 句末标点行比例下限（CC WET 原始文本 p50=0.11，0.1 保留约 55% 的文档）
+    terminal_punct_min_ratio: 0.1
     # JavaScript 内容过滤
     filter_javascript: true
     # Lorem ipsum 过滤

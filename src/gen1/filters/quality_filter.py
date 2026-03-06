@@ -198,12 +198,10 @@ class C4QualityFilter:
         if len(lines) < self.min_lines:
             return False, f"too_few_lines:{len(lines)}<{self.min_lines}"
 
-        # 规则 2: JavaScript 内容
+        # 规则 2: JavaScript 内容（C4 原始规则：检查 "javascript" 关键词）
         if self.filter_javascript:
-            js_indicators = ["javascript", "function()", "var ", "document.", "window."]
-            for indicator in js_indicators:
-                if indicator in text.lower():
-                    return False, f"contains_javascript:{indicator}"
+            if "javascript" in text.lower():
+                return False, "contains_javascript"
 
         # 规则 3: Lorem ipsum（模板占位文本）
         if self.filter_lorem_ipsum and "lorem ipsum" in text.lower():

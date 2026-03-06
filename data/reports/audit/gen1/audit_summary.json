@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-03-05T10:06:22.929236",
+  "generated_at": "2026-03-06T14:30:22.174921",
   "filter_stats": {
     "url_filter": {
-      "total_filtered": 5,
-      "filter_rate": 0.005,
-      "audit_sample_size": 5
+      "total_filtered": 50,
+      "filter_rate": 0.00416770859381512,
+      "audit_sample_size": 50
     },
     "language_filter": {
-      "total_filtered": 3,
-      "filter_rate": 0.003015075376884422,
-      "audit_sample_size": 3
+      "total_filtered": 50,
+      "filter_rate": 0.004219053244451945,
+      "audit_sample_size": 50
     },
     "quality_filter": {
-      "total_filtered": 20,
-      "filter_rate": 0.020161290322580645,
-      "audit_sample_size": 20
+      "total_filtered": 50,
+      "filter_rate": 0.017170329670329672,
+      "audit_sample_size": 50
     },
     "repetition_filter": {
-      "total_filtered": 20,
-      "filter_rate": 0.044642857142857144,
-      "audit_sample_size": 20
+      "total_filtered": 50,
+      "filter_rate": 0.06009615384615385,
+      "audit_sample_size": 50
     }
   },
   "audit_csv_paths": {

@@ -1,42 +1,42 @@
 {
   "raw": {
     "name": "原始数据",
-    "doc_count": 200,
-    "quality_mean": 0.5176292848587036,
-    "quality_p50": 0.5170984864234924,
-    "quality_p90": 0.523999172449112,
-    "unigram_diversity": 0.2114,
-    "trigram_diversity": 0.9393,
-    "avg_tokens": 648.76
+    "doc_count": 500,
+    "quality_mean": 0.4945494681596756,
+    "quality_p50": 0.5096708536148071,
+    "quality_p90": 0.5205635607242585,
+    "unigram_diversity": 0.2598,
+    "trigram_diversity": 0.7775,
+    "avg_tokens": 3879.22
   },
   "gen1": {
     "name": "第一代(Heuristic)",
-    "doc_count": 200,
-    "quality_mean": 0.5185670146346092,
-    "quality_p50": 0.5180820524692535,
-    "quality_p90": 0.52457515001297,
-    "unigram_diversity": 0.2032,
-    "trigram_diversity": 0.948,
-    "avg_tokens": 651.13
+    "doc_count": 409,
+    "quality_mean": 0.5158478136750481,
+    "quality_p50": 0.5153595209121704,
+    "quality_p90": 0.5217953324317932,
+    "unigram_diversity": 0.1721,
+    "trigram_diversity": 0.8861,
+    "avg_tokens": 1536.55
   },
   "gen2": {
     "name": "第二代(Model-based)",
-    "doc_count": 42,
-    "quality_mean": 0.5249500884896233,
-    "quality_p50": 0.5250895917415619,
-    "quality_p90": 0.5285826086997986,
-    "unigram_diversity": 0.3229,
-    "trigram_diversity": 0.9628,
-    "avg_tokens": 562.1428571428571
+    "doc_count": 41,
+    "quality_mean": 0.5245851816200628,
+    "quality_p50": 0.5243867635726929,
+    "quality_p90": 0.5286399722099304,
+    "unigram_diversity": 0.3003,
+    "trigram_diversity": 0.9484,
+    "avg_tokens": 1140.121951219512
   },
   "gen3": {
     "name": "第三代(Hybrid)",
-    "doc_count": 200,
-    "quality_mean": 0.519455277621746,
-    "quality_p50": 0.5190825164318085,
-    "quality_p90": 0.5251357078552246,
-    "unigram_diversity": 0.2095,
-    "trigram_diversity": 0.9495,
-    "avg_tokens": 568.02
+    "doc_count": 17,
+    "quality_mean": 0.5207571772968068,
+    "quality_p50": 0.5200806260108948,
+    "quality_p90": 0.5284975647926331,
+    "unigram_diversity": 0.3383,
+    "trigram_diversity": 0.9517,
+    "avg_tokens": 990.1176470588235
   }
 }

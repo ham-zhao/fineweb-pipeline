@@ -1,22 +1,49 @@
 # configs/run_config.yaml
-# 数据规模控制：smoke_test（验证流程）或 full_run（正式结果）
+# 数据规模控制：smoke_test / medium_run / full_run
 # 所有 pipeline 和 notebook 统一读取此文件的 run_mode 字段
 
-run_mode: "smoke_test"  # 可选: "smoke_test" | "full_run"
+run_mode: "smoke_test"   # 可选: "smoke_test" | "medium_run" | "full_run"
 
 smoke_test:
-  doc_limit: 1000           # 从 WARC 中只取 1000 条文档
-  eval_sample_size: 200     # 每阶段评估采样 200 条
-  audit_sample_size: 20     # 过滤精度抽检 20 条
-  rewrite_count: 50         # LLM 改写 50 条
-  description: "10-15分钟跑完全流程，验证代码无报错"
+  doc_limit: 3000
+  eval_sample_size: 200
+  audit_sample_size: 20
+  llm_label_count: 100
+  llm_label_concurrency: 5
+  rewrite_count: 20
+  rewrite_ratio: 0.10
+  rewrite_concurrency: 5
+  description: "3-5分钟跑完全流程，验证代码无报错"
+
+medium_run:
+  doc_limit: 12000
+  eval_sample_size: 500
+  audit_sample_size: 50
+  llm_label_count: 500
+  llm_label_concurrency: 10
+  rewrite_count: 100
+  rewrite_ratio: 0.25
+  rewrite_concurrency: 10
+  description: "20-30分钟跑完，产出有统计意义的对比数据"
 
 full_run:
-  doc_limit: 50000          # 一个完整 WARC 文件（约5万条）
-  eval_sample_size: 1000    # 每阶段评估采样 1000 条
-  audit_sample_size: 50     # 过滤精度抽检 50 条
-  rewrite_count: 300        # LLM 改写 300 条
-  description: "2-3小时跑完，产出有统计意义的对比数据"
+  doc_limit: 100000
+  eval_sample_size: 2000
+  audit_sample_size: 100
+  llm_label_count: 1000
+  llm_label_concurrency: 20
+  rewrite_count: 500
+  rewrite_ratio: 0.10
+  rewrite_concurrency: 20
+  description: "2-3小时跑完，产出最终展示级结果"
+
+# LLM 改写配置
+rewrite:
+  provider: "anthropic"
+  model: "claude-haiku-4-5-20251001"
+  max_retries: 3
+  timeout_seconds: 30
+  quality_gate: 0.5
 
 # 随机种子，确保可复现
 random_seed: 42

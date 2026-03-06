@@ -37,8 +37,8 @@ def load_run_config(config_path: Optional[str] = None) -> Dict[str, Any]:
     raw = _load_yaml(path)
 
     run_mode = raw["run_mode"]
-    if run_mode not in ("smoke_test", "full_run"):
-        raise ValueError(f"run_mode 必须是 'smoke_test' 或 'full_run'，当前值: {run_mode}")
+    if run_mode not in ("smoke_test", "medium_run", "full_run"):
+        raise ValueError(f"run_mode 必须是 'smoke_test'、'medium_run' 或 'full_run'，当前值: {run_mode}")
 
     # 将当前模式的参数提升到顶层，方便直接访问
     mode_params = raw[run_mode]

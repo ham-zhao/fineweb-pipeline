@@ -161,21 +161,25 @@ class SyntheticRephraser:
         max_count: Optional[int] = None,
         eval_classifier=None,   # 改写后用评估分类器验证质量
         min_quality_after: float = 0.4,
+        concurrency: int = 1,
     ) -> Tuple[List[Dict], Dict]:
         """
-        批量改写文档。
+        批量改写文档，支持并发。
 
         Args:
             docs: 待改写文档列表
             max_count: 最多改写多少条（None = 全部）
             eval_classifier: 用于验证改写后质量的分类器
-            min_quality_after: 改写后最低质量分（低于此值则不保留改写版本）
+            min_quality_after: 改写后最低质量分
+            concurrency: 并发线程数（>1 启用 ThreadPoolExecutor）
 
         Returns:
             (rephrased_docs, stats)
         """
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+
         target_docs = docs[:max_count] if max_count else docs
-        print(f"\n  ✍️  LLM 改写: {len(target_docs)} 条文档")
+        print(f"\n  LLM rewrite: {len(target_docs)} docs (concurrency={concurrency})")
         print(f"     Provider: {self.provider} | Model: {self.model}")
 
         rephrased_docs = []
@@ -188,33 +192,59 @@ class SyntheticRephraser:
             "status_counts": {},
         }
 
-        for doc in tqdm(target_docs, desc="  ✍️  改写"):
+        def _process_one(doc):
             original_text = doc["text"]
             rephrased, status = self.rephrase_single(original_text)
-            stats["total_api_calls"] += 1
-            stats["status_counts"][status] = stats["status_counts"].get(status, 0) + 1
+            return doc, original_text, rephrased, status
 
-            if rephrased and status == "success":
-                # 可选：验证改写后质量
-                if eval_classifier:
-                    post_score = eval_classifier.score(rephrased)
-                    if post_score < min_quality_after:
-                        stats["quality_filtered"] += 1
-                        continue
+        if concurrency > 1:
+            with ThreadPoolExecutor(max_workers=concurrency) as executor:
+                futures = {executor.submit(_process_one, doc): i for i, doc in enumerate(target_docs)}
+                for future in tqdm(as_completed(futures), total=len(futures), desc="  Rewriting"):
+                    doc, original_text, rephrased, status = future.result()
+                    stats["total_api_calls"] += 1
+                    stats["status_counts"][status] = stats["status_counts"].get(status, 0) + 1
 
-                new_doc = dict(doc)
-                new_doc["text"] = rephrased
-                new_doc["_original_text"] = original_text[:200]  # 保留原文片段
-                new_doc["_is_synthetic"] = True
-                new_doc["_rephrase_status"] = status
-                rephrased_docs.append(new_doc)
-                stats["success"] += 1
-            else:
-                stats["failed"] += 1
+                    if rephrased and status == "success":
+                        if eval_classifier:
+                            post_score = eval_classifier.score(rephrased)
+                            if post_score < min_quality_after:
+                                stats["quality_filtered"] += 1
+                                continue
+                        new_doc = dict(doc)
+                        new_doc["text"] = rephrased
+                        new_doc["_original_text"] = original_text[:200]
+                        new_doc["_is_synthetic"] = True
+                        new_doc["_rephrase_status"] = status
+                        rephrased_docs.append(new_doc)
+                        stats["success"] += 1
+                    else:
+                        stats["failed"] += 1
+        else:
+            for doc in tqdm(target_docs, desc="  Rewriting"):
+                doc, original_text, rephrased, status = _process_one(doc)
+                stats["total_api_calls"] += 1
+                stats["status_counts"][status] = stats["status_counts"].get(status, 0) + 1
+
+                if rephrased and status == "success":
+                    if eval_classifier:
+                        post_score = eval_classifier.score(rephrased)
+                        if post_score < min_quality_after:
+                            stats["quality_filtered"] += 1
+                            continue
+                    new_doc = dict(doc)
+                    new_doc["text"] = rephrased
+                    new_doc["_original_text"] = original_text[:200]
+                    new_doc["_is_synthetic"] = True
+                    new_doc["_rephrase_status"] = status
+                    rephrased_docs.append(new_doc)
+                    stats["success"] += 1
+                else:
+                    stats["failed"] += 1
 
         stats["success_rate"] = round(stats["success"] / len(target_docs), 4) if target_docs else 0
-        print(f"\n  ✅ 改写完成: {stats['success']}/{len(target_docs)} 成功")
-        print(f"     成功率: {stats['success_rate']:.1%} | 质量过滤: {stats['quality_filtered']}")
+        print(f"\n  Rewrite done: {stats['success']}/{len(target_docs)} success")
+        print(f"     Rate: {stats['success_rate']:.1%} | Quality filtered: {stats['quality_filtered']}")
 
         return rephrased_docs, stats
 

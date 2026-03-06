@@ -69,11 +69,14 @@ def main():
     if args.input:
         input_path = Path(args.input)
     else:
-        # 自动寻找 data/raw/ 下的 WARC 文件
+        # 自动寻找输入文件，优先 CC WET 数据
+        cc_wet_file = Path("data/raw/cc_wet_sample.jsonl")
         warc_files = list(Path("data/raw").glob("*.warc.gz"))
         jsonl_files = list(Path("data/raw").glob("*.jsonl"))
 
-        if warc_files:
+        if cc_wet_file.exists():
+            input_path = cc_wet_file
+        elif warc_files:
             input_path = warc_files[0]
         elif jsonl_files:
             input_path = jsonl_files[0]

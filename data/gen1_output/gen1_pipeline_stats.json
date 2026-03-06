@@ -1,42 +1,49 @@
 {
   "pipeline_stats": [
     {
+      "step": "url_dedup",
+      "before": 12000,
+      "after": 11997,
+      "filtered": 3,
+      "filter_rate": 0.00025
+    },
+    {
       "step": "url_filter",
-      "before": 1000,
-      "after": 995,
-      "filtered": 5,
-      "filter_rate": 0.005
+      "before": 11997,
+      "after": 11851,
+      "filtered": 146,
+      "filter_rate": 0.012169709093940152
     },
     {
       "step": "language_filter",
-      "before": 995,
-      "after": 992,
-      "filtered": 3,
-      "filter_rate": 0.003015075376884422
+      "before": 11851,
+      "after": 2912,
+      "filtered": 8939,
+      "filter_rate": 0.7542823390431187
     },
     {
       "step": "quality_filter",
-      "before": 992,
-      "after": 448,
-      "filtered": 544,
-      "filter_rate": 0.5483870967741935
+      "before": 2912,
+      "after": 832,
+      "filtered": 2080,
+      "filter_rate": 0.7142857142857143
     },
     {
       "step": "repetition_filter",
-      "before": 448,
-      "after": 417,
-      "filtered": 31,
-      "filter_rate": 0.06919642857142858
+      "before": 832,
+      "after": 409,
+      "filtered": 423,
+      "filter_rate": 0.5084134615384616
     },
     {
       "step": "pii_filter",
-      "before": 417,
-      "after": 417,
+      "before": 409,
+      "after": 409,
       "filtered": 0,
       "filter_rate": 0.0
     }
   ],
-  "input_count": 1000,
-  "output_count": 417,
-  "retention_rate": 0.417
+  "input_count": 12000,
+  "output_count": 409,
+  "retention_rate": 0.034083333333333334
 }

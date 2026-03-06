@@ -22,12 +22,42 @@ from typing import List, Dict, Optional, Iterator
 from tqdm import tqdm
 
 from src.utils.config_loader import load_run_config, load_pipeline_config, load_eval_config, get_output_path
+from src.gen1.url_dedup import url_dedup
 from src.gen1.filters.url_filter import URLFilter
 from src.gen1.filters.language_filter import LanguageFilter
 from src.gen1.filters.quality_filter import QualityFilter
 from src.gen1.filters.repetition_filter import GopherRepetitionFilter
 from src.gen1.filters.pii_filter import PIIFilter
 from src.gen1.filters.toxicity_filter import ToxicityFilter
+
+
+def read_wet_texts(wet_path: Path, doc_limit: int = None) -> List[Dict]:
+    """
+    读取 WET 文件（WARC Encapsulated Text）——CC 纯文本格式。
+    WET 记录类型为 "conversion"（区别于 WARC 的 "response"），直接包含纯文本。
+    """
+    from warcio.archiveiterator import ArchiveIterator
+
+    docs = []
+    print(f"  Reading WET: {wet_path.name}")
+
+    with open(wet_path, "rb") as f:
+        for record in ArchiveIterator(f):
+            if record.rec_type != "conversion":
+                continue
+            url = record.rec_headers.get_header("WARC-Target-URI", "")
+            text = record.content_stream().read().decode("utf-8", errors="replace").strip()
+            if len(text) > 50:
+                docs.append({
+                    "text": text,
+                    "url": url,
+                    "source": "common_crawl_wet",
+                })
+            if doc_limit and len(docs) >= doc_limit:
+                break
+
+    print(f"  WET extracted: {len(docs):,} docs")
+    return docs
 
 
 def read_warc_texts(warc_path: Path, doc_limit: int = None) -> List[Dict]:
@@ -135,10 +165,35 @@ class Gen1Pipeline:
         goph_cfg = filter_cfg.get("gopher_quality", {})
         c4_cfg = filter_cfg.get("c4_quality", {})
         fw_cfg = filter_cfg.get("fineweb_quality", {})
+
+        # Pass config thresholds through to sub-filters
+        gopher_kwargs = {k: v for k, v in goph_cfg.items() if k != "enabled"}
+        c4_kwargs = {}
+        if "min_lines" in c4_cfg:
+            c4_kwargs["min_lines"] = c4_cfg["min_lines"]
+        if "min_words_per_line" in c4_cfg:
+            c4_kwargs["min_words_per_line"] = c4_cfg["min_words_per_line"]
+        if "filter_javascript" in c4_cfg:
+            c4_kwargs["filter_javascript"] = c4_cfg["filter_javascript"]
+        if "filter_lorem_ipsum" in c4_cfg:
+            c4_kwargs["filter_lorem_ipsum"] = c4_cfg["filter_lorem_ipsum"]
+        if "terminal_punct_min_ratio" in c4_cfg:
+            c4_kwargs["terminal_punct_min_ratio"] = c4_cfg["terminal_punct_min_ratio"]
+        fineweb_kwargs = {}
+        if "max_lines_starting_with_bullet" in fw_cfg:
+            fineweb_kwargs["max_bullet_lines_ratio"] = fw_cfg["max_lines_starting_with_bullet"]
+        if "max_lines_ending_with_ellipsis" in fw_cfg:
+            fineweb_kwargs["max_ellipsis_lines_ratio"] = fw_cfg["max_lines_ending_with_ellipsis"]
+        if "min_alpha_words_ratio" in fw_cfg:
+            fineweb_kwargs["min_alpha_words_ratio"] = fw_cfg["min_alpha_words_ratio"]
+
         self.quality_filter = QualityFilter(
             use_gopher=goph_cfg.get("enabled", True),
             use_c4=c4_cfg.get("enabled", True),
             use_fineweb=fw_cfg.get("enabled", True),
+            gopher_kwargs=gopher_kwargs,
+            c4_kwargs=c4_kwargs,
+            fineweb_kwargs=fineweb_kwargs,
         )
 
         rep_cfg = filter_cfg.get("gopher_repetition", {})
@@ -205,6 +260,18 @@ class Gen1Pipeline:
         if self.tracker:
             self.tracker.record("gen1_input", [d["text"] for d in docs],
                                 urls=[d.get("url", "") for d in docs])
+
+        # ── Step 0: URL Dedup ─────────────────────────────────
+        docs, dedup_stats = url_dedup(docs)
+        self.stats.append({
+            "step": "url_dedup",
+            "before": dedup_stats["input_count"],
+            "after": dedup_stats["output_count"],
+            "filtered": dedup_stats["removed_count"],
+            "filter_rate": dedup_stats["dedup_rate"],
+        })
+        print(f"  [url_dedup] {dedup_stats['input_count']:,} → {dedup_stats['output_count']:,} | "
+              f"去重: {dedup_stats['removed_count']:,} ({dedup_stats['dedup_rate']:.1%})")
 
         # ── Step 1: URL Filter ────────────────────────────────
         if self.url_filter:

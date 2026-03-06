@@ -105,10 +105,12 @@ class Gen3Pipeline:
         rephrasing_stats = {"skipped": True}
 
         if self.rephraser and buckets["to_rephrase"]:
-            print(f"\n  Step 3: 合成数据改写 (max {self.rewrite_count} 条)...")
+            rewrite_concurrency = self.run_cfg.get("rewrite_concurrency", 1)
+            print(f"\n  Step 3: Synthetic rewrite (max {self.rewrite_count}, concurrency={rewrite_concurrency})...")
             rephrased_docs, rephrasing_stats = self.rephraser.rephrase_batch(
                 buckets["to_rephrase"],
                 max_count=self.rewrite_count,
+                concurrency=rewrite_concurrency,
             )
             print(f"     改写成功: {len(rephrased_docs)} 条")
         else:
