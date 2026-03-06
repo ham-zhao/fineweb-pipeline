@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-06T14:30:22.174921",
+  "generated_at": "2026-03-06T17:52:26.492853",
   "filter_stats": {
     "url_filter": {
       "total_filtered": 50,
@@ -23,9 +23,9 @@
     }
   },
   "audit_csv_paths": {
-    "url_filter": "/Users/pengjuzhao/Desktop/claude code/tiktok-ml-projects/fineweb-pipeline/data/reports/audit/gen1/url_filter_audit.csv",
-    "language_filter": "/Users/pengjuzhao/Desktop/claude code/tiktok-ml-projects/fineweb-pipeline/data/reports/audit/gen1/language_filter_audit.csv",
-    "quality_filter": "/Users/pengjuzhao/Desktop/claude code/tiktok-ml-projects/fineweb-pipeline/data/reports/audit/gen1/quality_filter_audit.csv",
-    "repetition_filter": "/Users/pengjuzhao/Desktop/claude code/tiktok-ml-projects/fineweb-pipeline/data/reports/audit/gen1/repetition_filter_audit.csv"
+    "url_filter": "data/reports/audit/gen1/smoke_test/url_filter_audit.csv",
+    "language_filter": "data/reports/audit/gen1/smoke_test/language_filter_audit.csv",
+    "quality_filter": "data/reports/audit/gen1/smoke_test/quality_filter_audit.csv",
+    "repetition_filter": "data/reports/audit/gen1/smoke_test/repetition_filter_audit.csv"
   }
 }

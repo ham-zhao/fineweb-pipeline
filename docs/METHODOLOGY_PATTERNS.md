@@ -459,6 +459,61 @@ self.quality_filter = QualityFilter(
 
 ---
 
+## 14. 五维数据质量 Profiling
+
+**问题**：数据清洗 pipeline 只用单一指标（如自训练分类器）评估效果，存在循环偏差风险（用自己训练的模型评估自己的输出）。
+
+**规则**：
+
+每次数据过滤后，重算同一套 5 维 profile，形成可比的"数据质量演进表"：
+
+| 维度 | 工具 | 核心指标 | 期望趋势 |
+|------|------|---------|---------|
+| **规模** | 内置统计 | 文档数、总词数/token、平均文档长度 | 逐代递减（过滤代价） |
+| **质量** | KenLM (Wikipedia perplexity) | PPL 中位数、P10/P90、head/middle/tail 分桶占比 | PPL 逐代降低，head 占比逐代升高 |
+| **语言** | fastText lid.176.bin | 英文占比、top-5 语言分布、检测置信度 | Gen1 后英文占比应从原始水平跳到 95%+ |
+| **多样性** | n-gram unique ratio + 域名 Shannon entropy | unigram/bigram/trigram unique ratio、归一化域名熵 | 应保持稳定（过滤不该过度损失多样性） |
+| **毒性** | detoxify (Jigsaw BERT) | toxicity 均值、>0.5 占比、severe_toxicity 均值 | 逐代降低 |
+
+**关键概念**：
+
+- **KenLM Perplexity**：用 Wikipedia 训练的 n-gram 语言模型计算文档"困惑度"。越低 = 越像 Wikipedia = 越"标准"。CCNet/FineWeb/Dolma/RedPajama 均采用此方法。
+  - head (PPL < 300)：高质量，类 Wikipedia 风格
+  - middle (300 ≤ PPL < 1000)：中等质量
+  - tail (PPL ≥ 1000)：低质量，乱码/噪声
+- **N-gram unique ratio**：语料中不重复 n-gram 占总 n-gram 的比例。unigram 衡量词汇丰富度，bigram/trigram 衡量短语多样性。模板化内容（SEO 堆砌）该值极低。
+- **域名 Shannon Entropy**：H = -Σ p(d)·log₂(p(d))，衡量来源分布均匀度。归一化后 1.0 = 完全均匀，0 = 所有文档来自同一域名。
+- **Detoxify 多标签毒性**：6 个维度独立打分 0~1（toxicity/severe_toxicity/obscene/threat/insult/identity_attack）。>0.5 视为该维度"有毒"。
+
+**循环偏差防范**：
+
+- 自训练分类器（如 eval_classifier）只能作为"内部参考指标"
+- KenLM perplexity 是"外部独立指标"——模型在 Wikipedia 上预训练，与 pipeline 无关
+- 两者趋势一致 → 结论可信；两者矛盾 → eval_classifier 存在偏差
+
+**质量-多样性权衡（Quality-Diversity Tradeoff）**：
+
+- PPL 下降 + 域名熵保持 → 理想状态（质量提升但多样性不损失）
+- PPL 下降 + 域名熵大幅下降 → 过度过滤（只留下了"安全"的 Wikipedia 风格内容）
+- 每步 pipeline 后必须同时检查这两个指标
+
+**实践模板**：
+
+```
+                Raw     Gen1    Gen2    Gen3
+─────────────────────────────────────────────
+规模  文档数     12,000   409     41      17
+质量  PPL中位数   850     320     180     150
+      head占比    20%     45%     70%     78%
+语言  英文占比    25%     96%     98%     99%
+多样性 域名熵     0.99    0.95    0.88    0.85
+毒性  toxic>0.5   8%      3%      1%     0.5%
+```
+
+> 来源：fineweb-pipeline NB01/NB06 基准线增强，从 2 维（多样性+token）扩展到 5 维。
+
+---
+
 ## 变更日志
 
 | 日期 | 来源项目 | 变更内容 |
@@ -467,3 +522,4 @@ self.quality_filter = QualityFilter(
 | 2026-03-06 | fineweb-pipeline | 新增 #11 需求-实现同步：方案文档设计章节新增内容时，必须同步更新执行计划中的代码实现步骤 |
 | 2026-03-06 | fineweb-pipeline | 新增 #12 阈值对标数据分布：CC WET 上 C4 阈值从 0.7 调至 0.1，过滤率从 89% 降至 ~45% |
 | 2026-03-06 | fineweb-pipeline | 新增 #13 配置值传参：Gen1 Pipeline 的 QualityFilter 构造函数未接收 config 参数，导致 YAML 配置无效 |
+| 2026-03-06 | fineweb-pipeline | 新增 #14 五维数据质量 Profiling：规模/质量/语言/多样性/毒性，KenLM+fastText+detoxify，解决循环偏差 |

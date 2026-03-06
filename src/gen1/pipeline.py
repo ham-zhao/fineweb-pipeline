@@ -214,6 +214,7 @@ class Gen1Pipeline:
 
     def _record_step(self, step_name: str, docs: List[Dict], filtered_docs: List[Dict]) -> Dict:
         """记录单步统计，并通知 auditor 保存被过滤样本。"""
+        from collections import Counter
         stat = {
             "step": step_name,
             "before": len(docs) + len(filtered_docs),
@@ -222,6 +223,17 @@ class Gen1Pipeline:
             "filter_rate": len(filtered_docs) / (len(docs) + len(filtered_docs))
                           if (len(docs) + len(filtered_docs)) > 0 else 0,
         }
+
+        # Collect sub-filter reason breakdown from _filter_reason field
+        if filtered_docs:
+            reasons = [d.get("_filter_reason", "unknown") for d in filtered_docs]
+            # Top-level category (e.g. "gopher", "c4", "fineweb", "dup_line_fraction")
+            top_reasons = Counter(r.split(":")[0] for r in reasons)
+            stat["reason_breakdown"] = dict(top_reasons.most_common())
+            # Detailed reasons (e.g. "gopher:too_short:42<50")
+            detail_reasons = Counter(r for r in reasons)
+            stat["detail_breakdown"] = dict(detail_reasons.most_common(100))
+
         self.stats.append(stat)
 
         # 通知 auditor

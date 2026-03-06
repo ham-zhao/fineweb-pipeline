@@ -1,0 +1,250 @@
+{
+  "mode": "smoke_test",
+  "doc_limit": 12000,
+  "total_input": 12000,
+  "url_filter": {
+    "input": 12000,
+    "filtered": 146,
+    "output": 11854,
+    "reason_breakdown": {
+      "blacklist_keyword": 135,
+      "ip_address_url": 7,
+      "blacklist_tld": 4
+    },
+    "detail_breakdown": {
+      "blacklist_keyword:casino": 30,
+      "blacklist_keyword:sex": 24,
+      "blacklist_keyword:porn": 22,
+      "blacklist_keyword:adult": 13,
+      "blacklist_keyword:cialis": 10,
+      "blacklist_keyword:xxx": 9,
+      "blacklist_keyword:poker": 8,
+      "ip_address_url": 7,
+      "blacklist_keyword:slots": 4,
+      "blacklist_keyword:nude": 4,
+      "blacklist_tld:.tk": 3,
+      "blacklist_keyword:viagra": 3,
+      "blacklist_keyword:pharmacy": 2,
+      "blacklist_keyword:payday-loan": 2,
+      "blacklist_keyword:malware": 1,
+      "blacklist_keyword:gambling": 1,
+      "blacklist_keyword:paydayloan": 1,
+      "blacklist_tld:.cf": 1,
+      "blacklist_keyword:naked": 1
+    }
+  },
+  "language_filter": {
+    "input": 20796,
+    "filtered": 8942,
+    "output": 2912,
+    "language_distribution": {
+      "en": 4099,
+      "zh": 1488,
+      "ja": 1212,
+      "ru": 1160,
+      "fr": 590,
+      "es": 482,
+      "de": 466,
+      "pl": 285,
+      "ko": 227,
+      "pt": 208,
+      "it": 192,
+      "vi": 139,
+      "fa": 120,
+      "tr": 105,
+      "id": 99,
+      "uk": 94,
+      "nl": 93,
+      "hu": 88,
+      "cs": 82,
+      "sv": 64
+    },
+    "english_count": 4099,
+    "english_ratio": 0.34579045048085033
+  },
+  "quality_filter": {
+    "input": 4992,
+    "filtered": 2080,
+    "output": 832,
+    "sub_filters": {
+      "gopher": {
+        "filtered": 870,
+        "reason_breakdown": {
+          "too_short": 522,
+          "too_many_non_alpha_words": 324,
+          "low_alpha_ratio": 16,
+          "too_many_ellipsis_lines": 4,
+          "too_few_stop_words": 2,
+          "avg_sentence_too_short": 1,
+          "avg_sentence_too_long": 1
+        }
+      },
+      "c4": {
+        "filtered": 1210,
+        "reason_breakdown": {
+          "low_terminal_punct_ratio": 812,
+          "too_many_short_lines": 279,
+          "contains_javascript": 115,
+          "contains_lorem_ipsum": 4
+        }
+      },
+      "fineweb": {
+        "filtered": 0,
+        "reason_breakdown": {}
+      }
+    }
+  },
+  "repetition_filter": {
+    "input": 1255,
+    "filtered": 423,
+    "output": 409,
+    "reason_breakdown": {
+      "dup_5gram_fraction": 360,
+      "dup_line_fraction": 51,
+      "dup_6gram_fraction": 4,
+      "top_3gram_fraction": 3,
+      "dup_7gram_fraction": 2,
+      "top_4gram_fraction": 2,
+      "dup_8gram_fraction": 1
+    }
+  },
+  "final_output": 409,
+  "per_filter_examples": {
+    "url_filter": [
+      {
+        "url": "http://giaiphapdoanhnghiepviettel.vn/viettel-advanced-malware-analysis-vcs-ama",
+        "reason": "blacklist_keyword:malware",
+        "text_preview": "#1 Bảng giá Dịch vụ Viettel Advanced Malware Analysis | Ưu đãi năm 2024 Chào mừng các bạn đến với Giải pháp doanh nghiệp Viettel Trang chủ Giới thiệu Dấu ấn Khách hàng Mạng lưới toàn cầu Giải thưởng quốc tế Giải pháp CNTT Dịch vụ Chữ ký số Viettel CA Dịch vụ Hoá đơn điện tử Viettel Sinvoice Hợp đồng điện tử Vcontract Dịch vụ Văn phòng điện tử VOffice Dịch vụ Phần mềm bảo hiểm xã hội Viettel vBHXH Dịch vụ Quản lý bán hàng trực tuyến DMS ONE Chữ ký số Cloud-CA Viettel Dịch vụ Chữ ký số Sim Mobile "
+      },
+      {
+        "url": "http://koshirohiroko39jp.s270.xrea.com/2022/07/05/sexy-commando-09-16/",
+        "reason": "blacklist_keyword:sex",
+        "text_preview": "Sexy Commando 09-16 超常現象タダッフル！ネトゲ廃人的まとめ速報！！ネット乞食DE2000万パワーズ！ 真・タダッフル2！ネトゲ宇宙廃人の都市伝説的まとめ速報！！ネット乞食DEカルチャーDQN2000万パワーズ！with女子ホームレス三銃士伝説！あおいちゃん！ホームレスまなみ！愛内アイラ応援サイト 孤立 ホーム 未分類 Sexy Commando 09-16 FacebookTwitterはてブPocketFeedly 未分類 Sexy Commando 09-16 2022年7月5日 2022年7月5日 koshirohiroko3 FacebookTwitterはてブLINEPocketFeedly powered by Auto Youtube Summarize 共有: Twitter Facebook いいね: いいね 読み込み中… 関連 FacebookTwitterはてブLINEPocketFeedly この記事を書いた人 koshirohiroko3 最近書いた記事 未分類 あおいちゃん銀だこ持って踊る！ 未分類 生活困窮者の女性に「支援して」と言われ"
+      },
+      {
+        "url": "http://18viet.tk/polezno_zn.php",
+        "reason": "blacklist_tld:.tk",
+        "text_preview": "Полезно знать свой Полезно знать свой Всегда интересно и, возможно, полезно знать свой астрологический прогноз на новый год для того, чтобы продолжать надеяться на лучшее и помочь исполнению заветных мечт. на 2012 год поможет вам заранее узнать, как у вас будут обстоять дела в материальном плане и в личной жизни, ждет ли вас успех или наоборот разочарование. В 2012-м году Водолеев ждет успех в работе, особенно в творческой (если Вы занимаетесь искусством, танцами, фотографией и так далее) новые,"
+      },
+      {
+        "url": "http://lyricstrue.net/artistsongtext/Jadakiss_F&my_Bubba_Sparxxx,_Timbaland/",
+        "reason": "blacklist_keyword:xxx",
+        "text_preview": "Song & Music Lyrics Archive - Artist Jadakiss F/ Bubba Sparxxx, Timbaland Lyrics Home Partners BROWSE LYRICS BY ARTIST A B C D E F J H I G K L M N O P Q R S T U V W X Y Z BY TITLE A B C D E F J H I G K L M N O P Q R S T U V W X Y Z SEARCH MUSIC LYRICS BY AUTHOR BY TITLE Artist/Singer/Band Lyrics (Jadakiss F/ Bubba Sparxxx, Timbaland Lyrics) lyrics archive>> J>> Jadakiss F/ Bubba Sparxxx, Timbaland Singer Lyrics Music Title/Album/Track Music Title/Album/Track They Aint Ready Lyrics All lyrics are"
+      },
+      {
+        "url": "http://genericcialis20.com/pro-poker-nadell-memiliki-rekor-besar-world-series-of-poker-musim-panas-ini/",
+        "reason": "blacklist_keyword:cialis",
+        "text_preview": "One moment, please... Please wait while your request is being verified..."
+      }
+    ],
+    "language_filter": [
+      {
+        "url": "http://interwall.jp/",
+        "reason": "lang:ja(conf=0.98)",
+        "text_preview": "INTERW@// – 佐々木充彦のサイト 本文にジャンプ ABOUT CONTACT INTERW@// ABOUT CONTACT Twitter note © sasaki mitsuhiko 迷子 ひみつの思い出 GIRL ミャクミャクさま キャットウォーク 水上公園 過去の投稿 →",
+        "detected_lang": "ja"
+      },
+      {
+        "url": "http://blog.rursus.de/2014/08/",
+        "reason": "lang:de(conf=0.99)",
+        "text_preview": "August | 2014 | Zwischen und hinter den Zeilen Zwischen und hinter den Zeilen der Tabak, Pharma und Gesundheitslobby Start Autor Kontakt Impressum Faktenbasierte Ausarbeitung zur E-Zigarette Studienliste Datenschutz CDC: \"Vielleicht Nein\" ist das neue \"JA!\" 31. August 2014 / Rursus / 5 Comments Nachdem ich am 28. August mit dem Beitrag „Das CDC belügt die Öffentlichkeit massiv“ die größten Unzulänglichkeiten der Pressemeldung des CDC aufs Korn genommen habe, will ich heute etwas eher diffiziles ",
+        "detected_lang": "de"
+      },
+      {
+        "url": "http://cooks.kz/kak-rabotaet-polnostyu-avtomatizirovannyiy-restoran/",
+        "reason": "lang:ru(conf=1.00)",
+        "text_preview": "Как работает полностью автоматизированный ресторан | Cooks - Повара Казахстана Сайт для тех, кто любит готовить! Посещайте, регистрируйтесь, участвуйте! Сегодня: Вторник, 5 марта 2024, 17:52 Вход Регистрация Мы в сети: Поиск по сайту: Primary Menu Новости Справка Словарь Рецепты Отчеты Вакансии Primary Menu Новости Справка Словарь Рецепты Отчеты Вакансии Вход Регистрация Мы в сети: Новости 1 августа 2017 825 0 1 Как работает полностью автоматизированный ресторан Летом 2015 года в США заработал п",
+        "detected_lang": "ru"
+      },
+      {
+        "url": "http://beket.com.ua/category/avtonomnaja_respublika_krym/dzhankojskij/",
+        "reason": "lang:uk(conf=1.00)",
+        "text_preview": "Архивы Джанкойский район - БекетІсторико-генеалогічна база даних України | Історія. Краєзнавство. Туризм. Генеалогія. Археологія. Меню Закрити меню Історико-генеалогічна база даних України Виберіть регіон АР Крим Вінницька область Волинська область Дніпропетровська область Донецька область Житомирська область Закарпатська область Запорізька область Івано-Франківська область Київська область Кіровоградська область Луганська область Львівська область Миколаївська область Одеська область Полтавська",
+        "detected_lang": "uk"
+      },
+      {
+        "url": "http://econ.korea.ac.kr/econ/?paged=403&cat=5",
+        "reason": "lang:ko(conf=1.00)",
+        "text_preview": "학부 관련 안내 – 페이지 403 – 고려대학교 경제학과 Skip to content HOME | CONTACT US 고려대학교 경제학과 Department of Economics, Korea University 학과소개 학과소개 교수진 소개 강의정보 대학원생 세미나 · 컨퍼런스 세미나 공지 미시세미나 거시세미나 커뮤니티 안내사항 학부공지 대학원공지 채용공지 뉴스레터 자료실 연구 · 파트너 BK21 경제연구소 연구논문 학교안내 고려대학교 입학안내 장학금안내 취업안내 KOR | ENG 학과소개 학과소개 교수진 소개 강의정보 대학원생 세미나 · 컨퍼런스 세미나 공지 미시세미나 거시세미나 커뮤니티 안내사항 학부공지 대학원공지 채용공지 뉴스레터 자료실 연구 · 파트너 BK21 경제연구소 연구논문 학교안내 고려대학교 입학안내 장학금안내 취업안내 Category Archives: 학부 관련 안내 상위_안내사항 [채용] 메디톡스 2018 Real Challenge Internship 인턴 채용 ",
+        "detected_lang": "ko"
+      }
+    ],
+    "gopher_quality": [
+      {
+        "url": "http://afilreis.blogspot.com/2007/12/ike-ad-1956.html",
+        "reason": "too_many_non_alpha_words:0.24",
+        "text_preview": "Al Filreis: Ike ad 1956 skip to main | skip to sidebar Al Filreis RSS feed Thursday, December 20, 2007 Ike ad 1956 If TV ads for presidential campaigns today were as simple and as silly as those put on by Dwight Eisenhower's people in 1956, I wonder if we would all think the politicians had gone insane, or if we would be relieved. Has this business (marketing, really, is what it is) changed so much since '56? Our first and possibly second answers will be yes, but then watch this Ike ad a third t"
+      },
+      {
+        "url": "http://blog.jumalileadership.org/category/bahis/",
+        "reason": "too_short:11<50",
+        "text_preview": "One moment, please... Please wait while your request is being verified..."
+      },
+      {
+        "url": "http://byyourhands.blogspot.com/2015/06/peanut-butter-bacon-and-dark-chocolate.html",
+        "reason": "low_alpha_ratio:0.27<0.5",
+        "text_preview": "By Your Hands: Peanut Butter, Bacon and Dark Chocolate Cookies skip to main | skip to sidebar Home Featured Artist Tutorials Organize It Trash to Treasure Recipes Kidz Korner Jacquie's Upcycle Nation Needles-n-Pins Handmade Spotlight Creative Contributors About Us Submissions Contact Us The Prim Place on Etsy For more info, click on the photo above. Follow Us On Pinterest! Follow us on Twitter! Follow us on Tumblr Total Pageviews Saturday, June 6, 2015 Peanut Butter, Bacon and Dark Chocolate Coo"
+      },
+      {
+        "url": "http://774.saloon.jp/jinny/jinny.cgi?type=edit&page=1&date=04_07_09&ntres=0&word=",
+        "reason": "too_few_stop_words:0<2",
+        "text_preview": "よいこノート +Home +Reload +Menu +Catalog +Search ResSort/ Thread/ Notime/ Write/ Edit/ Howto/ よいこノート 06-June 04-April 03-March 08-August 07-July 03-March 02-February 01-January 11-November 10-October 08-August 07-July 06-June 05-May 04-April 03-March 02-February 01-January 12-December 11-November 10-October 09-September 08-August 07-July 06-June 05-May 04-April 03-March 02-February 01-January 12-December 11-November 10-October 09-September 08-August 07-July 06-June 05-May 04-April 03-March 02-Februar"
+      },
+      {
+        "url": "http://ithare.com/recent-software-jobs/?q=Java+%28programmer+or+developer%29&sl=Virginia&sco=us&gct=17019814&gco=&gl=",
+        "reason": "too_many_ellipsis_lines:0.37",
+        "text_preview": "Recent Java (programmer or developer) jobs - ITHare.com Home » On.System Architecture » On.Security » On.Programming » On Team.Management » IT Hare School » IT Jobs in Your Area » analytics for those Senior Software Developers, Team Leads, Architects, and Project Managers who're Able to Think IT Hare on Soft.ware Much Ado About Hare H.A.R.E. and Bunnylore... Real People Behind the Hare Write for Us Site Announcements Book: D&D of MOGs Table of Contents 1st beta of Vol. I-III 1st beta of Vol. IV-"
+      }
+    ],
+    "c4_quality": [
+      {
+        "url": "http://flood.umd.edu/realtime-TMPA.php?ct=1533862800&var=rain7d&lat1=-19.444445&lat2=158.333334&lon1=103.1875&lon2=658.8",
+        "reason": "low_terminal_punct_ratio:0.00<0.1",
+        "text_preview": "Flood Monitoring with 3B42RT and VIC/DRTR model Pan the map Plot time series for an individual point (lat, lon): (Tips: Zoom in enough to click the point or define it below) T1: T2: Plot different variable: Flood Detection (Depth) Streamflow 12km res. Streamflow above Threshold Streamflow 1km res. Surface storage 1km res. Inundation map 1km res. Routed runoff 12km res. Rainfall (Inst.) Rainfall (1-day) Rainfall (3-day) Rainfall (7-day) Previous time step << >> Next time step Start time: End time"
+      },
+      {
+        "url": "http://forums.equipped.org/ubbthreads.php?ubb=showflat&Number=300173&page=2",
+        "reason": "too_many_short_lines:114/227",
+        "text_preview": "What did you do today to prepare? - ETS Forums Equipped To Survive® Presents The Survival Forum™ Where do you want to go on ETS? ETS Home PageSearch ETSMore FeaturesGear & EquipmentAviation SurvivalMarine SurvivalDoug's KitsDisaster KitsCommercial KitsManufacturersRetail SuppliersSkills & TechniqueSurvival For KidsSchools & CoursesPublicationsSurvival LinksSurvival ForumInteractive FunOther LinksLetters & StuffAbout ETS ETS Foundation Please review The Survival Forum Rules and Courtesies. Active"
+      },
+      {
+        "url": "http://dr.lib.sjp.ac.lk/handle/123456789/759/search-filter?rpp=10&filter_relational_operator_7=equals&filter_relational_",
+        "reason": "contains_javascript",
+        "text_preview": "Filter by: Subject DSpace Repository Filter by: Subject Login DSpace Home → USJP - Academic Journals → Vidyodaya Journal of Science → Volume 09 July 2000 → Filter by: Subject JavaScript is disabled for your browser. Some features of this site may not work without it. A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Starts with Filter by: Subject Now showing items 1-6 Anti-bacterial effect (1) Borassus flabellifer (1) Debittering (1) Flabelliferins (1) Naringinase (1) Palmyrah (1) Now showing "
+      },
+      {
+        "url": "http://jobs.tiagosantos.xyz/2023/05/24/what-is-bumble-dating-what-you-must-know-concerning-the-well-liked-relationship-a",
+        "reason": "contains_lorem_ipsum",
+        "text_preview": "What Is Bumble Dating What You Must Know Concerning The Well-liked Relationship App – Compulsive Work Warning: Undefined array key \"HTTP_REFERER\" in /home/u737914778/domains/tiagosantos.xyz/public_html/compulsive_work/wp-content/themes/tigs/tigs.theme#archive on line 43 Compulsive Work Jobs Companies About us Post a job Find your dream job Get the most exciting jobs from all around the world. Search Location Go Don't know where to start? Trending searches software engineer jornalista arquiteto t"
+      }
+    ],
+    "fineweb_quality": [],
+    "repetition_filter": [
+      {
+        "url": "http://ejpch.org/ejpch/article/view/1649",
+        "reason": "dup_5gram_fraction:0.174>0.15",
+        "text_preview": "“Waves and waves of excruciating pain”: An interpretative phenomenological analysis of women living with endometriosis | Meral | European Journal for Person Centered Healthcare European Journal for Person Centered Healthcare Open Journal Systems Journal Help User Username Password Remember me Subscription Login to verify subscription Notifications View Subscribe Journal Content Search Search Scope All Authors Title Abstract Index terms Full Text Browse By Issue By Author By Title Font Size Infor"
+      },
+      {
+        "url": "http://lach-partnerzy.pl/en/coaching/rodzaje-coachingu/image-coaching-coaching-wizerunku-relooking",
+        "reason": "dup_line_fraction:0.500>0.3",
+        "text_preview": "Database connection error (1): The MySQL adapter 'mysql' is not available. Warning: session_write_close(): Cannot call session save handler in a recursive manner in /libraries/joomla/session/session.php on line 676 Database connection error (1): The MySQL adapter 'mysql' is not available. Warning: Unknown: Cannot call session save handler in a recursive manner in Unknown on line 0 Database connection error (1): The MySQL adapter 'mysql' is not available. Warning: Unknown: Cannot call session sav"
+      },
+      {
+        "url": "http://bylogos.blogspot.com/2017/04/scientific-evidence-and-adam.html",
+        "reason": "dup_8gram_fraction:0.126>0.12",
+        "text_preview": "bylogos: Scientific Evidence and Adam bylogos The purpose of this blog is to promote a Christian worldview, based on the Bible as God's inerrant and fully authoritative Word, in accordance with the Reformed Confessions. Tuesday, April 25, 2017 Scientific Evidence and Adam According to the Bible, all humans stem from Adam (created by God from lifeless clay) and Eve (created by God from Adam's side), who lived less than 10,000 years ago. Mainstream scientists, on the other hand, insist that humans"
+      },
+      {
+        "url": "http://imagingthebible.llgc.org.uk/object/3802",
+        "reason": "dup_6gram_fraction:0.141>0.14",
+        "text_preview": "The Crucifixion with the Virgin Mary and St John - artwork from the Imaging the Bible in Wales database Quick Search Back to last search results Home Search Browse The Crucifixion with the Virgin Mary and St John Photo © Martin Crampin larger image 1924, with fifteenth century fragments Five-light window. Christ on the cross is shown flanked by Mary and John, and also Archbishop Baldwin and Gerald of Wales. technique: stained glass artist: Horace Wilkinson Church of St Mary, Cardigan, Ceredigion"
+      },
+      {
+        "url": "http://davidsonmicroaggressionsproject.org/dmp-podcast-episode-1-a-conversation-about-racism-with-drs-bowles-cho/",
+        "reason": "dup_7gram_fraction:0.132>0.13",
+        "text_preview": "DMP Podcast, Episode 1: Racism, Academic Institutions, & Microaggressions: A Conversation with Drs. Bowles & Cho – Davidson Microaggressions Project About Project Collaborators Anonymity & Identifiers Submit Stories Guest Blogs Resources Podcast Programming DMP FIRST Workshop: Microaggressions in the Classroom, November 2020 For Freedom Lawn Sign Activation Event, Fall 2020 Let’s Talk About It: A Gateway to Anti-Racism, Summer 2020 AAI Collaboration Takeover, Spring 2020 Community Innovation Ins"
+      }
+    ]
+  }
+}

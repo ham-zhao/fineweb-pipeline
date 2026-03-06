@@ -1,0 +1,263 @@
+{
+  "mode": "full_run",
+  "doc_limit": 100000,
+  "total_input": 100000,
+  "url_filter": {
+    "input": 100000,
+    "filtered": 1444,
+    "output": 98556,
+    "reason_breakdown": {
+      "blacklist_keyword": 1377,
+      "ip_address_url": 44,
+      "blacklist_tld": 23
+    },
+    "detail_breakdown": {
+      "blacklist_keyword:porn": 322,
+      "blacklist_keyword:sex": 312,
+      "blacklist_keyword:casino": 253,
+      "blacklist_keyword:poker": 112,
+      "blacklist_keyword:xxx": 73,
+      "blacklist_keyword:adult": 64,
+      "blacklist_keyword:cialis": 59,
+      "ip_address_url": 44,
+      "blacklist_keyword:slots": 34,
+      "blacklist_keyword:nude": 31,
+      "blacklist_keyword:gambling": 29,
+      "blacklist_keyword:viagra": 19,
+      "blacklist_keyword:pharmacy": 18,
+      "blacklist_keyword:naked": 16,
+      "blacklist_tld:.tk": 14,
+      "blacklist_keyword:spam": 11,
+      "blacklist_keyword:payday-loan": 11,
+      "blacklist_keyword:paydayloan": 8,
+      "blacklist_tld:.cf": 5,
+      "blacklist_keyword:malware": 4,
+      "blacklist_tld:.ml": 2,
+      "blacklist_tld:.ga": 2,
+      "blacklist_keyword:phishing": 1
+    }
+  },
+  "language_filter": {
+    "input": 173039,
+    "filtered": 74483,
+    "output": 24073,
+    "language_distribution": {
+      "en": 34406,
+      "zh": 11716,
+      "ru": 10953,
+      "ja": 10112,
+      "fr": 4745,
+      "de": 3681,
+      "es": 3544,
+      "pl": 2550,
+      "ko": 2090,
+      "pt": 1502,
+      "it": 1455,
+      "vi": 1320,
+      "fa": 991,
+      "hu": 825,
+      "cs": 807,
+      "tr": 769,
+      "id": 747,
+      "uk": 650,
+      "nl": 636,
+      "sv": 439
+    },
+    "english_count": 34406,
+    "english_ratio": 0.3491010187101749
+  },
+  "quality_filter": {
+    "input": 41598,
+    "filtered": 17525,
+    "output": 6548,
+    "sub_filters": {
+      "gopher": {
+        "filtered": 7572,
+        "reason_breakdown": {
+          "too_short": 4850,
+          "too_many_non_alpha_words": 2523,
+          "low_alpha_ratio": 145,
+          "avg_sentence_too_short": 20,
+          "too_many_ellipsis_lines": 16,
+          "avg_sentence_too_long": 11,
+          "too_few_stop_words": 7
+        }
+      },
+      "c4": {
+        "filtered": 9953,
+        "reason_breakdown": {
+          "low_terminal_punct_ratio": 6664,
+          "too_many_short_lines": 2314,
+          "contains_javascript": 866,
+          "contains_lorem_ipsum": 99,
+          "too_few_lines": 10
+        }
+      },
+      "fineweb": {
+        "filtered": 0,
+        "reason_breakdown": {}
+      }
+    }
+  },
+  "repetition_filter": {
+    "input": 9848,
+    "filtered": 3300,
+    "output": 3248,
+    "reason_breakdown": {
+      "dup_5gram_fraction": 2819,
+      "dup_line_fraction": 387,
+      "top_4gram_fraction": 27,
+      "dup_6gram_fraction": 26,
+      "dup_7gram_fraction": 11,
+      "top_3gram_fraction": 10,
+      "dup_8gram_fraction": 9,
+      "dup_9gram_fraction": 6,
+      "dup_10gram_fraction": 3,
+      "top_2gram_fraction": 2
+    }
+  },
+  "final_output": 3248,
+  "per_filter_examples": {
+    "url_filter": [
+      {
+        "url": "http://otcviagra.us.com/tag/torturemuseum-com/",
+        "reason": "blacklist_keyword:viagra",
+        "text_preview": "otcviagra.us.com This domain is expired. If you are the owner and you want to renew it please contact your registrar otcviagra.us.com 2024 Copyright. All Rights Reserved. Privacy Policy"
+      },
+      {
+        "url": "http://d.xvideosporn.net/pornstar/Kendall-Karson.html",
+        "reason": "blacklist_keyword:porn",
+        "text_preview": "Kendall Karson tube Videos at X Videos Porn | page #1 Dear surfer, welcome to X Videos Porn! We do hourly updates of fresh porn tubes and awesome sex streaming videos for your enjoyment! Only best and full length movies here! You can see for anything and more! And don't forget to bookmark us! BEST MOVIES | NEW MOVIES | LONGEST MOVIES | CATEGORIES Related: Brunette BlowjobBrunette HardcoreDeepthroat BlowjobBrunette BabeBrunette FuckBrunette PornstarHuge BoobsBabe BlowjobBrunette PussyDoggystyle F"
+      },
+      {
+        "url": "http://forum.recurrence-plot.tk/ucp.php?mode=privacy&sid=32d25681599e92818cb767c337b78b5b",
+        "reason": "blacklist_tld:.tk",
+        "text_preview": "RECURRENCE PLOTS - User Control Panel - Privacy policy RECURRENCE PLOTS Forum about recurrence plot related problems Skip to content Quick links Unanswered topics Active topics Search FAQ Login Register Board index Search Advanced search Search RECURRENCE PLOTS - Privacy policy This policy explains in detail how “RECURRENCE PLOTS” along with its affiliated companies (hereinafter “we”, “us”, “our”, “RECURRENCE PLOTS”, “http://recurrence-plot.tk/forum”) and phpBB (hereinafter “they”, “them”, “thei"
+      },
+      {
+        "url": "http://ru.poker-online.ru/articles/translating.htm",
+        "reason": "blacklist_keyword:poker",
+        "text_preview": "﻿ Покер онлайн. «Большой обман» или Заговор переводчиков против покера? Правила игр Рейтинг рук Техасский холдем Омаха 7карточный стад 5карточный покер Прочие виды игр Типы игр/столов Стратегия Введение Приёмы игры Префлоп Флоп Тёрн и ривер Специфика онлайна Обзоры румов PokerStars GGPoker Party Poker 888 Poker iPoker PokerDom Прочие Статьи Основы новичкам Стратегия - лимит Стратегия - безлимит Стратегия - прочие игры Стратегия - турниры Психология игры Разное Игроки Юмор Информация Советы игрок"
+      },
+      {
+        "url": "http://trtrurw.dayuh.net/online-no-deposit-casinos.html",
+        "reason": "blacklist_keyword:casino",
+        "text_preview": "Online No Deposit Casinos Home Blog Photos About Contact Online No Deposit Casinos Online No Deposit Casinos First Charter Casino Bus Online No Deposit Casinos Paris Resort And Casino Online No Deposit Casinos Paradise 8 Casino Online No Deposit Casinos Casino In South Carolina Online No Deposit Casinos Ip Casino Resort Spa Argosy casino hotel Indian Casinos In Minnesota Online No Deposit Casinos Casino Rama Events Niagara falls ny casino Hollywood Casino Ms Online No Deposit Casinos Memphis Cas"
+      }
+    ],
+    "language_filter": [
+      {
+        "url": "http://arnshaugk.de/index.php?v=0&korb=;;94406464%20Sander,%20Tragische%20Interludium%3C/td%3E%3Ctd%3E22.00;94406464%20S",
+        "reason": "lang:de(conf=0.99)",
+        "text_preview": "Arnshaugk Neues/Suche Anthologien Werkausgaben Lyrik Dramatik Romane Literarische Prosa Philosophie Philologie Religion Geschichte Lokalgeschichte Politik/Wirtschaft Musik und Kunst Naturkunde Autoren Verlag Impressum/AGB ARNSHAUGK VERLAG Weltwitzer Weg 8 · 07806 Neustadt an der Orla Tel. 036481 / 279264 · ePost: »Wir Deutschen fürchten Gott, aber sonst nichts in der Welt; und die Gottesfurcht ist es schon, die uns den Frieden lieben und pflegen läßt.« (Otto von Bismarck) Dieses Feld dient als e",
+        "detected_lang": "de"
+      },
+      {
+        "url": "http://blog.apanymantel.com/tag/flores-a-domicilio-barakaldo/",
+        "reason": "lang:es(conf=0.84)",
+        "text_preview": "flores a domicilio Barakaldo Saltar al contenido Novedades y Noticias de Apanymantel Menú Cerrar Inicio Pastelerías Floristerías Desayunos Catering Tienda Online Etiqueta: flores a domicilio Barakaldo Mariflor, Flores y Plantas. Flores a domicilio en Barakaldo. Ya cubrimos a domicilio la margen Izquierda de Bilbao a través de Flores y Plantas Mariflor de Retuerto en Barakaldo. Disfrutamos mucho de la sesión de fotos con Mariflor ya que fotografiamos infinidad de productos que tenía preparados pa",
+        "detected_lang": "es"
+      },
+      {
+        "url": "http://fa.runner-home.com/basin-waste-odour-trap/",
+        "reason": "lang:fa(conf=0.99)",
+        "text_preview": "کارخانه تولید زباله و تله بوی ، تولید کنندگان - تولید کنندگان زباله حوضه و تله بو خانه محصولات لوله کشی حمام پسماند حوضه و دام بو صافی های سبد و سینک ضایعات و سرریز حمام ضایعات حمام سبک فلنج تخلیه و کابینت متفرقه زباله سینی دوش لوله ای سیستم تهویه مطبوع به درها و پانل ها دسترسی پیدا کنید کلیک فلز GRD های تجاری لوازم جانبی GRD های تجاری سقف دیوارهای کناری / سقفی GRD های تجاری پمپ های حذف میعانات پمپ های میعانات گازی GRD های مسکونی لوازم جانبی GRD تخته پایه کف دیوار کناری / سقف T-BAR لوازم جانبی T",
+        "detected_lang": "fa"
+      },
+      {
+        "url": "http://qzhszx.com/play/1741103195.html",
+        "reason": "lang:zh(conf=0.98)",
+        "text_preview": "《免费舆情网站》 _免费追剧在线观看 - 神马影院 免费舆情网站 地区：其它 类型：电影 时间：2024-03-03 11:34:53 收藏 详情 选集 剧情简介 『免费舆情网站』介绍:1分析一下下降的这部分收录网页页面质量怎样 2想办法提升网页(🍔)页面质量度，内容不要单纯采集，把内容想办法聚(🥈)合3把一些较深的页面想办法在首页做展示，以提升蜘蛛索引4去一些站外平(🎄)台发布链接，吸引蜘蛛爬去 679796次播放 7679人已点赞 927人已收藏 明星主演 克里斯蒂安·康佛瑞,艾米·唐纳德,威尔·福特,侬索·阿诺斯,丹妮亚·拉米雷兹,詹姆斯·布洛林,阿迪勒·阿赫塔尔,斯蒂芬妮娅·欧文,尼尔·桑迪兰兹,约纳斯·基布雷亚布,阿里萨·维拉尼,马龙·威廉姆斯,Naledi Murray,Christopher Sean Cooper Jr.,Caden Dragomer 韩栋,刘萌萌,翟艺舒,洋懿,王李丹妮,王九胜 金山一彦,永夏子,磨赤儿,松林慎司,须贺贵匡 连载中已更新到第57集 第1集 第2集 第3集 第4集 第5集 第6集 第7集 第8集 第9集 第10集 第11集 第12集 第1",
+        "detected_lang": "zh"
+      },
+      {
+        "url": "http://m.kucinare.it/dettagli.aspx?idricetta=4842&idcategoria=24",
+        "reason": "lang:it(conf=0.92)",
+        "text_preview": "Kucinare.it macchina del pane Torta bla bla bla al cioccolato :: di innesco Nella macchina del pane si possono fare anche le bla bla bla ... ingredienti 3 uova medie non fredde di frigo che ci stanno le grandi e le bla bla bla ... 80 gr di Latte a temperatura ambiente che se no bla bla bla ... 100 gr di fecola di patate che fa friabile e bla bla bla ... 150 gr di farina 00 125 gr di zucchero 50 gr di farina manitoba che se no i liquidi bla bla bla ... 80 gr di burro veramente morbido se no poi b",
+        "detected_lang": "it"
+      }
+    ],
+    "gopher_quality": [
+      {
+        "url": "http://en.georgiacorporates.com/1076392/",
+        "reason": "too_many_non_alpha_words:0.23",
+        "text_preview": "GERRYS CAKE SUPPLIES, CORP. – Georgia Companies Directory GeorgiaCorporates.com Year 2018 2017 2016 2015 2014 2013 2012 2011 2010 2009 2008 2007 2006 2005 Home » 2008 » Mar » GERRYS CAKE SUPPLIES, CORP. About GERRYS CAKE SUPPLIES, CORP. Legal entity GERRYS CAKE SUPPLIES, CORP. is a business company registered in Georgia with the business ID \"08023876\". This business type is \"Domestic Profit Corporation\". This business was created on \"3/21/2008\". Current business status is \"Active/Compliance\". Th"
+      },
+      {
+        "url": "http://kegsoftware.com/?C=N;O=A",
+        "reason": "too_short:11<50",
+        "text_preview": "Index of / Index of / Name Last modified Size Description"
+      },
+      {
+        "url": "http://mid-ss-schedule.dce.k12.wi.us/mrbs/report.php?day=6&month=4&year=2023&area=1&room=2",
+        "reason": "low_alpha_ratio:0.43<0.5",
+        "text_preview": "Guidance Conference Room Guidance Conference Room 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029 Help Admin Report Search: Unknown user Report on Meetings Report start date: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027"
+      },
+      {
+        "url": "http://blog.leviwatts.com/2019/07/",
+        "reason": "avg_sentence_too_short:2.2",
+        "text_preview": "Thoughts, Perception, and Point of View: July 2019 Thoughts, Perception, and Point of View Jul 22, 2019 Pathery Map Generator This blog post is a help document for Pathery's Map Editor's Map Generator. This document assumes you already know how to use the editor before it had BlockCode. At time of writing, the feature isn't released yet. 6.6.5.Testmap...:2,y1.,y1.2,s1.1,y1.,y1.4,y2.,y2.1,f1.2,y2.,y2.2,y12.,y1.,r1.,y21.,y12.,y21.,y13.,y2.,r1.,y21. The above is an example of Pathery BlockCode. The"
+      },
+      {
+        "url": "http://brainsandcareers.com/tag/david-cohen",
+        "reason": "too_many_ellipsis_lines:0.31",
+        "text_preview": "David Cohen Archives - Personology and Relational Science Personology and Relational Science Search Primary Menu Skip to content Different Drummers Search for: Tag Archives: David Cohen Entertainment Speed Racer March 29, 2020 David Keirsey Leave a comment View this post on Instagram Wow. So bloody proud to be part of this best picture nominated film!!! Congratulations to the entire crew and cast and production team who put their hearts and souls into this film …. Thank you @james.mangold for br"
+      }
+    ],
+    "c4_quality": [
+      {
+        "url": "http://perch.birdweb.org/Birdweb/bird/common_poorwill",
+        "reason": "too_many_short_lines:55/95",
+        "text_preview": "Common Poorwill Search Home Birds Birding Sites and Ecoregions If you find the information on BirdWeb useful, please consider supporting Birds Connect Seattle. DONATE Family Members Common Nighthawk Common Poorwill Support Birds Connect Seattle Get Involved With Birds Connect Seattle! Go Birding! Volunteer Adult Classes Nature Camp Nature Shop © Greg Lavaty Hover over to view. Click to enlarge. Common Poorwill Phalaenoptilus nuttallii Order: Caprimulgiformes Adapted for aerial insect foraging, m"
+      },
+      {
+        "url": "http://tribesofatlantis.freeforum.ca/ucp.php?i=pm&mode=compose&action=quotepost&p=239",
+        "reason": "low_terminal_punct_ratio:0.08<0.1",
+        "text_preview": "TRIBES OF ATLANTIS FORUMS • User Control Panel • Login TRIBES OF ATLANTIS FORUMS ACADEMY OF ATLANTIS RESEARCH Register Login Delete all board cookies Board index All times are UTC - 1 hour [ DST ] Login Please login in order to access the User Control Panel. In order to login you must be registered. Registering takes only a few moments but gives you increased capabilities. The board administrator may also grant additional permissions to registered users. Before you register please ensure you are"
+      },
+      {
+        "url": "http://code.abettergeek.com/ABG/MacOS-SMB-Fix/issues?q=&type=all&sort=nearduedate&state=open&labels=60%2C137&milestone=0",
+        "reason": "contains_javascript",
+        "text_preview": "Issues - MacOS-SMB-Fix - code.abettergeek.com This website works better with JavaScript. Explore Help Sign In ABG / MacOS-SMB-Fix Watch 1 Star 0 Fork already_forked%!(EXTRA string=MacOS-SMB-Fix) 0 Code Issues Pull Requests project_board Releases Wiki Activity Labels Milestones Search New Issue 0 Open 0 Closed Label Use alt + click/enter to exclude labels All labels bug duplicate enhancement help wanted invalid question wontfix bug duplicate enhancement help wanted invalid question wontfix Milest"
+      },
+      {
+        "url": "http://sciencemission.com/site/index.php?page=news&type=view&id=obesity-diabetes%2Fobesity-impairs-the&filter=11&keep_ha",
+        "reason": "contains_lorem_ipsum",
+        "text_preview": "Obesity impairs the brain's response to nutrients – Science Mission Science Mission Skip navigation More options Login Toggle navigation News Neuroscience/Psychology Cancer Diabetes/Obesity Microbiology & Virology Biochemistry & Molecular Biology Plant Biology Stem cells Heaith Science Technology Immunology Developmental Biology Environmental Science Genetics Hangouts-Panel Discussions Science Hangouts Panel Discussions Science Breakthroughs Publications Presentations Posters Protocols Gallery H"
+      },
+      {
+        "url": "http://ralphspic.com/RALPH%20EMPTY%20Waves%20May%2026-29-2014/index.html",
+        "reason": "too_few_lines:2<3",
+        "text_preview": "﻿ RALPH EMPTY Waves May 26-29-2014 // Provide alternate content for browsers that do not support scripting // or for those that have scripting disabled. Sorry, this photo gallery requires that scripting be enabled on your web browser and that the Adobe Flash Player be installed. Download the Adobe Flash Player"
+      }
+    ],
+    "fineweb_quality": [],
+    "repetition_filter": [
+      {
+        "url": "http://dragons.altervista.org/forum/app.php/help/faq?sid=d24029b41f0c3fbca599afe18fe0755b",
+        "reason": "dup_line_fraction:0.455>0.3",
+        "text_preview": "Shadow Dragons - Frequently Asked Questions Shadow Dragons Fire Within Us Skip to content Search Advanced search Quick links Unanswered topics Active topics Search FAQ Login Register Home Board index Search Frequently Asked Questions Login and Registration Issues Why do I need to register? What is COPPA? Why can’t I register? I registered but cannot login! Why can’t I login? I registered in the past but cannot login any more?! I’ve lost my password! Why do I get logged off automatically? What do"
+      },
+      {
+        "url": "http://archive.looneylabs.com/mailing-lists/something/msg00607.html",
+        "reason": "top_4gram_fraction:0.197>0.16",
+        "text_preview": "Something: Re: [Something] driving annoyances Looney Labs Something Mailing list Archive Previous by Date Previous by Thread Date Index Thread Index Next in Thread Next by Date Re: [Something] driving annoyances From\"Carol Townsend\" <carol.townsend@xxxxxxxxx> DateFri, 20 Jun 2008 23:32:18 -0500 On 6/20/08, Timothy Hunt <games@xxxxxxxxxxxxxx> wrote: So I looked that list. One thing in particular struck me. \"[drivers] who stay in a lane that's closing due to construction until they reach the orang"
+      },
+      {
+        "url": "http://southshoreconnect.ca/2015/03/do-you-know-about-the-leisure-information-network/",
+        "reason": "dup_5gram_fraction:0.248>0.15",
+        "text_preview": "Do you know about the Leisure Information Network? - South Shore Connect.ca Facebook Twitter Google RSS Browse the Recreation Guide Advanced Search Contact Trails List trails by county Lunenburg County Queens County Shelburne County Yarmouth County Explore trails by county Water Routes Lunenburg-Queens Yarmouth-Shelburne Sport Sport makes a difference Community Sport Organizations Provincial Sport Organizations Lunenburg County Multisport Recreation Why recreation matters Funding assistance for "
+      },
+      {
+        "url": "http://fecalface.com/SF/tag/jeff-coad",
+        "reason": "dup_10gram_fraction:0.104>0.1",
+        "text_preview": "') } function openClose(theID) { if (document.getElementById(theID).style.display == \"block\") { document.getElementById(theID).style.display = \"none\" } else { document.getElementById(theID).style.display = \"block\" } } // --> jeff coad | FECAL FACE DOT COM HOME - NEWS - GOOD STUFF - INTERVIEWS - OPENINGS - VIDEO - MUSIC - CALENDAR - ABOUT - RSS - SHOP - FFDG >>>STREET ART || PAINTING || PHOTOGRAPHY || COLLAGE || ILLUSTRATION || DESIGN || GRAFFITI<<< contact us Tag: jeff coad Twin Infinities Curat"
+      },
+      {
+        "url": "http://search-i.info/understanding-these-7-keys-will-definitely-create-your-home-loan-broker-solutions-in-canada-look-im",
+        "reason": "dup_9gram_fraction:0.110>0.11",
+        "text_preview": "Understanding These 7 Keys Will Definitely Create Your Home Loan Broker Solutions In Canada Look Impressive – seach i Skip to navigation Skip to content seach i My WordPress Blog Menu Home Sample Page Home Sample Page Posted on December 3, 2023 December 1, 2023 by admin — Leave a comment Understanding These 7 Keys Will Definitely Create Your Home Loan Broker Solutions In Canada Look Impressive Home loan brokers partner along with mostly all mortgage lending institutions in canada and they bargai"
+      }
+    ]
+  }
+}

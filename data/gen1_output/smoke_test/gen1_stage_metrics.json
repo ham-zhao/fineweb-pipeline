@@ -1,7 +1,7 @@
 [
   {
     "stage": "gen1_input",
-    "timestamp": "2026-03-06T14:30:17.887979",
+    "timestamp": "2026-03-06T17:52:22.479955",
     "doc_count": 12000,
     "retention_rate": 1.0,
     "sample_size": 500,
@@ -15,7 +15,7 @@
   },
   {
     "stage": "gen1_after_lang",
-    "timestamp": "2026-03-06T14:30:19.052091",
+    "timestamp": "2026-03-06T17:52:23.524672",
     "doc_count": 2912,
     "retention_rate": 0.2427,
     "sample_size": 500,
@@ -29,7 +29,7 @@
   },
   {
     "stage": "gen1_after_quality",
-    "timestamp": "2026-03-06T14:30:20.433008",
+    "timestamp": "2026-03-06T17:52:24.841616",
     "doc_count": 832,
     "retention_rate": 0.0693,
     "sample_size": 500,
@@ -43,7 +43,7 @@
   },
   {
     "stage": "gen1_output",
-    "timestamp": "2026-03-06T14:30:21.928005",
+    "timestamp": "2026-03-06T17:52:26.267214",
     "doc_count": 409,
     "retention_rate": 0.0341,
     "sample_size": 409,
