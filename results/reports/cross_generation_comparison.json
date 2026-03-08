@@ -32,13 +32,13 @@
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 56,
-      "quality_mean": 0.7846718941416059,
-      "quality_p50": 0.7902910709381104,
-      "quality_p90": 0.8576495945453644,
-      "unigram_diversity": 0.2292,
-      "trigram_diversity": 0.9418,
-      "avg_tokens": 1571.0535714285713
+      "doc_count": 205,
+      "quality_mean": 0.7475320946879503,
+      "quality_p50": 0.7524977326393127,
+      "quality_p90": 0.8310397148132324,
+      "unigram_diversity": 0.1676,
+      "trigram_diversity": 0.9138,
+      "avg_tokens": 1812.35
     }
   },
   "full_run": {
@@ -54,10 +54,10 @@
     },
     "gen1": {
       "name": "第一代(Heuristic)",
-      "doc_count": 2000,
-      "quality_mean": 0.6900027541816235,
-      "quality_p50": 0.6980251669883728,
-      "quality_p90": 0.8129646122455597,
+      "doc_count": 3242,
+      "quality_mean": 0.6891679636201029,
+      "quality_p50": 0.698678582906723,
+      "quality_p90": 0.8116120100021362,
       "unigram_diversity": 0.1826,
       "trigram_diversity": 0.8982,
       "avg_tokens": 1312.35
@@ -74,13 +74,13 @@
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 750,
-      "quality_mean": 0.7698683909376463,
-      "quality_p50": 0.7794894576072693,
-      "quality_p90": 0.8633793771266938,
-      "unigram_diversity": 0.1553,
-      "trigram_diversity": 0.9028,
-      "avg_tokens": 1530.71
+      "doc_count": 1725,
+      "quality_mean": 0.748980416888776,
+      "quality_p50": 0.7520349025726318,
+      "quality_p90": 0.8358084678649902,
+      "unigram_diversity": 0.1587,
+      "trigram_diversity": 0.9161,
+      "avg_tokens": 1491.96
     }
   }
 }
