@@ -173,6 +173,11 @@ class ClassifierEnsemble:
 
         return ensemble_scores_continuous, individual_scores
 
+    def score(self, text: str) -> float:
+        """单文档打分（用于改写后质量验证）。"""
+        scores, _ = self.score_batch([text])
+        return float(scores[0])
+
     def compare_coverage(
         self,
         texts: List[str],

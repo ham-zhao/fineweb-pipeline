@@ -7,7 +7,7 @@ api_key: "YOUR_API_KEY_HERE"  # 实际密钥请存入 .env 文件或环境变量
 
 # 各 provider 的模型配置
 anthropic:
-  model: "claude-haiku-4-5-20251001"   # 改写任务用 Haiku，速度快、成本低
+  model: "claude-opus-4-6"   # 改写任务用 Opus，最高质量
   max_tokens: 1024
   temperature: 0.3   # 低温度保证改写质量稳定
 

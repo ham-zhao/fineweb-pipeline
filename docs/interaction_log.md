@@ -138,3 +138,31 @@ fineweb-pipeline/
   1. LLM 改写未执行（API Key 未配置），Gen3 数据回收能力未完全展示
   2. 语言过滤 75.4%（CC WET 英文仅 ~25%），如需多语种需调整
   3. 评估分类器区分度有限（quality_mean 差异仅 0.03）
+
+---
+
+### 交互 7: NB02-04 五维度量 + 子过滤器详细分析 + 路径修复
+- **类型**：功能增强 + Bug 修复
+- **用户需求**：
+  1. NB02-04 全部增加五维数据质量 Profile（规模/质量/语言/多样性/毒性）
+  2. NB02 需要每个大类和子类过滤器的详细分析：分子/分母、预期值、3-5 个样例
+  3. 子过滤器级别的贡献度表（Gopher/C4/FineWeb 分别多少）
+
+- **关键变更**：
+  1. **新增评估模块**：`baseline_profiler.py`（五维 Profile）、`kenlm_scorer.py`、`language_detector.py`
+  2. **新增分析脚本**：`gen1_filter_analysis.py`（逐过滤器分析 + 样例抽取）
+  3. **Pipeline 增强**：`pipeline.py` 新增 `reason_breakdown` / `detail_breakdown` 统计
+  4. **NB02 全面重写**：23 cells，双模式对比，预期值 vs 实际值，子过滤器贡献表
+  5. **NB03/NB04 路径修复**：Cell A 从硬编码 `../data/gen2_output/gen2_stats.json` 改为 `get_output_path()` 动态路径
+  6. **NB03/NB04 五维 Profile**：新增 Cell Group E/D，Gen1→Gen2/Gen3 五维演进对比
+
+- **Bug 修复**：
+  - NB03/NB04 `FileNotFoundError`：硬编码路径不含 run_mode 子目录
+  - `_gen_nb02.py` 中文引号导致 SyntaxError：`"平庸内容"` → 改用单引号包裹
+  - audit CSV 含无效 UTF-8 字节：改用 `gen1_filter_analysis.py` + `clean_text_for_json()`
+
+- **执行验证**：
+  - NB02: 23 cells 全部有 output，五维 Profile 输入 PPL 2150 → 输出 PPL 887
+  - NB03: 14 cells 全部有 output，Gen2 PPL 644 vs Gen1 1042（better），tail 53.7%→17.1%
+  - NB04: 12 cells 全部有 output，路由漏斗 + 五维对比完整
+  - 已 commit + push：`f2294e9`

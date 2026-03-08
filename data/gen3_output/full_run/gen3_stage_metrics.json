@@ -1,7 +1,7 @@
 [
   {
     "stage": "gen3_input",
-    "timestamp": "2026-03-06T16:11:28.401889",
+    "timestamp": "2026-03-08T09:19:25.519445",
     "doc_count": 3242,
     "retention_rate": 1.0,
     "sample_size": 2000,
@@ -15,16 +15,16 @@
   },
   {
     "stage": "gen3_output",
-    "timestamp": "2026-03-06T16:11:32.709667",
-    "doc_count": 60,
-    "retention_rate": 0.0185,
-    "sample_size": 60,
-    "unigram_unique_ratio": 0.2039,
-    "bigram_unique_ratio": 0.7029,
-    "trigram_unique_ratio": 0.9376,
-    "estimated_total_tokens": 123353,
-    "avg_tokens_per_doc": 2055.9,
-    "domain_entropy": 5.6332,
-    "n_unique_domains": 59
+    "timestamp": "2026-03-08T09:20:50.037592",
+    "doc_count": 133,
+    "retention_rate": 0.041,
+    "sample_size": 133,
+    "unigram_unique_ratio": 0.2146,
+    "bigram_unique_ratio": 0.7095,
+    "trigram_unique_ratio": 0.9387,
+    "estimated_total_tokens": 196583,
+    "avg_tokens_per_doc": 1478.1,
+    "domain_entropy": 5.6067,
+    "n_unique_domains": 129
   }
 ]

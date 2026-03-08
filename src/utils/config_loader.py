@@ -10,6 +10,12 @@ import yaml
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent.parent.parent / ".env")
+except ImportError:
+    pass
+
 
 # 项目根目录（从本文件位置推断）
 PROJECT_ROOT = Path(__file__).parent.parent.parent

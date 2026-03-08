@@ -2,56 +2,65 @@
   "routing": {
     "total": 3242,
     "high_quality": {
-      "count": 6,
-      "rate": 0.0019
+      "count": 12,
+      "rate": 0.0037
     },
     "heuristic_passed": {
-      "count": 54,
-      "rate": 0.0167
+      "count": 55,
+      "rate": 0.017
     },
     "heuristic_filtered": {
       "count": 2158,
       "rate": 0.6656
     },
     "to_rephrase": {
-      "count": 167,
-      "rate": 0.0515
+      "count": 163,
+      "rate": 0.0503
     },
     "discarded": {
-      "count": 857,
-      "rate": 0.2643
+      "count": 854,
+      "rate": 0.2634
     },
-    "total_kept": 60
+    "total_kept": 67
   },
   "bypass_analysis": {
-    "high_quality_count": 6,
-    "would_be_filtered_count": 6,
+    "high_quality_count": 12,
+    "would_be_filtered_count": 12,
     "would_be_filtered_rate": 1.0,
     "sample_false_kills": [
+      {
+        "text": "1 Chronicles (ASV) - Chapter 13\n1\nAnd David consulted with the captains of thousands and of hundreds, even with every leader.\n2\nAnd David said unto all the assembly of Israel, If it seem good unto you",
+        "reason": "c4:low_terminal_punct_ratio:0.39<0.7"
+      },
       {
         "text": "Chief Bowles Monument\nChief Bowles Monument, 1991\nThis 1936 Texas historical marker is out in the middle of a cow pasture with the looming high-power electrical structure in the background. It is loca",
         "reason": "c4:low_terminal_punct_ratio:0.33<0.7"
       },
       {
-        "text": "FIDE Women Grand Prix\nPairings & Results\nStandings\nCross Tables\nGames (PGN)\nELO\nMain Page\nSchedule\nPlayers\nOrganisers\nContact\nChengdu - the Chess City\nChengdu, a renowned historical and cultural city,",
-        "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
+        "text": "Let it go\nJamila Drott\nLet it go\nLet it go – Galleri Thomassen 2019\nIn her first solo exhibition at Galleri Thomassen, Jamila Drott shows works in metal that operate on the border between painting and",
+        "reason": "c4:low_terminal_punct_ratio:0.43<0.7"
       },
       {
-        "text": "Deliverance (1972) | The Terror Trap\n26 February 2024\nDeliverance (1972)\n109 min.\nDirected by John Boorman.\nWith Jon Voight, Burt Reynolds, Ned Beatty, Ronny Cox, James Dickey, Billy McKinney, Herbert",
-        "reason": "c4:low_terminal_punct_ratio:0.69<0.7"
-      },
-      {
-        "text": "﻿ Xian Zhen 先軫 (www.chinaknowledge.de)\nChinaKnowledge.de -\nAn Encyclopaedia on Chinese History, Literature and Art\nHOME\nHistory/Politics\nLiterature\nLanguage/Script\nArt\nPhilosophy\nReligions\nXian Zhen 先",
+        "text": "techniques | Insight wave\nInsight wave\nSearch\nMain menu\nSkip to primary content\nSkip to secondary content\nHome\nContact us\nTag Archives: techniques\nCreative Arts Therapy Techniques: Exploring The Heali",
         "reason": "c4:low_terminal_punct_ratio:0.26<0.7"
       },
       {
-        "text": "Conophytum longibracteatum\nConophytum longibracteatum (Brakfontein)\nThis was lost to cultivation for many years until rediscovered by Peter Bruyns in the 1990s. It grows south of Komaggas which is the",
-        "reason": "c4:low_terminal_punct_ratio:0.33<0.7"
+        "text": "Our History - Blue Planet Strategy\nHistory\nPeople\nOur Work\nSaving Right Whales\nWhale-safe Fishing Gear\nStrikeMaps\nMarine National Monument\nOcean’s Food Chain\nClimate Change on Marine Mammals\nOceansWid",
+        "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
       }
     ]
   },
   "rephrasing": {
-    "skipped": true
+    "total_input": 163,
+    "success": 66,
+    "failed": 97,
+    "quality_filtered": 0,
+    "total_api_calls": 163,
+    "status_counts": {
+      "empty_result": 97,
+      "success": 66
+    },
+    "success_rate": 0.4049
   },
-  "elapsed_seconds": 4.3129448890686035
+  "elapsed_seconds": 84.5230541229248
 }

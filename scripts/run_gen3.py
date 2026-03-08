@@ -84,7 +84,34 @@ def main():
         print(f"  ⚠️  Gen2 分类器不存在 ({clf1_path})，请先运行 run_gen2.py")
         print(f"     将只使用 TF-IDF+LR 分类器继续...")
 
-    # 分类器 2: TF-IDF + LR
+    # 分类器 2: fasttext_edu (教育类正样本: Cosmopedia)
+    edu_path = Path("data/reference/cosmopedia_edu.jsonl")
+    if edu_path.exists():
+        edu_texts = []
+        with open(edu_path) as f:
+            for i, line in enumerate(f):
+                if i >= 5000:
+                    break
+                try:
+                    edu_texts.append(json.loads(line)["text"])
+                except Exception:
+                    pass
+        if edu_texts:
+            negative_sample_edu = [d["text"] for d in docs[:min(len(edu_texts), 5000)]]
+            clf_edu = Gen2QualityClassifier()
+            clf_edu.train(
+                positive_texts=edu_texts,
+                negative_texts=negative_sample_edu,
+                output_path="results/quality_scores/gen3_edu_classifier.bin",
+                dim=64,
+                wordNgrams=2,
+            )
+            ensemble.add_fasttext_classifier("fasttext_edu", clf_edu, weight=0.4)
+    else:
+        print(f"  ⚠️  Cosmopedia 教育文本不存在 ({edu_path})，跳过 fasttext_edu")
+        print(f"     运行 bash scripts/download_sample.sh 下载")
+
+    # 分类器 3: TF-IDF + LR (Wikipedia 正样本)
     wiki_texts = []
     wiki_path = Path("data/reference/wikipedia_abstracts.jsonl")
     if wiki_path.exists():
@@ -104,7 +131,7 @@ def main():
             positive_texts=wiki_texts,
             negative_texts=negative_sample,
             model_path="results/quality_scores/gen3_tfidf_lr.pkl",
-            weight=0.3,
+            weight=0.2,
         )
 
     # ── 初始化改写器 ─────────────────────────────────────────

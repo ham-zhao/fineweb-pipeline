@@ -32,13 +32,13 @@
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 78,
-      "quality_mean": 0.3757307835114308,
-      "quality_p50": 0.505191445350647,
-      "quality_p90": 0.5281627178192139,
-      "unigram_diversity": 0.3767,
-      "trigram_diversity": 0.952,
-      "avg_tokens": 904.1794871794872
+      "doc_count": 251,
+      "quality_mean": 0.5180828511952404,
+      "quality_p50": 0.5170351266860962,
+      "quality_p90": 0.5249638557434082,
+      "unigram_diversity": 0.1604,
+      "trigram_diversity": 0.9064,
+      "avg_tokens": 1404.93
     }
   },
   "full_run": {
@@ -74,13 +74,13 @@
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 60,
-      "quality_mean": 0.5208159695068996,
-      "quality_p50": 0.5199871957302094,
-      "quality_p90": 0.5276364862918854,
-      "unigram_diversity": 0.2039,
-      "trigram_diversity": 0.9376,
-      "avg_tokens": 2055.883333333333
+      "doc_count": 133,
+      "quality_mean": 0.4525291207141446,
+      "quality_p50": 0.5181686282157898,
+      "quality_p90": 0.5285703539848328,
+      "unigram_diversity": 0.2146,
+      "trigram_diversity": 0.9387,
+      "avg_tokens": 1535.55
     }
   }
 }

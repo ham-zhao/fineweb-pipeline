@@ -10,7 +10,7 @@ smoke_test:
   audit_sample_size: 50
   llm_label_count: 500
   llm_label_concurrency: 10
-  rewrite_count: 100
+  rewrite_count: 99999   # 全量改写：不限制数量，所有 LQ 文档均送去改写
   rewrite_ratio: 0.25
   rewrite_concurrency: 10
   description: "20-30分钟跑完，验证代码 + 产出有统计意义的对比数据"
@@ -21,7 +21,7 @@ full_run:
   audit_sample_size: 100
   llm_label_count: 1000
   llm_label_concurrency: 20
-  rewrite_count: 500
+  rewrite_count: 99999   # 全量改写：不限制数量，所有 LQ 文档均送去改写
   rewrite_ratio: 0.10
   rewrite_concurrency: 20
   description: "2-3小时跑完，产出最终展示级结果"

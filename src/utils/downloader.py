@@ -1,6 +1,6 @@
 """
 src/utils/downloader.py
-数据下载工具：Common Crawl WARC、Wikipedia 参考数据集。
+数据下载工具：Common Crawl WARC、Wikipedia 参考数据集、Cosmopedia 教育类文本。
 """
 
 import os
@@ -132,4 +132,52 @@ def download_wikipedia_abstracts(dest_dir: Path, max_docs: int = 10000) -> Path:
                 break
 
     print(f"  ✅ Wikipedia 摘要: {count:,} 条 → {output_path}")
+    return output_path
+
+
+def download_cosmopedia_samples(dest_dir: Path, max_docs: int = 5000) -> Path:
+    """
+    下载 Cosmopedia 教育类文本（Gen3 fasttext_edu 分类器的正样本）。
+    使用 HuggingFace Cosmopedia 数据集的 openstax 子集（合成教科书文本）。
+
+    Cosmopedia 由 Mixtral-8x7B 生成，包含教科书、课程、教程等教育类内容。
+    选择 openstax 子集是因为它最接近真实教科书风格（基于 OpenStax 开源教材）。
+
+    Returns:
+        保存的 JSONL 文件路径
+    """
+    import json
+    dest_dir = Path(dest_dir)
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    output_path = dest_dir / "cosmopedia_edu.jsonl"
+
+    if output_path.exists():
+        print(f"  ⏭️  Cosmopedia 教育文本已存在: {output_path}")
+        return output_path
+
+    print(f"📥 下载 Cosmopedia 教育文本（前 {max_docs:,} 条）...")
+    from datasets import load_dataset
+
+    dataset = load_dataset(
+        "HuggingFaceTB/cosmopedia",
+        "openstax",
+        split="train",
+        streaming=True,
+    )
+
+    count = 0
+    with open(output_path, "w", encoding="utf-8") as f:
+        for doc in tqdm(dataset, total=max_docs, desc="  📖 Cosmopedia"):
+            text = doc.get("text", "").strip()
+            if len(text) > 200:
+                f.write(json.dumps({
+                    "text": text,
+                    "source": "cosmopedia_openstax",
+                    "prompt": doc.get("prompt", ""),
+                }, ensure_ascii=False) + "\n")
+                count += 1
+            if count >= max_docs:
+                break
+
+    print(f"  ✅ Cosmopedia 教育文本: {count:,} 条 → {output_path}")
     return output_path

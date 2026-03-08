@@ -19,7 +19,7 @@ classifier_ensemble:
       type: "fasttext"
       model_path: "results/quality_scores/gen3_edu_classifier.bin"
       weight: 0.4
-      positive_sources: ["wikipedia", "textbooks"]  # 教育质量风格
+      positive_sources: ["cosmopedia_openstax"]  # 合成教科书文本（Mixtral-8x7B 生成）
 
     - name: "tfidf_lr"
       type: "sklearn"

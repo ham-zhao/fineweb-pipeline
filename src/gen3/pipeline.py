@@ -106,10 +106,16 @@ class Gen3Pipeline:
 
         if self.rephraser and buckets["to_rephrase"]:
             rewrite_concurrency = self.run_cfg.get("rewrite_concurrency", 1)
+            min_quality = self.pipe_cfg.get("synthetic_rephrasing", {}).get(
+                "post_rephrase_filter", {}
+            ).get("min_quality_score", 0.4)
             print(f"\n  Step 3: Synthetic rewrite (max {self.rewrite_count}, concurrency={rewrite_concurrency})...")
+            print(f"     Post-rephrase quality gate: ensemble score >= {min_quality}")
             rephrased_docs, rephrasing_stats = self.rephraser.rephrase_batch(
                 buckets["to_rephrase"],
                 max_count=self.rewrite_count,
+                eval_classifier=self.ensemble,
+                min_quality_after=min_quality,
                 concurrency=rewrite_concurrency,
             )
             print(f"     改写成功: {len(rephrased_docs)} 条")

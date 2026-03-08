@@ -67,6 +67,24 @@ output_path = download_wikipedia_abstracts(
 print(f"✅ Wikipedia 摘要: {output_path}")
 PYEOF
 
+# ── 3. 教育类正样本（Cosmopedia）────────────────────────
+echo ""
+echo "3️⃣  下载 Cosmopedia 教育类文本（Gen3 分类器正样本）..."
+echo "   使用 HuggingFace Cosmopedia 数据集 openstax 子集"
+
+python3 - <<'PYEOF'
+import sys
+sys.path.insert(0, ".")
+from src.utils.downloader import download_cosmopedia_samples
+from pathlib import Path
+
+output_path = download_cosmopedia_samples(
+    dest_dir=Path("data/reference"),
+    max_docs=5000,
+)
+print(f"✅ Cosmopedia 教育文本: {output_path}")
+PYEOF
+
 # ── 完成 ─────────────────────────────────────────────────
 echo ""
 echo "=================================================="
