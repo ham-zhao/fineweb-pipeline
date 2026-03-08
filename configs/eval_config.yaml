@@ -5,21 +5,21 @@
 # 评估专用质量分类器（与 pipeline 分类器独立！）
 eval_classifier:
   model_path: "results/quality_scores/eval_classifier.bin"
-  # 正样本：Wikipedia 摘要（纯知识密度高的内容）
+  # 正样本：独立 Wikipedia 数据集（与 pipeline 分类器用的 wikipedia_abstracts.jsonl 不重叠）
   positive_sources:
     - type: "wikipedia"
-      path: "data/reference/wikipedia_abstracts.jsonl"
-  # 负样本：原始 Common Crawl
+      path: "data/reference/wikipedia_abstracts_eval.jsonl"
+  # 负样本：原始 Common Crawl（与 pipeline 共用，IID 采样影响可忽略）
   negative_sources:
     - type: "common_crawl_raw"
       path: "data/raw"
-  # fastText 参数（与 pipeline 分类器用不同超参，进一步确保独立性）
+  # fastText 参数（与 pipeline 分类器用不同超参 + 不同正样本，确保独立性）
   fasttext:
     dim: 32           # 维度更低（与 gen2 的 64 不同）
-    wordNgrams: 1     # 只用 unigram（与 gen2 的 2 不同）
+    wordNgrams: 3     # 用 trigram（与 gen2 的 bigram 不同，且保留短语级特征）
     lr: 0.05
     epoch: 3
-    minCount: 10
+    minCount: 5       # 降低阈值，避免词汇表过小
 
 # Perplexity 打分器
 perplexity:

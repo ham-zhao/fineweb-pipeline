@@ -3,9 +3,9 @@
     "raw": {
       "name": "原始数据",
       "doc_count": 500,
-      "quality_mean": 0.4945494681596756,
-      "quality_p50": 0.5096708536148071,
-      "quality_p90": 0.5205635607242585,
+      "quality_mean": 0.17636915457248686,
+      "quality_p50": 0.0,
+      "quality_p90": 0.657111930847168,
       "unigram_diversity": 0.2598,
       "trigram_diversity": 0.7775,
       "avg_tokens": 3879.22
@@ -13,9 +13,9 @@
     "gen1": {
       "name": "第一代(Heuristic)",
       "doc_count": 409,
-      "quality_mean": 0.5158478136750481,
-      "quality_p50": 0.5153595209121704,
-      "quality_p90": 0.5217953324317932,
+      "quality_mean": 0.6561244820907238,
+      "quality_p50": 0.6880223751068115,
+      "quality_p90": 0.8013146877288818,
       "unigram_diversity": 0.1721,
       "trigram_diversity": 0.8861,
       "avg_tokens": 1536.55
@@ -23,31 +23,31 @@
     "gen2": {
       "name": "第二代(Model-based)",
       "doc_count": 41,
-      "quality_mean": 0.5245851816200628,
-      "quality_p50": 0.5243867635726929,
-      "quality_p90": 0.5286399722099304,
+      "quality_mean": 0.819212621305047,
+      "quality_p50": 0.8198045492172241,
+      "quality_p90": 0.886471688747406,
       "unigram_diversity": 0.3003,
       "trigram_diversity": 0.9484,
       "avg_tokens": 1140.121951219512
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 251,
-      "quality_mean": 0.5180828511952404,
-      "quality_p50": 0.5170351266860962,
-      "quality_p90": 0.5249638557434082,
-      "unigram_diversity": 0.1604,
-      "trigram_diversity": 0.9064,
-      "avg_tokens": 1404.93
+      "doc_count": 260,
+      "quality_mean": 0.7289322628424718,
+      "quality_p50": 0.7378055453300476,
+      "quality_p90": 0.8193121492862702,
+      "unigram_diversity": 0.166,
+      "trigram_diversity": 0.9076,
+      "avg_tokens": 1527.15
     }
   },
   "full_run": {
     "raw": {
       "name": "原始数据",
       "doc_count": 2000,
-      "quality_mean": 0.49030850452184677,
-      "quality_p50": 0.5092594921588898,
-      "quality_p90": 0.5207120776176453,
+      "quality_mean": 0.16795620512962342,
+      "quality_p50": 0.0,
+      "quality_p90": 0.6578812062740326,
       "unigram_diversity": 0.2598,
       "trigram_diversity": 0.7775,
       "avg_tokens": 3879.22
@@ -55,9 +55,9 @@
     "gen1": {
       "name": "第一代(Heuristic)",
       "doc_count": 2000,
-      "quality_mean": 0.5161218010783195,
-      "quality_p50": 0.5156329870223999,
-      "quality_p90": 0.5223641991615295,
+      "quality_mean": 0.658853900283575,
+      "quality_p50": 0.6917446553707123,
+      "quality_p90": 0.8191691935062408,
       "unigram_diversity": 0.1826,
       "trigram_diversity": 0.8982,
       "avg_tokens": 1312.35
@@ -65,9 +65,9 @@
     "gen2": {
       "name": "第二代(Model-based)",
       "doc_count": 325,
-      "quality_mean": 0.5246111864310045,
-      "quality_p50": 0.5241769552230835,
-      "quality_p90": 0.529226791858673,
+      "quality_mean": 0.8304480343598586,
+      "quality_p50": 0.8421036005020142,
+      "quality_p90": 0.8904602289199829,
       "unigram_diversity": 0.1822,
       "trigram_diversity": 0.9049,
       "avg_tokens": 1116.6
@@ -75,9 +75,9 @@
     "gen3": {
       "name": "第三代(Hybrid)",
       "doc_count": 133,
-      "quality_mean": 0.4525291207141446,
-      "quality_p50": 0.5181686282157898,
-      "quality_p90": 0.5285703539848328,
+      "quality_mean": 0.4375366308635339,
+      "quality_p50": 0.701555609703064,
+      "quality_p90": 0.8493634819984436,
       "unigram_diversity": 0.2146,
       "trigram_diversity": 0.9387,
       "avg_tokens": 1535.55

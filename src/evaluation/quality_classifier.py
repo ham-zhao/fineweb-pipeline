@@ -12,10 +12,12 @@ src/evaluation/quality_classifier.py
   第二代用 fastText 过滤后，再用同一个模型打分，
   分数必然很高——但这只说明分类器自洽，不说明数据真的好。
 
-独立性措施（与 gen2 分类器的差异）：
-  1. 正样本来源相同（均为 Wikipedia），但训练数据不重叠
-  2. fastText 超参不同：dim=32（gen2 用 64），wordNgrams=1（gen2 用 2）
-  3. 独立训练，不参与任何过滤决策
+独立性措施（与 pipeline 分类器的差异）：
+  1. 正样本数据集独立：使用 wikipedia_abstracts_eval.jsonl
+     （pipeline 分类器使用 wikipedia_abstracts.jsonl，两者不重叠）
+  2. fastText 超参不同：dim=32（pipeline 用 64），wordNgrams=3（pipeline 用 2）
+  3. 独立训练（由 scripts/run_gen2.py 中的 train_eval_classifier() 完成），
+     不参与任何过滤决策
 ─────────────────────────────────────────────
 """
 
@@ -57,12 +59,12 @@ class EvalQualityClassifier:
         positive_texts: List[str],
         negative_texts: List[str],
         output_path: str,
-        # fastText 超参（与 gen2 分类器刻意不同）
+        # fastText 超参（与 pipeline 分类器刻意不同）
         dim: int = 32,
-        wordNgrams: int = 1,
+        wordNgrams: int = 3,
         lr: float = 0.05,
         epoch: int = 3,
-        minCount: int = 10,
+        minCount: int = 5,
     ) -> Dict:
         """
         训练评估专用分类器。

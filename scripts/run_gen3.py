@@ -75,14 +75,38 @@ def main():
         union_threshold=pipe_cfg.get("classifier_ensemble", {}).get("union_threshold", 0.5),
     )
 
-    # 分类器 1: DCLM 风格 fastText
-    clf1_path = "results/quality_scores/gen2_classifier.bin"
-    if Path(clf1_path).exists():
-        clf1 = Gen2QualityClassifier(model_path=clf1_path)
-        ensemble.add_fasttext_classifier("fasttext_dclm", clf1, weight=0.4)
+    # ── 准备统一负样本（Gen1 输出 = Gen3 的实际输入数据）──────
+    # 三个集成成员统一使用 Gen1 输出做负样本，确保分数校准一致。
+    # 如果各分类器用不同质量的负样本（如 raw CC WET vs Gen1 输出），
+    # 分数尺度会不一致，union 策略下会导致某个分类器支配所有决策。
+    negative_texts_unified = [d["text"] for d in docs[:5000]]
+    print(f"  📊 统一负样本: Gen1 输出 {len(negative_texts_unified):,} 条")
+
+    # 分类器 1: DCLM 风格 fastText（Gen3 独立训练，不复用 Gen2 模型）
+    # Gen2 的 gen2_classifier.bin 用 raw CC WET 做负样本，校准基线与 Gen3 不同，
+    # 因此 Gen3 需要独立训练一个 dclm 风格分类器，使用 Gen1 输出做负样本。
+    wiki_texts = []
+    wiki_path = Path("data/reference/wikipedia_abstracts.jsonl")
+    if wiki_path.exists():
+        with open(wiki_path) as f:
+            for line in f:
+                try:
+                    wiki_texts.append(json.loads(line)["text"])
+                except Exception:
+                    pass
+
+    if wiki_texts:
+        clf_dclm = Gen2QualityClassifier()
+        clf_dclm.train(
+            positive_texts=wiki_texts[:5000],
+            negative_texts=negative_texts_unified,
+            output_path="results/quality_scores/gen3_dclm_classifier.bin",
+            dim=64,
+            wordNgrams=2,
+        )
+        ensemble.add_fasttext_classifier("fasttext_dclm", clf_dclm, weight=0.4)
     else:
-        print(f"  ⚠️  Gen2 分类器不存在 ({clf1_path})，请先运行 run_gen2.py")
-        print(f"     将只使用 TF-IDF+LR 分类器继续...")
+        print(f"  ⚠️  Wikipedia 不存在 ({wiki_path})，跳过 fasttext_dclm")
 
     # 分类器 2: fasttext_edu (教育类正样本: Cosmopedia)
     edu_path = Path("data/reference/cosmopedia_edu.jsonl")
@@ -97,11 +121,10 @@ def main():
                 except Exception:
                     pass
         if edu_texts:
-            negative_sample_edu = [d["text"] for d in docs[:min(len(edu_texts), 5000)]]
             clf_edu = Gen2QualityClassifier()
             clf_edu.train(
                 positive_texts=edu_texts,
-                negative_texts=negative_sample_edu,
+                negative_texts=negative_texts_unified,
                 output_path="results/quality_scores/gen3_edu_classifier.bin",
                 dim=64,
                 wordNgrams=2,
@@ -112,24 +135,11 @@ def main():
         print(f"     运行 bash scripts/download_sample.sh 下载")
 
     # 分类器 3: TF-IDF + LR (Wikipedia 正样本)
-    wiki_texts = []
-    wiki_path = Path("data/reference/wikipedia_abstracts.jsonl")
-    if wiki_path.exists():
-        with open(wiki_path) as f:
-            for i, line in enumerate(f):
-                if i >= 2000:
-                    break
-                try:
-                    wiki_texts.append(json.loads(line)["text"])
-                except Exception:
-                    pass
-
     if wiki_texts:
-        negative_sample = [d["text"] for d in docs[:min(len(wiki_texts), 2000)]]
         ensemble.train_tfidf_lr(
             name="tfidf_lr_wiki",
-            positive_texts=wiki_texts,
-            negative_texts=negative_sample,
+            positive_texts=wiki_texts[:5000],
+            negative_texts=negative_texts_unified,
             model_path="results/quality_scores/gen3_tfidf_lr.pkl",
             weight=0.2,
         )

@@ -35,6 +35,7 @@ from src.gen1.pipeline import read_jsonl, read_warc_texts, save_jsonl, Gen1Pipel
 from src.gen2.quality_classifier import Gen2QualityClassifier
 from src.gen2.pipeline import Gen2Pipeline
 from src.evaluation.stage_tracker import StageTracker
+from src.evaluation.quality_classifier import EvalQualityClassifier
 
 
 def parse_args():
@@ -195,6 +196,70 @@ def _load_raw_texts(run_cfg):
     return texts
 
 
+def _load_wiki_eval_texts():
+    """加载评估分类器专用 Wikipedia 正样本（与 pipeline 分类器的正样本不重叠）。"""
+    texts = []
+    path = Path("data/reference/wikipedia_abstracts_eval.jsonl")
+    if path.exists():
+        with open(path) as f:
+            for line in f:
+                try:
+                    texts.append(json.loads(line)["text"])
+                except Exception:
+                    pass
+    return texts
+
+
+def train_eval_classifier(run_cfg, eval_cfg):
+    """
+    训练评估专用分类器（独立于 pipeline 分类器）。
+
+    独立性保障：
+      - 正样本：wikipedia_abstracts_eval.jsonl（与 pipeline 用的 wikipedia_abstracts.jsonl 不重叠）
+      - 超参数：dim=32, wordNgrams=3（pipeline 用 dim=64, wordNgrams=2）
+      - 负样本：CC WET 原始数据（与 pipeline 共用，IID 采样影响可忽略）
+    """
+    eval_clf_cfg = eval_cfg.get("eval_classifier", {})
+    model_path = eval_clf_cfg.get("model_path", "results/quality_scores/eval_classifier.bin")
+
+    if Path(model_path).exists():
+        print(f"\n  ⏭️  评估分类器已存在: {model_path}")
+        return
+
+    print(f"\n{'='*50}")
+    print(f"  训练评估专用分类器（独立于 Pipeline）")
+    print(f"{'='*50}")
+
+    # 加载独立正样本
+    positive_texts = _load_wiki_eval_texts()
+    if not positive_texts:
+        print("  ⚠️  评估用 Wikipedia 不存在，请先运行下载脚本")
+        print("     需要: data/reference/wikipedia_abstracts_eval.jsonl")
+        return
+
+    # 负样本：CC WET 原始数据
+    negative_texts = _load_raw_texts(run_cfg)
+
+    # 平衡正负样本
+    min_count = min(len(positive_texts), len(negative_texts), 5000)
+    rng = random.Random(run_cfg.get("random_seed", 42) + 1)  # 不同种子，避免与 pipeline 分类器选中完全相同的负样本子集
+    positive_texts = rng.sample(positive_texts, min(min_count, len(positive_texts)))
+    negative_texts = rng.sample(negative_texts, min(min_count, len(negative_texts)))
+
+    ft_cfg = eval_clf_cfg.get("fasttext", {})
+    eval_clf = EvalQualityClassifier()
+    eval_clf.train(
+        positive_texts=positive_texts,
+        negative_texts=negative_texts,
+        output_path=model_path,
+        dim=ft_cfg.get("dim", 32),
+        wordNgrams=ft_cfg.get("wordNgrams", 3),
+        lr=ft_cfg.get("lr", 0.05),
+        epoch=ft_cfg.get("epoch", 3),
+        minCount=ft_cfg.get("minCount", 5),
+    )
+
+
 def main():
     args = parse_args()
 
@@ -239,8 +304,12 @@ def main():
         use_llm=args.use_llm_labels,
     )
 
+    # ── 训练评估分类器（独立于 pipeline 分类器）────────────────
+    eval_cfg = load_eval_config()
+    train_eval_classifier(run_cfg, eval_cfg)
+
     # ── 运行 Pipeline ─────────────────────────────────────────
-    tracker = StageTracker(load_eval_config(), run_cfg)
+    tracker = StageTracker(eval_cfg, run_cfg)
 
     pipeline = Gen2Pipeline(
         run_config=run_cfg,

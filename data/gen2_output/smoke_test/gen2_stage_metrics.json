@@ -1,7 +1,7 @@
 [
   {
     "stage": "gen2_input",
-    "timestamp": "2026-03-06T14:30:26.616159",
+    "timestamp": "2026-03-08T12:19:10.541207",
     "doc_count": 409,
     "retention_rate": 1.0,
     "sample_size": 409,
@@ -15,7 +15,7 @@
   },
   {
     "stage": "gen2_output",
-    "timestamp": "2026-03-06T14:30:27.065488",
+    "timestamp": "2026-03-08T12:19:10.896998",
     "doc_count": 41,
     "retention_rate": 0.1002,
     "sample_size": 41,

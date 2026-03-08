@@ -10,7 +10,7 @@
       "p50": 0.5043817758560181,
       "p90": 0.5181450843811035
     },
-    "elapsed_seconds": 0.45177292823791504,
+    "elapsed_seconds": 0.3586699962615967,
     "score_histogram": {
       "counts": [
         138,
@@ -530,9 +530,9 @@
       0.5028
     ]
   },
-  "gen1_eval_quality_mean": 0.5158,
-  "gen2_eval_quality_mean": 0.5246,
-  "quality_improvement": 0.0087,
+  "gen1_eval_quality_mean": 0.6561,
+  "gen2_eval_quality_mean": 0.8192,
+  "quality_improvement": 0.1631,
   "figures_saved": [
     "results/figures/03_gen2_score_distribution.png",
     "results/figures/03_gen2_tradeoff_curve.png",

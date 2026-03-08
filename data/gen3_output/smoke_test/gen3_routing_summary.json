@@ -2,31 +2,31 @@
   "routing": {
     "total": 409,
     "high_quality": {
-      "count": 237,
-      "rate": 0.5795
+      "count": 257,
+      "rate": 0.6284
     },
     "heuristic_passed": {
       "count": 3,
       "rate": 0.0073
     },
     "heuristic_filtered": {
-      "count": 142,
-      "rate": 0.3472
+      "count": 114,
+      "rate": 0.2787
     },
     "to_rephrase": {
-      "count": 23,
-      "rate": 0.0562
+      "count": 30,
+      "rate": 0.0733
     },
     "discarded": {
-      "count": 4,
-      "rate": 0.0098
+      "count": 5,
+      "rate": 0.0122
     },
-    "total_kept": 240
+    "total_kept": 260
   },
   "bypass_analysis": {
-    "high_quality_count": 237,
-    "would_be_filtered_count": 229,
-    "would_be_filtered_rate": 0.9662,
+    "high_quality_count": 257,
+    "would_be_filtered_count": 249,
+    "would_be_filtered_rate": 0.9689,
     "sample_false_kills": [
       {
         "text": "10 Nights 11 Day Western-Central Bhutan Cultural Tour | Pawo Tours & Treks\n+975 [PHONE]/77328422 [EMAIL]\nHome\nBhutan\nHistory of Bhutan\nBhutanese Identity\nCulture of Bhutan\nArchitecture\nGross National ",
@@ -51,16 +51,7 @@
     ]
   },
   "rephrasing": {
-    "total_input": 23,
-    "success": 11,
-    "failed": 12,
-    "quality_filtered": 0,
-    "total_api_calls": 23,
-    "status_counts": {
-      "empty_result": 12,
-      "success": 11
-    },
-    "success_rate": 0.4783
+    "skipped": true
   },
-  "elapsed_seconds": 36.51588487625122
+  "elapsed_seconds": 0.7009868621826172
 }

@@ -76,9 +76,9 @@ md("""\
 >
 > ⚠️ **评估分类器与 Pipeline 分类器独立训练**
 >
-> - Pipeline 分类器：正样本 = Wikipedia，dim=64, wordNgrams=2
-> - 评估分类器：正样本 = Wikipedia（独立训练集），dim=32, wordNgrams=1
-> - 两者超参不同 + 训练数据不重叠，确保评估的独立性，避免循环偏差。""")
+> - Pipeline 分类器：正样本 = `wikipedia_abstracts.jsonl`，dim=64, wordNgrams=2
+> - 评估分类器：正样本 = `wikipedia_abstracts_eval.jsonl`（独立数据集，与 Pipeline 用的完全不重叠），dim=32, wordNgrams=3
+> - 独立性保障：正样本数据集不重叠 + 超参数不同（双重独立），避免循环偏差。详见 NB00 §1.2。""")
 
 # ======================================================================
 # Cell A — Load config + stats + docs

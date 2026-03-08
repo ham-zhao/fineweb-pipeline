@@ -93,10 +93,19 @@ def download_warc_sample(dest_dir: Path, crawl_id: str = "CC-MAIN-2024-10") -> P
 
 
 
-def download_wikipedia_abstracts(dest_dir: Path, max_docs: int = 10000) -> Path:
+def download_wikipedia_abstracts(
+    dest_dir: Path, max_docs: int = 10000, offset: int = 0,
+    output_filename: str = "wikipedia_abstracts.jsonl",
+) -> Path:
     """
     下载 Wikipedia 摘要（正样本参考数据）。
     使用 HuggingFace wikipedia 数据集。
+
+    Args:
+        dest_dir: 输出目录
+        max_docs: 最多下载多少条
+        offset: 跳过前 N 条符合条件的文章（用于下载不重叠的第二批数据）
+        output_filename: 输出文件名
 
     Returns:
         保存的 JSONL 文件路径
@@ -104,13 +113,13 @@ def download_wikipedia_abstracts(dest_dir: Path, max_docs: int = 10000) -> Path:
     import json
     dest_dir = Path(dest_dir)
     dest_dir.mkdir(parents=True, exist_ok=True)
-    output_path = dest_dir / "wikipedia_abstracts.jsonl"
+    output_path = dest_dir / output_filename
 
     if output_path.exists():
         print(f"  ⏭️  Wikipedia 摘要已存在: {output_path}")
         return output_path
 
-    print(f"📥 下载 Wikipedia 摘要（前 {max_docs:,} 条）...")
+    print(f"📥 下载 Wikipedia 摘要（offset={offset}, max={max_docs:,} 条）...")
     from datasets import load_dataset
 
     dataset = load_dataset(
@@ -121,11 +130,15 @@ def download_wikipedia_abstracts(dest_dir: Path, max_docs: int = 10000) -> Path:
     )
 
     count = 0
+    skipped = 0
     with open(output_path, "w", encoding="utf-8") as f:
-        for doc in tqdm(dataset, total=max_docs, desc="  📖 Wikipedia"):
+        for doc in tqdm(dataset, total=offset + max_docs, desc="  📖 Wikipedia"):
             # 只取摘要（第一段，以空行为分隔）
             text = doc["text"].split("\n\n")[0].strip()
             if len(text) > 100:  # 过滤过短的摘要
+                if skipped < offset:
+                    skipped += 1
+                    continue
                 f.write(json.dumps({"text": text, "source": "wikipedia", "title": doc["title"]}, ensure_ascii=False) + "\n")
                 count += 1
             if count >= max_docs:
