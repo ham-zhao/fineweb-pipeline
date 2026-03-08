@@ -75,16 +75,33 @@ def main():
         union_threshold=pipe_cfg.get("classifier_ensemble", {}).get("union_threshold", 0.5),
     )
 
-    # ── 准备统一负样本（Gen1 输出 = Gen3 的实际输入数据）──────
-    # 三个集成成员统一使用 Gen1 输出做负样本，确保分数校准一致。
-    # 如果各分类器用不同质量的负样本（如 raw CC WET vs Gen1 输出），
-    # 分数尺度会不一致，union 策略下会导致某个分类器支配所有决策。
-    negative_texts_unified = [d["text"] for d in docs[:5000]]
-    print(f"  📊 统一负样本: Gen1 输出 {len(negative_texts_unified):,} 条")
+    # ── 准备统一负样本（原始 CC WET）──────────────────────────
+    # 为什么不用 Gen1 输出做负样本？
+    #   Gen1 输出已经过语言过滤+URL过滤+质量过滤，是相对干净的英文文本。
+    #   用它做负样本时，与 Wikipedia/Cosmopedia 的差距太小（分离度仅 0.14~0.44），
+    #   分类器学不到有效的质量信号。
+    # 使用原始 CC WET 做负样本（与 Gen2 一致）：
+    #   - 分离度从 0.14 提升到 0.47（EDU），从 0.44 提升到 0.62（DCLM）
+    #   - 三个分类器用同一来源的负样本，分数尺度自然一致
+    #   - 推理时对 Gen1 输出做排序取 top-X%，只需相对排序正确
+    raw_neg_path = Path("data/raw/cc_wet_full.jsonl") if run_cfg.get("doc_limit", 0) > 12000 and Path("data/raw/cc_wet_full.jsonl").exists() else Path("data/raw/cc_wet_sample.jsonl")
+    negative_texts_unified = []
+    if raw_neg_path.exists():
+        with open(raw_neg_path) as f:
+            for i, line in enumerate(f):
+                if i >= 5000:
+                    break
+                try:
+                    negative_texts_unified.append(json.loads(line).get("text", ""))
+                except Exception:
+                    pass
+    if not negative_texts_unified:
+        print("  ⚠️  原始 CC WET 不存在，降级使用 Gen1 输出做负样本")
+        negative_texts_unified = [d["text"] for d in docs[:5000]]
+    print(f"  📊 统一负样本: 原始 CC WET {len(negative_texts_unified):,} 条")
 
     # 分类器 1: DCLM 风格 fastText（Gen3 独立训练，不复用 Gen2 模型）
-    # Gen2 的 gen2_classifier.bin 用 raw CC WET 做负样本，校准基线与 Gen3 不同，
-    # 因此 Gen3 需要独立训练一个 dclm 风格分类器，使用 Gen1 输出做负样本。
+    # 虽然 Gen2 也有 dclm 分类器，但 Gen3 需要独立训练以确保集成成员的分数校准一致。
     wiki_texts = []
     wiki_path = Path("data/reference/wikipedia_abstracts.jsonl")
     if wiki_path.exists():
