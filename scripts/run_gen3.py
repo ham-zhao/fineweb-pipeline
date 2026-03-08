@@ -26,7 +26,8 @@ from src.utils.config_loader import (
     load_run_config, load_pipeline_config, load_eval_config,
     load_api_config, get_output_path, print_config_summary
 )
-from src.gen1.pipeline import read_jsonl, read_warc_texts, Gen1Pipeline
+from src.gen1.pipeline import read_warc_texts, Gen1Pipeline
+from src.utils.io import read_jsonl
 from src.gen2.quality_classifier import Gen2QualityClassifier
 from src.gen3.classifier_ensemble import ClassifierEnsemble
 from src.gen3.synthetic_rephraser import SyntheticRephraser

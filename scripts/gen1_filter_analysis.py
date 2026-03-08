@@ -31,7 +31,7 @@ from src.gen1.filters.url_filter import URLFilter
 from src.gen1.filters.language_filter import LanguageFilter
 from src.gen1.filters.quality_filter import QualityFilter, GopherQualityFilter, C4QualityFilter, FineWebQualityFilter
 from src.gen1.filters.repetition_filter import GopherRepetitionFilter
-from src.gen1.pipeline import read_jsonl
+from src.utils.io import read_jsonl
 
 
 def clean_text_for_json(text: str) -> str:

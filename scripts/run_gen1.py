@@ -25,7 +25,8 @@ from src.utils.config_loader import (
     load_run_config, load_pipeline_config, load_eval_config,
     get_output_path, print_config_summary
 )
-from src.gen1.pipeline import Gen1Pipeline, read_warc_texts, read_jsonl, save_jsonl
+from src.gen1.pipeline import Gen1Pipeline, read_warc_texts
+from src.utils.io import read_jsonl, save_jsonl
 from src.evaluation.stage_tracker import StageTracker
 from src.evaluation.filter_auditor import FilterAuditor
 

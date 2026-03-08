@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from src.utils.config_loader import load_run_config, get_output_path
-from src.gen1.pipeline import read_jsonl
+from src.utils.io import read_jsonl
 from src.gen2.quality_classifier import Gen2QualityClassifier
 from src.gen3.conditional_bypass import ConditionalBypass
 from src.gen3.classifier_ensemble import ClassifierEnsemble
@@ -128,6 +128,10 @@ def main():
     print(f"  结果: {result_ablation3['count']:,} 条 | quality={result_ablation3['quality_mean']:.4f}")
 
     # === 消融 4/5: 占位实验（MinHash/毒性过滤——对质量影响小）===
+    # 消融 4（MinHash 去重）和消融 5（毒性过滤）复用消融 3 的结果，因为这两个组件
+    # 主要影响多样性和安全性维度，而非 eval quality score 均值。当前评估体系以质量
+    # 分数为核心指标，移除去重或毒性过滤不会改变质量分数。完整评估需引入去重率和
+    # 毒性率等专项指标后，才能独立衡量这两个组件的贡献。
     result_ablation4 = result_ablation3.copy()
     result_ablation4['label'] = '去掉 MinHash 去重'
     result_ablation5 = result_ablation3.copy()
