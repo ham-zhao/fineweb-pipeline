@@ -3,9 +3,9 @@
     "raw": {
       "name": "原始数据",
       "doc_count": 500,
-      "quality_mean": 0.17636915457248686,
-      "quality_p50": 0.0,
-      "quality_p90": 0.657111930847168,
+      "quality_mean": 0.47676228155195716,
+      "quality_p50": 0.4607507437467575,
+      "quality_p90": 0.6639037787914277,
       "unigram_diversity": 0.2598,
       "trigram_diversity": 0.7775,
       "avg_tokens": 3879.22
@@ -13,9 +13,9 @@
     "gen1": {
       "name": "第一代(Heuristic)",
       "doc_count": 409,
-      "quality_mean": 0.6561244820907238,
-      "quality_p50": 0.6880223751068115,
-      "quality_p90": 0.8013146877288818,
+      "quality_mean": 0.6869523116458016,
+      "quality_p50": 0.697462260723114,
+      "quality_p90": 0.7970436096191407,
       "unigram_diversity": 0.1721,
       "trigram_diversity": 0.8861,
       "avg_tokens": 1536.55
@@ -23,31 +23,31 @@
     "gen2": {
       "name": "第二代(Model-based)",
       "doc_count": 41,
-      "quality_mean": 0.819212621305047,
-      "quality_p50": 0.8198045492172241,
-      "quality_p90": 0.886471688747406,
-      "unigram_diversity": 0.3003,
-      "trigram_diversity": 0.9484,
-      "avg_tokens": 1140.121951219512
+      "quality_mean": 0.8187125034448577,
+      "quality_p50": 0.8113322854042053,
+      "quality_p90": 0.872531533241272,
+      "unigram_diversity": 0.2644,
+      "trigram_diversity": 0.9499,
+      "avg_tokens": 1515.4878048780488
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 260,
-      "quality_mean": 0.7289322628424718,
-      "quality_p50": 0.7378055453300476,
-      "quality_p90": 0.8193121492862702,
-      "unigram_diversity": 0.166,
-      "trigram_diversity": 0.9076,
-      "avg_tokens": 1527.15
+      "doc_count": 56,
+      "quality_mean": 0.7846718941416059,
+      "quality_p50": 0.7902910709381104,
+      "quality_p90": 0.8576495945453644,
+      "unigram_diversity": 0.2292,
+      "trigram_diversity": 0.9418,
+      "avg_tokens": 1571.0535714285713
     }
   },
   "full_run": {
     "raw": {
       "name": "原始数据",
       "doc_count": 2000,
-      "quality_mean": 0.16795620512962342,
-      "quality_p50": 0.0,
-      "quality_p90": 0.6578812062740326,
+      "quality_mean": 0.4715486044585705,
+      "quality_p50": 0.4585457891225815,
+      "quality_p90": 0.6625725686550141,
       "unigram_diversity": 0.2598,
       "trigram_diversity": 0.7775,
       "avg_tokens": 3879.22
@@ -55,9 +55,9 @@
     "gen1": {
       "name": "第一代(Heuristic)",
       "doc_count": 2000,
-      "quality_mean": 0.658853900283575,
-      "quality_p50": 0.6917446553707123,
-      "quality_p90": 0.8191691935062408,
+      "quality_mean": 0.6900027541816235,
+      "quality_p50": 0.6980251669883728,
+      "quality_p90": 0.8129646122455597,
       "unigram_diversity": 0.1826,
       "trigram_diversity": 0.8982,
       "avg_tokens": 1312.35
@@ -65,22 +65,22 @@
     "gen2": {
       "name": "第二代(Model-based)",
       "doc_count": 325,
-      "quality_mean": 0.8304480343598586,
-      "quality_p50": 0.8421036005020142,
-      "quality_p90": 0.8904602289199829,
-      "unigram_diversity": 0.1822,
-      "trigram_diversity": 0.9049,
-      "avg_tokens": 1116.6
+      "quality_mean": 0.7929741275310517,
+      "quality_p50": 0.7969571352005005,
+      "quality_p90": 0.8756323218345642,
+      "unigram_diversity": 0.1828,
+      "trigram_diversity": 0.9228,
+      "avg_tokens": 1318.83
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 133,
-      "quality_mean": 0.4375366308635339,
-      "quality_p50": 0.701555609703064,
-      "quality_p90": 0.8493634819984436,
-      "unigram_diversity": 0.2146,
-      "trigram_diversity": 0.9387,
-      "avg_tokens": 1535.55
+      "doc_count": 616,
+      "quality_mean": 0.7859952855710085,
+      "quality_p50": 0.7886381447315216,
+      "quality_p90": 0.8660551309585571,
+      "unigram_diversity": 0.158,
+      "trigram_diversity": 0.9086,
+      "avg_tokens": 1495.3
     }
   }
 }

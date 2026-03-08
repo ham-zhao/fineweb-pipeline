@@ -166,3 +166,44 @@ fineweb-pipeline/
   - NB03: 14 cells 全部有 output，Gen2 PPL 644 vs Gen1 1042（better），tail 53.7%→17.1%
   - NB04: 12 cells 全部有 output，路由漏斗 + 五维对比完整
   - 已 commit + push：`f2294e9`
+
+---
+
+### 交互 8: 方法论深化 — 截断策略、负样本选择、ML 检视指标体系
+- **类型**：方法论改进 + Bug 修复 + 文档更新
+- **时间**：2026-03-08 13:51 ~ 进行中
+
+- **关键讨论与决策**：
+  1. **正样本不截断原则**：分类器训练时只截断较长方（通常是负样本），正样本（参考文本）保留完整。理论依据：正样本是"标准答案"，截断会丢失质量信号
+  2. **Gen3 负样本修正**：从 Gen1 输出改为原始 CC WET。Gen1 输出太干净（分离度仅 0.14-0.48），改用 CC WET 后分离度提升至 0.89-0.94
+  3. **ML 检视指标体系**：pipeline 输出指标（保留率/MMLU）之外，新增三维检视：分类器健康度、数据分布一致性、端到端验证（Golden Set + bypass 误杀率）
+  4. **级联架构 vs 统一输入**：用户质疑 Gen2/Gen3 以 Gen1 输出为输入导致保留率口径不一致。讨论方案 A（统一输入）vs 方案 B（统一端到端指标）
+
+- **关键变更**：
+  1. `src/gen2/quality_classifier.py`：单侧截断（只截断较长方）
+  2. `src/evaluation/quality_classifier.py`：同上
+  3. `scripts/run_gen3.py`：Gen3 负样本从 Gen1 输出改为原始 CC WET
+  4. NB00 Cell 3/4/6：修复 Gen3 负样本描述 + 新增数据源统计特征表 + ML 检视指标表
+  5. NB04 Cell 13：新增 bypass 误杀率 + 改写成功率输出
+  6. `docs/METHODOLOGY_PATTERNS.md`：新增 Pattern #20-23（截断、Golden Set、健康度、ML 检视）
+  7. Golden Set 基础设施：`golden_samples.jsonl` + `golden_validator.py` + `generate_golden_samples.py`
+  8. NB03/NB04：新增 Cell Group F-H/E（健康度检查 + Error Analysis + Distribution Shift）
+
+- **实验数据**（smoke_test 12K docs）：
+  - Bypass 误杀率：90.7%（远高于 Nemotron-CC 18.1%，因 Gen1 输出已清洗）
+  - Gen3 集成分离度：DCLM 0.94, EDU 0.89（修正后）
+  - NB00-NB09 全部执行成功，无 error cells
+
+- **后续落地**（用户确认方向后立即执行）：
+  1. **统一输入架构（方案 A）**：用户选择方案 A，Gen2/Gen3 始终从 CC WET 开始
+     - `scripts/run_gen2.py`：内部先跑 Gen1，报告端到端保留率 (Gen2输出/CC WET输入)
+     - `scripts/run_gen3.py`：同上
+     - NB00 级联图改为三叉并行结构，保留率口径统一
+  2. **NB07 代理消融**：添加 eval score vs top-fraction 分析
+     - 8 个阈值点 (5%~100%)，eval score 从 0.8379 单调递减至 0.6870
+     - 确认 quality-quantity trade-off 存在
+  3. **Q1-Q4 方法论备注**：Pattern #24 FAQ 加入 METHODOLOGY_PATTERNS.md
+  4. **Pipeline 重跑**（smoke_test 12K，统一输入后）：
+     - Gen2: 12,000 → 409 (Gen1) → 41 (e2e 0.3%)
+     - Gen3: 12,000 → 409 (Gen1) → 56 (e2e 0.5%)
+  5. NB00~NB09 全部重新执行，验证通过

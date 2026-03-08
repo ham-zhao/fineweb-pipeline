@@ -3,8 +3,12 @@
 scripts/run_gen3.py
 第三代 Hybrid Pipeline + Data Recovery — 独立运行脚本
 
+⚠️  统一输入架构：Gen3 = Gen1 heuristic + 分类器集成 + 路由 + 改写
+    始终从原始 CC WET 开始，内部先运行 Gen1 Pipeline，再应用 Gen3 逻辑。
+    保留率口径 = Gen3 最终输出 / CC WET 原始输入。
+
 用法:
-    python scripts/run_gen3.py                   # 标准运行
+    python scripts/run_gen3.py                   # 标准运行（CC WET → Gen1 → Gen3）
     python scripts/run_gen3.py --no-rephrase     # 跳过 LLM 改写（无需 API）
     python scripts/run_gen3.py --strategy union  # 指定集成策略
 
@@ -22,7 +26,7 @@ from src.utils.config_loader import (
     load_run_config, load_pipeline_config, load_eval_config,
     load_api_config, get_output_path, print_config_summary
 )
-from src.gen1.pipeline import read_jsonl, read_warc_texts
+from src.gen1.pipeline import read_jsonl, read_warc_texts, Gen1Pipeline
 from src.gen2.quality_classifier import Gen2QualityClassifier
 from src.gen3.classifier_ensemble import ClassifierEnsemble
 from src.gen3.synthetic_rephraser import SyntheticRephraser
@@ -50,23 +54,38 @@ def main():
     print_config_summary(run_cfg)
 
     doc_limit = run_cfg.get("doc_limit")
-    gen1_output_dir = get_output_path(1, run_cfg)
     gen3_output_dir = get_output_path(3, run_cfg)
 
-    # ── 加载输入数据（优先 Gen1 输出，否则原始数据）────────
-    gen1_file = gen1_output_dir / "gen1_output.jsonl"
-    if gen1_file.exists():
-        print(f"\n📂 读取 Gen1 输出: {gen1_file}")
-        docs = read_jsonl(gen1_file, doc_limit=doc_limit)
-    else:
+    # ── 加载原始 CC WET 数据（统一输入架构）───────────────────
+    cc_wet = Path("data/raw/cc_wet_full.jsonl") if run_cfg.get("doc_limit", 0) > 12000 and Path("data/raw/cc_wet_full.jsonl").exists() else Path("data/raw/cc_wet_sample.jsonl")
+    if not cc_wet.exists():
         raw_files = list(Path("data/raw").glob("*.warc.gz")) + list(Path("data/raw").glob("*.jsonl"))
-        if not raw_files:
-            print("❌ 未找到数据！请先运行 bash scripts/download_sample.sh && python scripts/run_gen1.py")
+        if raw_files:
+            cc_wet = raw_files[0]
+        else:
+            print("❌ 未找到数据！请先运行 bash scripts/download_sample.sh")
             sys.exit(1)
-        docs = read_warc_texts(raw_files[0], doc_limit=doc_limit) if raw_files[0].suffix == ".gz" \
-               else read_jsonl(raw_files[0], doc_limit=doc_limit)
 
-    print(f"✅ 读取 {len(docs):,} 条文档")
+    print(f"\n📂 读取原始 CC WET: {cc_wet}")
+    if cc_wet.suffix in (".gz",):
+        docs = read_warc_texts(cc_wet, doc_limit=doc_limit)
+    else:
+        docs = read_jsonl(cc_wet, doc_limit=doc_limit)
+
+    raw_input_count = len(docs)
+    print(f"✅ 原始输入: {raw_input_count:,} 条")
+
+    # ── Step 1: Gen1 Heuristic 预处理 ──────────────────────────
+    print(f"\n{'='*50}")
+    print(f"  Step 1: Gen1 Heuristic 预处理")
+    print(f"{'='*50}")
+    gen1_pipe_cfg = load_pipeline_config(1)
+    gen1_pipeline = Gen1Pipeline(
+        run_config=run_cfg,
+        pipeline_config=gen1_pipe_cfg,
+    )
+    docs = gen1_pipeline.run(docs)
+    print(f"  Gen1 后剩余: {len(docs):,} 条 (Gen1 保留率: {len(docs)/raw_input_count:.1%})")
 
     # ── 构建分类器集成 ────────────────────────────────────────
     print("\n  🔧 构建分类器集成...")
@@ -96,7 +115,7 @@ def main():
                 except Exception:
                     pass
     if not negative_texts_unified:
-        print("  ⚠️  原始 CC WET 不存在，降级使用 Gen1 输出做负样本")
+        print("  ⚠️  原始 CC WET 不存在，降级使用 Gen1 输出做负样本（分离度可能不足）")
         negative_texts_unified = [d["text"] for d in docs[:5000]]
     print(f"  📊 统一负样本: 原始 CC WET {len(negative_texts_unified):,} 条")
 
@@ -190,8 +209,12 @@ def main():
     pipeline.save_results(result, gen3_output_dir)
     tracker.save(str(gen3_output_dir / "gen3_stage_metrics.json"))
 
+    e2e_retention = len(result['final_docs']) / raw_input_count if raw_input_count > 0 else 0
     print(f"\n✅ 第三代 Pipeline 完成！")
-    print(f"   最终保留: {len(result['final_docs']):,} 条")
+    print(f"   原始 CC WET 输入: {raw_input_count:,}")
+    print(f"   Gen1 heuristic 后: {len(docs):,}")
+    print(f"   Gen3 最终输出: {len(result['final_docs']):,} 条")
+    print(f"   端到端保留率: {e2e_retention:.1%} (Gen3输出/CC WET原始输入)")
     print(f"   输出目录: {gen3_output_dir}")
 
 

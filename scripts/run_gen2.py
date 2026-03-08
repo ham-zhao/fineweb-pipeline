@@ -3,6 +3,10 @@
 scripts/run_gen2.py
 第二代 Model-based Filtering Pipeline — 独立运行脚本
 
+⚠️  统一输入架构：Gen2 = Gen1 heuristic + 分类器过滤
+    始终从原始 CC WET 开始，内部先运行 Gen1 Pipeline，再应用分类器。
+    保留率口径 = Gen2 最终输出 / CC WET 原始输入。
+
 产出文件：
   data/gen2_output/gen2_output.jsonl        - 过滤后文档
   data/gen2_output/gen2_stats.json          - 统计信息（含分数分布）
@@ -10,10 +14,9 @@ scripts/run_gen2.py
   data/gen2_output/llm_labels.jsonl          - LLM 标注数据（如启用）
 
 用法:
-    python scripts/run_gen2.py                    # 从 Gen1 输出读取
-    python scripts/run_gen2.py --from-raw         # 从原始数据开始
+    python scripts/run_gen2.py                      # 标准运行（CC WET → Gen1 → Gen2）
     python scripts/run_gen2.py --top-fraction 0.15  # 自定义保留比例
-    python scripts/run_gen2.py --use-llm-labels   # 使用 LLM 标注训练分类器
+    python scripts/run_gen2.py --use-llm-labels     # 使用 LLM 标注训练分类器
 
 防休眠: caffeinate -i python scripts/run_gen2.py
 """
@@ -44,7 +47,6 @@ def parse_args():
     parser.add_argument("--config", default="configs/gen2_config.yaml")
     parser.add_argument("--run-mode", default=None, choices=["smoke_test", "full_run"],
                         help="覆盖 run_config.yaml 中的 run_mode（不修改文件）")
-    parser.add_argument("--from-raw", action="store_true", help="从原始数据开始（跳过 Gen1 输出）")
     parser.add_argument("--top-fraction", type=float, default=0.10, help="保留比例（默认 0.10 即 top-10%%）")
     parser.add_argument("--retrain-classifier", action="store_true", help="强制重新训练分类器")
     parser.add_argument("--use-llm-labels", action="store_true", help="使用 LLM 标注训练分类器（需 API 配置）")
@@ -269,31 +271,33 @@ def main():
     print_config_summary(run_cfg)
 
     doc_limit = run_cfg.get("doc_limit")
-    gen1_output_dir = get_output_path(1, run_cfg)
     gen2_output_dir = get_output_path(2, run_cfg)
 
-    # ── 加载输入数据 ──────────────────────────────────────────
-    gen1_file = gen1_output_dir / "gen1_output.jsonl"
-    if not args.from_raw and gen1_file.exists():
-        print(f"\nLoad Gen1 output: {gen1_file}")
-        docs = read_jsonl(gen1_file, doc_limit=doc_limit)
-    else:
-        print(f"\nGen1 output not found, loading raw data...")
-        cc_wet = Path("data/raw/cc_wet_full.jsonl") if run_cfg.get("doc_limit", 0) > 12000 and Path("data/raw/cc_wet_full.jsonl").exists() else Path("data/raw/cc_wet_sample.jsonl")
+    # ── 加载原始 CC WET 数据（统一输入架构）───────────────────
+    cc_wet = Path("data/raw/cc_wet_full.jsonl") if run_cfg.get("doc_limit", 0) > 12000 and Path("data/raw/cc_wet_full.jsonl").exists() else Path("data/raw/cc_wet_sample.jsonl")
+    if not cc_wet.exists():
         raw_files = list(Path("data/raw").glob("*.warc.gz")) + list(Path("data/raw").glob("*.jsonl"))
-        if cc_wet.exists():
-            input_path = cc_wet
-        elif raw_files:
-            input_path = raw_files[0]
+        if raw_files:
+            cc_wet = raw_files[0]
         else:
-            print("ERROR: No input data found!")
+            print("ERROR: No input data found! Run: bash scripts/download_sample.sh")
             sys.exit(1)
-        if input_path.suffix in (".gz",):
-            docs = read_warc_texts(input_path, doc_limit=doc_limit)
-        else:
-            docs = read_jsonl(input_path, doc_limit=doc_limit)
 
-    print(f"Loaded {len(docs):,} documents")
+    print(f"\n📂 读取原始 CC WET: {cc_wet}")
+    if cc_wet.suffix in (".gz",):
+        docs = read_warc_texts(cc_wet, doc_limit=doc_limit)
+    else:
+        docs = read_jsonl(cc_wet, doc_limit=doc_limit)
+
+    raw_input_count = len(docs)
+    print(f"✅ 原始输入: {raw_input_count:,} 条")
+
+    # ── 创建 Gen1 Pipeline（Gen2 内部先跑 Gen1 heuristic）────
+    gen1_pipe_cfg = load_pipeline_config(1)
+    gen1_pipeline = Gen1Pipeline(
+        run_config=run_cfg,
+        pipeline_config=gen1_pipe_cfg,
+    )
 
     # ── 训练/加载分类器 ───────────────────────────────────────
     classifier = load_or_train_classifier(
@@ -316,9 +320,10 @@ def main():
         pipeline_config=pipe_cfg,
         classifier=classifier,
         stage_tracker=tracker,
+        gen1_pipeline=gen1_pipeline,
     )
 
-    result = pipeline.run(docs, top_fraction=args.top_fraction)
+    result = pipeline.run(docs, top_fraction=args.top_fraction, use_heuristic_preprocessing=True)
 
     # ── 保存输出 ─────────────────────────────────────────────
     gen2_output_dir.mkdir(parents=True, exist_ok=True)
@@ -340,9 +345,13 @@ def main():
 
     tracker.save(str(gen2_output_dir / "gen2_stage_metrics.json"))
 
+    e2e_retention = result['stats']['output_count'] / raw_input_count if raw_input_count > 0 else 0
     print(f"\nGen2 Pipeline complete!")
-    print(f"   Input: {result['stats']['input_count']:,} | Output: {result['stats']['output_count']:,}")
-    print(f"   Retention: {result['stats']['retention_rate']:.1%}")
+    print(f"   原始 CC WET 输入: {raw_input_count:,}")
+    print(f"   Gen1 heuristic 后: {result['stats']['input_count']:,}")
+    print(f"   Gen2 最终输出: {result['stats']['output_count']:,}")
+    print(f"   Gen2 阶段保留率: {result['stats']['retention_rate']:.1%} (Gen2输出/Gen1输出)")
+    print(f"   端到端保留率: {e2e_retention:.1%} (Gen2输出/CC WET原始输入)")
     print(f"   Output dir: {gen2_output_dir}")
 
 

@@ -2,31 +2,31 @@
   "routing": {
     "total": 409,
     "high_quality": {
-      "count": 54,
-      "rate": 0.132
+      "count": 53,
+      "rate": 0.1296
     },
     "heuristic_passed": {
       "count": 3,
       "rate": 0.0073
     },
     "heuristic_filtered": {
-      "count": 140,
-      "rate": 0.3423
+      "count": 139,
+      "rate": 0.3399
     },
     "to_rephrase": {
-      "count": 117,
-      "rate": 0.2861
+      "count": 116,
+      "rate": 0.2836
     },
     "discarded": {
-      "count": 95,
-      "rate": 0.2323
+      "count": 98,
+      "rate": 0.2396
     },
-    "total_kept": 57
+    "total_kept": 56
   },
   "bypass_analysis": {
-    "high_quality_count": 54,
-    "would_be_filtered_count": 49,
-    "would_be_filtered_rate": 0.9074,
+    "high_quality_count": 53,
+    "would_be_filtered_count": 48,
+    "would_be_filtered_rate": 0.9057,
     "sample_false_kills": [
       {
         "text": "Newsom’s Hollow Ring of Freedom\nCalifornia Political Review\nNew Ideas for California's Future\nHome\nAbout Us\nContact Us\nAdvertise Here\nTop Stories\nTrending News\nCali-Culture\nCartoons\nVideos\nBlog\nNewsom",
@@ -53,5 +53,5 @@
   "rephrasing": {
     "skipped": true
   },
-  "elapsed_seconds": 0.6635398864746094
+  "elapsed_seconds": 0.6729049682617188
 }
