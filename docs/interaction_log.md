@@ -308,8 +308,105 @@ fineweb-pipeline/
 - `d6708fb`: update interaction log + NB09 header for 4-model design
 - `c10b585`: add Pattern #25 — shared validation set for cross-dataset comparison
 
-### 待完成
+### 待完成（已全部完成，见下方交互 8）
 
-- [ ] Proxy 训练完成后检查 PPL 梯度（期望 Raw > Gen1 > Gen2 ≈ Gen3）
-- [ ] NB09 用真实训练结果替换 mock 数据，重新执行
-- [ ] 全量提交训练结果
+- [x] Proxy 训练完成后检查 PPL 梯度（期望 Raw > Gen1 > Gen2 ≈ Gen3）
+- [x] NB09 用真实训练结果替换 mock 数据，重新执行
+- [x] 全量提交训练结果
+
+---
+
+## 自主巡检会话（2026-03-08 19:00-19:26）
+
+> 用户指示："我去吃饭了，你按照你的理解尽可能往前跑；我的目标是希望整个项目更加合理；但是你做的事情最好记录下，等我回来发我看看，尤其是一些决策项以及你的思考"
+
+### 完成的工作总结
+
+#### 1. Proxy Model 训练完成 + 结果验证
+
+**四个模型训练结果**（共享 Wikipedia 验证集，500 docs, seed=99）：
+
+| 数据集 | 训练 Chunks | Val PPL | 训练时长 |
+|--------|------------|---------|---------|
+| Raw    | 19,750     | 2080.7  | 1236s   |
+| Gen1   | 8,844      | 1384.8  | 530s    |
+| Gen2   | 835        | 2615.6  | 52s     |
+| Gen3   | 6,001      | 1497.2  | 360s    |
+
+**PPL 梯度分析**：
+- Gen1(1384.8) < Gen3(1497.2) < Raw(2080.7) < Gen2(2615.6) — 低 PPL = 更好
+- **Gen1 最低 PPL** 而非 Gen3，原因：Gen1 数据量 8844 chunks 远超 Gen3 的 6001
+- **Gen2 最高 PPL**（反常）：根因是 Gen2 top-10% 过滤太严，仅剩 835 chunks（0.83K vs 理论需要的 >5K），严重欠拟合
+- **决策**：这不是 bug 而是有意义的发现——质量提升若代价是极端数据缩减，反而损害模型训练
+
+**关键洞察写入 NB09**：
+> "Gen2 的反常高 PPL 恰好揭示了 Chinchilla Scaling Law 的核心约束：在训练数据远低于最优量级的前提下，更激进的过滤（Gen2 top-10%）造成的数据量损失超过了质量提升的收益。Gen3 的混合策略（分类+改写+bypass）在保持质量的同时维持了足够的数据量（6001 chunks），实现了更好的平衡。"
+
+#### 2. NB07 架构修复（三层职责分离）
+
+**问题**：NB07 消融实验直接导入 pipeline 模块（`Gen2QualityClassifier`、`ClassifierEnsemble`、`ConditionalBypass`、`QualityFilter`），严重违反三层职责分离原则。
+
+**之前的决策**："消融需要现场运行组件变体，迁移到 scripts/ 收益不大" → **推翻**
+
+**重新思考**：
+- 消融实验的核心是**对比不同配置的最终指标**，不需要在 Notebook 中运行 pipeline
+- 创建 `scripts/run_ablation.py` 预计算所有配置的结果，NB07 只读 JSON 做可视化
+- 这与 NB02→`run_gen1.py`、NB03→`run_gen2.py` 的重构模式完全一致
+
+**变更**：
+- 新增 `scripts/run_ablation.py`（~160 行）：运行 5 个消融配置，输出 `results/ablation/{mode}/ablation_results.json`
+- 重构 NB07：删除所有 pipeline imports + 执行 cells，改为读取预计算 JSON
+- NB07 proxy ablation cell 中的 `read_jsonl` 改为本地 helper 函数（避免从 `src.gen1.pipeline` 导入）
+
+**验证**：`scripts/run_ablation.py` 执行成功，NB07 重新执行无 error
+
+#### 3. Notebook 质量审计发现 + 修复
+
+##### NB08 中文扩展 Bug
+
+**问题**：`chinese_stop_ratio` 计算有逻辑 bug
+```python
+# Bug: set('的了在是...'.split()) → 创建包含 1 个元素（整个字符串）的 set
+common_chars = set('的了在是我有和人这中大为上个国以要他时来用们生到作地于出就分对成会可主发年动同工也能下过子说产种面而方后多定行学法所民得经十三之进着等部度家电力里如水化高自二理起小物现实加量都两体制机当使点从业本去把性好应开它合还因由其些然前外天政四日那社义事平形相全表间样与关各重新线内数正心力')
+```
+Python 的 `str.split()` 对无空格字符串返回包含整个字符串的列表 → `set()` 只有 1 个元素
+- **修复**：去掉 `.split()`，直接 `set(string)` 将每个字符拆为独立元素
+
+##### NB01 依赖检查
+
+- 添加统一的 `REQUIRED_FILES` 断言（之前只有分散的检查）
+
+##### NB09 Chinchilla 消息修正
+
+- 旧版写 "严重不足（smoke_test 模式）"，但 full_run 模式下也显示这个消息
+- 修正为通用描述："远低于最优（数据量级不足）"，并补充说明"PPL 绝对值不可与论文对标，但相对排序有效"
+
+##### ProxyModelEvaluator 缺 gen2
+
+- `load_all()` 和 `load_train_stats()` 遍历列表少了 `"gen2"` → 已修复
+
+#### 4. Git Commits
+
+| Commit | 内容 |
+|--------|------|
+| `eedcbc2` | proxy model 训练完成 + NB07 架构修复 + notebook 质量审计（18 files） |
+| `d23d9fd` | methodology patterns 更新 + interaction log + NB00 proxy section（3 files） |
+
+### 决策记录与思考
+
+| # | 决策 | 思考过程 | 结论 |
+|---|------|---------|------|
+| 1 | 推翻"NB07 架构违规容忍"决策 | 之前觉得消融实验"需要现场运行组件"，但仔细想消融的目的是**对比指标**不是**调试组件**，完全可以预计算 | 迁移到 scripts/ 是正确的，与项目其他 NB 的重构模式一致 |
+| 2 | Gen2 高 PPL 不是 bug | Gen2 仅 835 chunks（其他 >6000），Chinchilla 要求 N_tokens ≈ 20×N_params = 2.5B，835 chunks ≈ 0.21M tokens，差 4 个数量级 | 写入 NB09 作为"数据质量 vs 数量 tradeoff"的关键案例 |
+| 3 | NB08 set() bug 静默 fix | 这个 bug 不影响整体分析结论（cell 仅做统计展示），但原理上完全错误 | 直接修复，不需要重跑 pipeline |
+| 4 | proxy ablation 用本地 `_read_jsonl` 而非导入 | NB07 的 proxy ablation cell 需要读 JSONL 文件。导入 `from src.gen1.pipeline import read_jsonl` 虽不算 pipeline 执行，但为保持一致性（该 NB 已清除所有 src 导入），改用 4 行本地 helper | 代码重复 4 行 vs 架构一致性，选后者 |
+
+### 剩余技术债（中低优先级，供用户决策）
+
+| # | 问题 | 优先级 | 建议 |
+|---|------|--------|------|
+| 1 | NB02 缺统一 REQUIRED_FILES 检查 | 中 | 有分散 assert，功能上够用，但不符合规范 |
+| 2 | NB03 指标口径定义率仅 59% | 中 | 部分图表的百分比缺少分子/分母说明 |
+| 3 | NB04 "+28% coverage" 和 "18.1% 误杀率" 缺少相对基线 | 低 | 需要标注"相对于什么" |
+| 4 | NB07 消融 4/5（MinHash/毒性）是占位实验 | 低 | 数据与消融 3 完全相同，只改了 label |
+| 5 | `read_jsonl` 仍在 `src/gen1/pipeline.py` | 低 | 应迁移到 `src/utils/`，多处引用 |
