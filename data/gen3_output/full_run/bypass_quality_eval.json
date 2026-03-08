@@ -1,0 +1,27 @@
+{
+  "method": "interactive_claude_review",
+  "note": "Claude 交互式直接阅读文本内容评估，不使用 API（用户要求节省 API 费用）",
+  "sample_size": 30,
+  "source": "bypass_quality_samples.json 中随机抽样 30 条（seed=123）",
+  "summary": {
+    "high_quality_truly_killed": 14,
+    "medium_quality": 8,
+    "low_quality_classifier_error": 8,
+    "true_false_kill_rate": 0.467,
+    "note": "46.7% 是真正高质量内容被误杀（传记、历史文档、学术摘要、生态学文章、人权报告）；26.7% 中等质量（有内容但导航多）；26.7% 低质量（分类器误判为高质量的垃圾/成人/SEO 页面）"
+  },
+  "methodology": {
+    "scoring_criteria": {
+      "high": "写作流畅、信息密集、逻辑清晰，适合 LLM 预训练",
+      "medium": "有部分有价值内容，但存在导航模板、格式问题等",
+      "low": "导航页面、SEO 垃圾、成人内容、过短页面（<300字）、乱码"
+    },
+    "all_30_samples_killed_by": "C4 terminal_punct_min_ratio < 0.7（CC WET 数据中句末标点比普遍偏低）"
+  },
+  "key_findings": [
+    "bypass 的价值确认：46.7% 的被误杀文档确实是高质量内容",
+    "strict heuristic 的 93.3% 误杀率中，约一半是真正误杀（好内容），另一半是分类器本身的 false positive",
+    "C4 terminal_punct_min_ratio=0.7 对 CC WET 数据过于严格：好文档也常含标题、列表、代码等非句末标点行",
+    "分类器在 score 0.7-0.85 区间误判率较高（导航页/成人内容被评为高质量），score > 0.9 区间更可靠"
+  ]
+}
