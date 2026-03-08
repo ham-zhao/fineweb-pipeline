@@ -96,6 +96,7 @@ class ConditionalBypass:
                 # 路径 A：高质量 → 直接保留，跳过 heuristic
                 decision.route = "high_quality"
                 decision.final_action = "kept"
+                doc["_route"] = "high_quality"
                 buckets["high_quality"].append(doc)
 
             elif score >= self.medium_threshold:
@@ -104,11 +105,13 @@ class ConditionalBypass:
                 if passes:
                     decision.route = "heuristic_passed"
                     decision.final_action = "kept"
+                    doc["_route"] = "heuristic_passed"
                     buckets["heuristic_passed"].append(doc)
                 else:
                     decision.route = "heuristic_filtered"
                     decision.heuristic_reason = reason
                     decision.final_action = "filtered"
+                    doc["_route"] = "heuristic_filtered"
                     doc["_heuristic_reason"] = reason
                     buckets["heuristic_filtered"].append(doc)
 
@@ -117,10 +120,12 @@ class ConditionalBypass:
                 if self.rephrase_min <= score <= self.rephrase_max:
                     decision.route = "to_rephrase"
                     decision.final_action = "rephrase"
+                    doc["_route"] = "to_rephrase"
                     buckets["to_rephrase"].append(doc)
                 else:
                     decision.route = "discard"
                     decision.final_action = "discarded"
+                    doc["_route"] = "discard"
                     buckets["discarded"].append(doc)
 
             routing_log.append(decision)

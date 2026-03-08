@@ -1,0 +1,612 @@
+{
+  "gen1_output": {
+    "n_docs": 3242,
+    "sample_size": 500,
+    "scale": {
+      "n_docs": 3242,
+      "total_words": 3093686,
+      "avg_words": 954.2523133867983,
+      "median_words": 507.5
+    },
+    "quality": {
+      "method": "KenLM Wikipedia perplexity",
+      "stats": {
+        "mean": 1064.2801187491998,
+        "median": 878.7576977901282,
+        "p10": 425.2532220462879,
+        "p25": 585.2421270384915,
+        "p75": 1266.8842204553484,
+        "p90": 1988.8242794726784,
+        "n_valid": 500,
+        "n_inf": 0
+      },
+      "buckets": {
+        "head": {
+          "count": 14,
+          "ratio": 0.028,
+          "description": "PPL < 300 (高质量，类 Wikipedia)"
+        },
+        "middle": {
+          "count": 276,
+          "ratio": 0.552,
+          "description": "300 <= PPL < 1000 (中等质量)"
+        },
+        "tail": {
+          "count": 210,
+          "ratio": 0.42,
+          "description": "PPL >= 1000 (低质量)"
+        },
+        "total": 500,
+        "thresholds": {
+          "head": 300,
+          "middle": 1000
+        }
+      }
+    },
+    "language": {
+      "total_docs": 500,
+      "english_count": 497,
+      "english_ratio": 0.994,
+      "avg_confidence": 0.8935443575978279,
+      "n_languages": 3,
+      "top_languages": [
+        {
+          "lang": "en",
+          "count": 497,
+          "ratio": 0.994
+        },
+        {
+          "lang": "pt",
+          "count": 2,
+          "ratio": 0.004
+        },
+        {
+          "lang": "fr",
+          "count": 1,
+          "ratio": 0.002
+        }
+      ],
+      "language_counts": {
+        "en": 497,
+        "pt": 2,
+        "fr": 1
+      }
+    },
+    "diversity": {
+      "ngram_diversity": {
+        "unigram": {
+          "unique_ratio": 0.1311,
+          "total_ngrams": 400533,
+          "unique_ngrams": 52528,
+          "top10_ngrams": [
+            {
+              "the": 17412
+            },
+            {
+              "to": 10150
+            },
+            {
+              "and": 10075
+            },
+            {
+              "of": 8938
+            },
+            {
+              "a": 8000
+            },
+            {
+              "in": 5932
+            },
+            {
+              "is": 4132
+            },
+            {
+              "for": 3765
+            },
+            {
+              "you": 3407
+            },
+            {
+              "that": 3353
+            }
+          ]
+        },
+        "bigram": {
+          "unique_ratio": 0.5982,
+          "total_ngrams": 400033,
+          "unique_ngrams": 239308,
+          "top10_ngrams": [
+            {
+              "of the": 1999
+            },
+            {
+              "in the": 1422
+            },
+            {
+              "to the": 797
+            },
+            {
+              "on the": 736
+            },
+            {
+              "and the": 526
+            },
+            {
+              "to be": 498
+            },
+            {
+              "for the": 467
+            },
+            {
+              "with the": 439
+            },
+            {
+              "is a": 429
+            },
+            {
+              "at the": 401
+            }
+          ]
+        },
+        "trigram": {
+          "unique_ratio": 0.8706,
+          "total_ngrams": 399533,
+          "unique_ngrams": 347818,
+          "top10_ngrams": [
+            {
+              "one of the": 163
+            },
+            {
+              "3 months ago": 126
+            },
+            {
+              "a lot of": 119
+            },
+            {
+              "as well as": 115
+            },
+            {
+              "if you are": 90
+            },
+            {
+              "some of the": 74
+            },
+            {
+              "skip to content": 61
+            },
+            {
+              "be able to": 61
+            },
+            {
+              "all rights reserved.": 56
+            },
+            {
+              "you want to": 56
+            }
+          ]
+        }
+      },
+      "length_distribution": {
+        "mean": 801.1,
+        "median": 475.0,
+        "p10": 80.9,
+        "p25": 174.5,
+        "p75": 943.0,
+        "p90": 1760.1,
+        "p99": 6119.0,
+        "min": 50,
+        "max": 11232,
+        "total_words": 400533
+      },
+      "domain_entropy": {
+        "entropy": 5.495,
+        "max_entropy": 5.6439,
+        "normalized_entropy": 0.9736,
+        "n_domains": 483,
+        "top_10_domains": [
+          {
+            "domain": "forum.yealink.com",
+            "count": 4
+          },
+          {
+            "domain": "forum.billion.uk.com",
+            "count": 3
+          },
+          {
+            "domain": "ec2-3-143-237-96.us-east-2.compute.amazonaws.com",
+            "count": 3
+          },
+          {
+            "domain": "sites.math.northwestern.edu",
+            "count": 3
+          },
+          {
+            "domain": "bulkfeeds.net",
+            "count": 2
+          },
+          {
+            "domain": "autobus.cyclingnews.com",
+            "count": 2
+          },
+          {
+            "domain": "ascl.net",
+            "count": 2
+          },
+          {
+            "domain": "forum.mastermason.com",
+            "count": 2
+          },
+          {
+            "domain": "deferredsender.com",
+            "count": 2
+          },
+          {
+            "domain": "itelab.eun.org",
+            "count": 2
+          }
+        ]
+      }
+    },
+    "toxicity": {
+      "toxicity": {
+        "mean": 0.025108461790368894,
+        "p50": 0.0008810961444396526,
+        "p90": 0.009506769571453352,
+        "p95": 0.04307893123477566,
+        "p99": 0.896290813088417,
+        "toxic_rate_50": 0.018,
+        "toxic_rate_80": 0.012
+      },
+      "severe_toxicity": {
+        "mean": 0.003308586813713191,
+        "p50": 0.00011428138168412261,
+        "p90": 0.0001323524891631678,
+        "p95": 0.000404048553900792,
+        "p99": 0.05126266203820703,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "obscene": {
+        "mean": 0.017225885517633287,
+        "p50": 0.00019236209482187405,
+        "p90": 0.0007075237750541426,
+        "p95": 0.0026004619314334387,
+        "p99": 0.8320558708906173,
+        "toxic_rate_50": 0.016,
+        "toxic_rate_80": 0.012
+      },
+      "threat": {
+        "mean": 0.0004273132717498811,
+        "p50": 0.00012327191507210955,
+        "p90": 0.00020540327241178603,
+        "p95": 0.0006475938047515223,
+        "p99": 0.00970273215323686,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "insult": {
+        "mean": 0.011638172384438804,
+        "p50": 0.00018145926878787577,
+        "p90": 0.0006669715628959244,
+        "p95": 0.0031578668742440427,
+        "p99": 0.3722930639982223,
+        "toxic_rate_50": 0.008,
+        "toxic_rate_80": 0.006
+      },
+      "identity_attack": {
+        "mean": 0.005507778883416904,
+        "p50": 0.00014463250408880413,
+        "p90": 0.0002769431652268399,
+        "p95": 0.0013666740851476715,
+        "p99": 0.12813457325100883,
+        "toxic_rate_50": 0.004,
+        "toxic_rate_80": 0.0
+      }
+    }
+  },
+  "gen3_output": {
+    "n_docs": 1835,
+    "sample_size": 500,
+    "scale": {
+      "n_docs": 1835,
+      "total_words": 2208394,
+      "avg_words": 1203.48446866485,
+      "median_words": 670.0
+    },
+    "quality": {
+      "method": "KenLM Wikipedia perplexity",
+      "stats": {
+        "mean": 2044.5519939226035,
+        "median": 708.1027973501397,
+        "p10": 388.4843552961551,
+        "p25": 497.02245784059073,
+        "p75": 950.3867465692236,
+        "p90": 1325.2055232590997,
+        "n_valid": 500,
+        "n_inf": 0
+      },
+      "buckets": {
+        "head": {
+          "count": 16,
+          "ratio": 0.032,
+          "description": "PPL < 300 (高质量，类 Wikipedia)"
+        },
+        "middle": {
+          "count": 369,
+          "ratio": 0.738,
+          "description": "300 <= PPL < 1000 (中等质量)"
+        },
+        "tail": {
+          "count": 115,
+          "ratio": 0.23,
+          "description": "PPL >= 1000 (低质量)"
+        },
+        "total": 500,
+        "thresholds": {
+          "head": 300,
+          "middle": 1000
+        }
+      }
+    },
+    "language": {
+      "total_docs": 500,
+      "english_count": 486,
+      "english_ratio": 0.972,
+      "avg_confidence": 0.9196245025992393,
+      "n_languages": 3,
+      "top_languages": [
+        {
+          "lang": "en",
+          "count": 486,
+          "ratio": 0.972
+        },
+        {
+          "lang": "zh",
+          "count": 12,
+          "ratio": 0.024
+        },
+        {
+          "lang": "fr",
+          "count": 2,
+          "ratio": 0.004
+        }
+      ],
+      "language_counts": {
+        "en": 486,
+        "fr": 2,
+        "zh": 12
+      }
+    },
+    "diversity": {
+      "ngram_diversity": {
+        "unigram": {
+          "unique_ratio": 0.1094,
+          "total_ngrams": 626660,
+          "unique_ngrams": 68564,
+          "top10_ngrams": [
+            {
+              "the": 31088
+            },
+            {
+              "to": 16862
+            },
+            {
+              "and": 16373
+            },
+            {
+              "of": 14291
+            },
+            {
+              "a": 13110
+            },
+            {
+              "in": 9133
+            },
+            {
+              "is": 7157
+            },
+            {
+              "for": 6319
+            },
+            {
+              "that": 5482
+            },
+            {
+              "you": 5158
+            }
+          ]
+        },
+        "bigram": {
+          "unique_ratio": 0.5625,
+          "total_ngrams": 626160,
+          "unique_ngrams": 352215,
+          "top10_ngrams": [
+            {
+              "of the": 3351
+            },
+            {
+              "in the": 2340
+            },
+            {
+              "to the": 1489
+            },
+            {
+              "on the": 1245
+            },
+            {
+              "for the": 977
+            },
+            {
+              "and the": 891
+            },
+            {
+              "to be": 882
+            },
+            {
+              "it is": 854
+            },
+            {
+              "is a": 783
+            },
+            {
+              "you can": 723
+            }
+          ]
+        },
+        "trigram": {
+          "unique_ratio": 0.8658,
+          "total_ngrams": 625660,
+          "unique_ngrams": 541669,
+          "top10_ngrams": [
+            {
+              "as well as": 239
+            },
+            {
+              "one of the": 225
+            },
+            {
+              "a lot of": 150
+            },
+            {
+              "be able to": 109
+            },
+            {
+              "some of the": 108
+            },
+            {
+              "you want to": 107
+            },
+            {
+              "psychological aspects of": 98
+            },
+            {
+              "you need to": 97
+            },
+            {
+              "in order to": 96
+            },
+            {
+              "there is a": 96
+            }
+          ]
+        }
+      },
+      "length_distribution": {
+        "mean": 1253.3,
+        "median": 689.0,
+        "p10": 159.9,
+        "p25": 304.8,
+        "p75": 1293.5,
+        "p90": 2867.2,
+        "p99": 9089.3,
+        "min": 20,
+        "max": 36110,
+        "total_words": 626660
+      },
+      "domain_entropy": {
+        "entropy": 5.5453,
+        "max_entropy": 5.6439,
+        "normalized_entropy": 0.9825,
+        "n_domains": 489,
+        "top_10_domains": [
+          {
+            "domain": "pet-fence.ericgiguere.com",
+            "count": 3
+          },
+          {
+            "domain": "ec2-3-143-237-96.us-east-2.compute.amazonaws.com",
+            "count": 3
+          },
+          {
+            "domain": "pefmath2.etf.bg.ac.rs",
+            "count": 2
+          },
+          {
+            "domain": "rpdefense.over-blog.com",
+            "count": 2
+          },
+          {
+            "domain": "norticles.com",
+            "count": 2
+          },
+          {
+            "domain": "pickupmythings.com",
+            "count": 2
+          },
+          {
+            "domain": "darwin-online.org.uk",
+            "count": 2
+          },
+          {
+            "domain": "pinktentacle.com",
+            "count": 2
+          },
+          {
+            "domain": "blogs.451research.com",
+            "count": 2
+          },
+          {
+            "domain": "liveandbreathing.com",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "toxicity": {
+      "toxicity": {
+        "mean": 0.014792891618679277,
+        "p50": 0.0008551786013413221,
+        "p90": 0.006517273699864754,
+        "p95": 0.021747031807899248,
+        "p99": 0.36602748543023694,
+        "toxic_rate_50": 0.01,
+        "toxic_rate_80": 0.008
+      },
+      "severe_toxicity": {
+        "mean": 0.0015172036387521076,
+        "p50": 0.00011467973672552034,
+        "p90": 0.00013142226380296053,
+        "p95": 0.00022044835641281459,
+        "p99": 0.003622700858395441,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "obscene": {
+        "mean": 0.010387402266118442,
+        "p50": 0.0001922410592669621,
+        "p90": 0.0006225450604688387,
+        "p95": 0.0017981458746362433,
+        "p99": 0.24415157824754632,
+        "toxic_rate_50": 0.008,
+        "toxic_rate_80": 0.008
+      },
+      "threat": {
+        "mean": 0.0003903266985580558,
+        "p50": 0.00012225547106936574,
+        "p90": 0.00016732044314267128,
+        "p95": 0.0003425604591029691,
+        "p99": 0.00204172460129484,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "insult": {
+        "mean": 0.00627314628235763,
+        "p50": 0.00018145926878787577,
+        "p90": 0.000440540252020583,
+        "p95": 0.001207783276913686,
+        "p99": 0.09990036375820599,
+        "toxic_rate_50": 0.006,
+        "toxic_rate_80": 0.002
+      },
+      "identity_attack": {
+        "mean": 0.0032206753103819212,
+        "p50": 0.00014604046009480953,
+        "p90": 0.0002484180586179719,
+        "p95": 0.0005282734404318024,
+        "p99": 0.007333300085738269,
+        "toxic_rate_50": 0.002,
+        "toxic_rate_80": 0.0
+      }
+    }
+  }
+}

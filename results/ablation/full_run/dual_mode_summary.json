@@ -3,12 +3,12 @@
     "gen1_count": 409,
     "gen3_count": 205,
     "retention_rate": 0.5012,
-    "quality_mean": 0.7493
+    "quality_mean": 0.7475
   },
   "full_run": {
     "gen1_count": 3242,
     "gen3_count": 1725,
     "retention_rate": 0.5321,
-    "quality_mean": 0.7899
+    "quality_mean": 0.749
   }
 }

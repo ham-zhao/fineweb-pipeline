@@ -74,13 +74,13 @@
     },
     "gen3": {
       "name": "第三代(Hybrid)",
-      "doc_count": 1725,
-      "quality_mean": 0.748980416888776,
-      "quality_p50": 0.7520349025726318,
-      "quality_p90": 0.8358084678649902,
-      "unigram_diversity": 0.1587,
-      "trigram_diversity": 0.9161,
-      "avg_tokens": 1491.96
+      "doc_count": 1835,
+      "quality_mean": 0.7420430037850255,
+      "quality_p50": 0.7502500414848328,
+      "quality_p90": 0.8344167709350586,
+      "unigram_diversity": 0.1538,
+      "trigram_diversity": 0.9071,
+      "avg_tokens": 1547.46
     }
   }
 }

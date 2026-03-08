@@ -44,7 +44,7 @@ def evaluate(doc_list, label, total_docs, eval_clf):
         return {'label': label, 'count': 0, 'quality_mean': 0,
                 'quality_p90': 0, 'retention_rate': 0, 'trigram_diversity': 0}
     t = [d['text'] for d in doc_list]
-    scores = eval_clf.score_batch(t[:200])
+    scores = eval_clf.score_batch(t)
     diversity = compute_all_ngram_diversities(t[:200])
     return {
         'label': label,

@@ -6,15 +6,15 @@
       "label": "第三代完整版（基准）",
       "count": 1725,
       "retention_rate": 0.532079,
-      "quality_mean": 0.7899,
-      "quality_p90": 0.8692,
+      "quality_mean": 0.749,
+      "quality_p90": 0.8358,
       "trigram_diversity": 0
     },
     {
       "label": "去掉集成（单分类器）",
       "count": 1232,
       "retention_rate": 0.380012,
-      "quality_mean": 0.7804,
+      "quality_mean": 0.7792,
       "quality_p90": 0.8453,
       "trigram_diversity": 0
     },
@@ -30,24 +30,24 @@
       "label": "去掉合成改写",
       "count": 772,
       "retention_rate": 0.238125,
-      "quality_mean": 0.8056,
-      "quality_p90": 0.8676,
+      "quality_mean": 0.8023,
+      "quality_p90": 0.8628,
       "trigram_diversity": 0
     },
     {
       "label": "去掉 MinHash 去重",
       "count": 772,
       "retention_rate": 0.238125,
-      "quality_mean": 0.8056,
-      "quality_p90": 0.8676,
+      "quality_mean": 0.8023,
+      "quality_p90": 0.8628,
       "trigram_diversity": 0
     },
     {
       "label": "去掉毒性过滤",
       "count": 772,
       "retention_rate": 0.238125,
-      "quality_mean": 0.8056,
-      "quality_p90": 0.8676,
+      "quality_mean": 0.8023,
+      "quality_p90": 0.8628,
       "trigram_diversity": 0
     }
   ]
