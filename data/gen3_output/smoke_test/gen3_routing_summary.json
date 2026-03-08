@@ -2,56 +2,56 @@
   "routing": {
     "total": 409,
     "high_quality": {
-      "count": 257,
-      "rate": 0.6284
+      "count": 54,
+      "rate": 0.132
     },
     "heuristic_passed": {
       "count": 3,
       "rate": 0.0073
     },
     "heuristic_filtered": {
-      "count": 114,
-      "rate": 0.2787
+      "count": 140,
+      "rate": 0.3423
     },
     "to_rephrase": {
-      "count": 30,
-      "rate": 0.0733
+      "count": 117,
+      "rate": 0.2861
     },
     "discarded": {
-      "count": 5,
-      "rate": 0.0122
+      "count": 95,
+      "rate": 0.2323
     },
-    "total_kept": 260
+    "total_kept": 57
   },
   "bypass_analysis": {
-    "high_quality_count": 257,
-    "would_be_filtered_count": 249,
-    "would_be_filtered_rate": 0.9689,
+    "high_quality_count": 54,
+    "would_be_filtered_count": 49,
+    "would_be_filtered_rate": 0.9074,
     "sample_false_kills": [
-      {
-        "text": "10 Nights 11 Day Western-Central Bhutan Cultural Tour | Pawo Tours & Treks\n+975 [PHONE]/77328422 [EMAIL]\nHome\nBhutan\nHistory of Bhutan\nBhutanese Identity\nCulture of Bhutan\nArchitecture\nGross National ",
-        "reason": "c4:low_terminal_punct_ratio:0.38<0.7"
-      },
       {
         "text": "Newsom’s Hollow Ring of Freedom\nCalifornia Political Review\nNew Ideas for California's Future\nHome\nAbout Us\nContact Us\nAdvertise Here\nTop Stories\nTrending News\nCali-Culture\nCartoons\nVideos\nBlog\nNewsom",
         "reason": "c4:low_terminal_punct_ratio:0.20<0.7"
       },
       {
-        "text": "Chaka_Campbell - GRASP\nAbout Us\nLeadership\nEvents\nGRASP Disclaimer and Limit of Liability\nDonate\nContact Us\nCommunity\nMeetings\nUnited States Chapters\nCanada Chapters\nUK Chapters\nStarting a Chapter\nCon",
-        "reason": "c4:low_terminal_punct_ratio:0.11<0.7"
+        "text": "Classic wah-wah effect with inductance\nWelcome to the retro electronics world!\nRadio tech\nReceivers\nCB radio\nElectronics\nAudio tech\nMusic projekt\nA classic wah-wah effects pedal with a coil\nA wah-wah ",
+        "reason": "c4:low_terminal_punct_ratio:0.31<0.7"
       },
       {
-        "text": "Pdf Practical Software Reuse 2002\nAdvice\nBlog\nDating\nRelationships\nUsing eHarmony\nDating Tips\nAbout You\nMenu\nAdvice\nBlog\nDating\nRelationships\nUsing eHarmony\nDating Tips\nAbout You\nAdvice\nBlog\nDating\nRe",
-        "reason": "c4:low_terminal_punct_ratio:0.22<0.7"
+        "text": "Unraveling Quantum Computing: A Game Changer in the Digital World\nformatease.com\nSoftware\nInternet\nInnovations\nOther\nHomepage\nSoftware\nUnraveling Quantum Computing: A Game Changer in the Digital World",
+        "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
       },
       {
-        "text": "Land South\nLand South\nProfessional Asset Management\nUser Login\nHome\nOur Firm\nServices\nContact us\nLeading the way, PRESERVING\nthe VALUE of assets.\nWelcome to Land South\nWith an emphasis on the Southeas",
-        "reason": "c4:low_terminal_punct_ratio:0.19<0.7"
+        "text": "DASI: Digital Archive for the Study of pre-islamic arabian Inscriptions: Corpus Home\nCSAI\nCorpus of Qatabanic Inscriptions\nDASI\nCorpus Home\nProjects\nCorpus of South Arabian Inscriptions\nOnline Corpus ",
+        "reason": "c4:low_terminal_punct_ratio:0.16<0.7"
+      },
+      {
+        "text": "Angelina's Pizzeria and Restaurant New Jersey's Full Service Restaurant and Pizzeria specializing in Authentic Northern Italian and American Cuisine\nAbout Angelina's Pizzeria and Restaurant\nPh: ([PHON",
+        "reason": "c4:low_terminal_punct_ratio:0.15<0.7"
       }
     ]
   },
   "rephrasing": {
     "skipped": true
   },
-  "elapsed_seconds": 0.7009868621826172
+  "elapsed_seconds": 0.6635398864746094
 }

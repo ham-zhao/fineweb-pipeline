@@ -2,65 +2,56 @@
   "routing": {
     "total": 3242,
     "high_quality": {
-      "count": 12,
-      "rate": 0.0037
+      "count": 594,
+      "rate": 0.1832
     },
     "heuristic_passed": {
-      "count": 55,
-      "rate": 0.017
+      "count": 22,
+      "rate": 0.0068
     },
     "heuristic_filtered": {
-      "count": 2158,
-      "rate": 0.6656
+      "count": 1089,
+      "rate": 0.3359
     },
     "to_rephrase": {
-      "count": 163,
-      "rate": 0.0503
+      "count": 822,
+      "rate": 0.2535
     },
     "discarded": {
-      "count": 854,
-      "rate": 0.2634
+      "count": 715,
+      "rate": 0.2205
     },
-    "total_kept": 67
+    "total_kept": 616
   },
   "bypass_analysis": {
-    "high_quality_count": 12,
-    "would_be_filtered_count": 12,
-    "would_be_filtered_rate": 1.0,
+    "high_quality_count": 594,
+    "would_be_filtered_count": 555,
+    "would_be_filtered_rate": 0.9343,
     "sample_false_kills": [
       {
-        "text": "1 Chronicles (ASV) - Chapter 13\n1\nAnd David consulted with the captains of thousands and of hundreds, even with every leader.\n2\nAnd David said unto all the assembly of Israel, If it seem good unto you",
-        "reason": "c4:low_terminal_punct_ratio:0.39<0.7"
+        "text": "Boss Ballet Barres: The Ballet Barre is Not Just For Ballet\nBoss Ballet Barres\nFriday 2 August 2013\nThe Ballet Barre is Not Just For Ballet\nIt seems that ballet barre exercise is not just for the youn",
+        "reason": "c4:low_terminal_punct_ratio:0.17<0.7"
       },
       {
-        "text": "Chief Bowles Monument\nChief Bowles Monument, 1991\nThis 1936 Texas historical marker is out in the middle of a cow pasture with the looming high-power electrical structure in the background. It is loca",
-        "reason": "c4:low_terminal_punct_ratio:0.33<0.7"
+        "text": "Our Services - Adaptive EdgeAdaptive Edge\nClients\nServices\nServices\nMethodology\nWorking Principles\nResources & White Papers\nBlog\nContact Us\nMission\nTeam\nPress\nFirst Name\nLast Name\nEmail Address\nInquir",
+        "reason": "c4:low_terminal_punct_ratio:0.31<0.7"
       },
       {
-        "text": "Let it go\nJamila Drott\nLet it go\nLet it go – Galleri Thomassen 2019\nIn her first solo exhibition at Galleri Thomassen, Jamila Drott shows works in metal that operate on the border between painting and",
-        "reason": "c4:low_terminal_punct_ratio:0.43<0.7"
+        "text": "paa2007\nHomeHome\nDaysBrowse by Day/Time\nTopicsBrowse by Topic\nPeopleLookup Participant\nThe Timing of Early-Life Health and Socioeconomic Disadvantage\nMargot I. Jackson, University of California, Los A",
+        "reason": "c4:low_terminal_punct_ratio:0.18<0.7"
       },
       {
-        "text": "techniques | Insight wave\nInsight wave\nSearch\nMain menu\nSkip to primary content\nSkip to secondary content\nHome\nContact us\nTag Archives: techniques\nCreative Arts Therapy Techniques: Exploring The Heali",
-        "reason": "c4:low_terminal_punct_ratio:0.26<0.7"
+        "text": "Invisible Fence installation\nNote: This is an older version of the page, click here to see the most current version.\nInvisible Fence Installation\nHow and where your Invisible Fence is installed\nThe in",
+        "reason": "c4:low_terminal_punct_ratio:0.50<0.7"
       },
       {
-        "text": "Our History - Blue Planet Strategy\nHistory\nPeople\nOur Work\nSaving Right Whales\nWhale-safe Fishing Gear\nStrikeMaps\nMarine National Monument\nOcean’s Food Chain\nClimate Change on Marine Mammals\nOceansWid",
-        "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
+        "text": "Asia Buildings Material Ltd.\nChinese Poplar\nGeneral Characteristics\nYellow Poplar contains two species. The Yellow Poplar of North America (Litulipifera) and a Chinese specie (L. chinensis). Both spec",
+        "reason": "c4:low_terminal_punct_ratio:0.17<0.7"
       }
     ]
   },
   "rephrasing": {
-    "total_input": 163,
-    "success": 66,
-    "failed": 97,
-    "quality_filtered": 0,
-    "total_api_calls": 163,
-    "status_counts": {
-      "empty_result": 97,
-      "success": 66
-    },
-    "success_rate": 0.4049
+    "skipped": true
   },
-  "elapsed_seconds": 84.5230541229248
+  "elapsed_seconds": 4.530806064605713
 }
