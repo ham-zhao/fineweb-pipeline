@@ -171,7 +171,7 @@ def main():
             })
 
     analysis["language_filter"] = {
-        "input": len(remaining) + len(lang_filtered),
+        "input": len(remaining),
         "filtered": len(lang_filtered),
         "output": len(lang_kept),
         "language_distribution": dict(all_langs.most_common(20)),

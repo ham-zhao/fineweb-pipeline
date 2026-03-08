@@ -2,31 +2,31 @@
   "routing": {
     "total": 3242,
     "high_quality": {
-      "count": 679,
-      "rate": 0.2094
+      "count": 593,
+      "rate": 0.1829
     },
     "heuristic_passed": {
-      "count": 16,
-      "rate": 0.0049
+      "count": 1132,
+      "rate": 0.3492
     },
     "heuristic_filtered": {
-      "count": 1112,
-      "rate": 0.343
+      "count": 2,
+      "rate": 0.0006
     },
     "to_rephrase": {
-      "count": 708,
-      "rate": 0.2184
+      "count": 749,
+      "rate": 0.231
     },
     "discarded": {
-      "count": 727,
-      "rate": 0.2242
+      "count": 766,
+      "rate": 0.2363
     },
-    "total_kept": 695
+    "total_kept": 1725
   },
   "bypass_analysis": {
-    "high_quality_count": 679,
-    "would_be_filtered_count": 634,
-    "would_be_filtered_rate": 0.9337,
+    "high_quality_count": 593,
+    "would_be_filtered_count": 553,
+    "would_be_filtered_rate": 0.9325,
     "sample_false_kills": [
       {
         "text": "Boss Ballet Barres: The Ballet Barre is Not Just For Ballet\nBoss Ballet Barres\nFriday 2 August 2013\nThe Ballet Barre is Not Just For Ballet\nIt seems that ballet barre exercise is not just for the youn",
@@ -51,16 +51,7 @@
     ]
   },
   "rephrasing": {
-    "total_input": 708,
-    "success": 55,
-    "failed": 333,
-    "quality_filtered": 320,
-    "total_api_calls": 708,
-    "status_counts": {
-      "empty_result": 333,
-      "success": 375
-    },
-    "success_rate": 0.0777
+    "skipped": true
   },
-  "elapsed_seconds": 520.1866171360016
+  "elapsed_seconds": 4.650927782058716
 }

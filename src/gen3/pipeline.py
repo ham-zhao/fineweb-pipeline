@@ -23,6 +23,7 @@ from src.gen3.classifier_ensemble import ClassifierEnsemble
 from src.gen3.conditional_bypass import ConditionalBypass
 from src.gen3.synthetic_rephraser import SyntheticRephraser
 from src.gen1.filters.quality_filter import QualityFilter
+from src.utils.config_loader import load_pipeline_config
 
 
 class Gen3Pipeline:
@@ -58,7 +59,49 @@ class Gen3Pipeline:
         )
 
         # Heuristic 过滤器（只用于中等质量文档）
-        self.heuristic_filter = QualityFilter(use_gopher=True, use_c4=True, use_fineweb=True)
+        # 必须使用 Gen1 config 中调整过的阈值（如 CC WET 的 terminal_punct_min_ratio=0.1,
+        # min_alpha_ratio=0.5），否则默认阈值（0.7）会导致 93% 误杀率（论文预期 ~18%）。
+        gen1_pipe_cfg = load_pipeline_config(1)
+        gen1_filter_cfg = gen1_pipe_cfg.get("filters", {})
+        goph_cfg = gen1_filter_cfg.get("gopher_quality", {})
+        c4_cfg = gen1_filter_cfg.get("c4_quality", {})
+        fw_cfg = gen1_filter_cfg.get("fineweb_quality", {})
+
+        gopher_kwargs = {k: v for k, v in goph_cfg.items() if k != "enabled"}
+        c4_kwargs = {}
+        if "min_lines" in c4_cfg:
+            c4_kwargs["min_lines"] = c4_cfg["min_lines"]
+        if "min_words_per_line" in c4_cfg:
+            c4_kwargs["min_words_per_line"] = c4_cfg["min_words_per_line"]
+        if "filter_javascript" in c4_cfg:
+            c4_kwargs["filter_javascript"] = c4_cfg["filter_javascript"]
+        if "filter_lorem_ipsum" in c4_cfg:
+            c4_kwargs["filter_lorem_ipsum"] = c4_cfg["filter_lorem_ipsum"]
+        if "terminal_punct_min_ratio" in c4_cfg:
+            c4_kwargs["terminal_punct_min_ratio"] = c4_cfg["terminal_punct_min_ratio"]
+        fineweb_kwargs = {}
+        if "max_lines_starting_with_bullet" in fw_cfg:
+            fineweb_kwargs["max_bullet_lines_ratio"] = fw_cfg["max_lines_starting_with_bullet"]
+        if "max_lines_ending_with_ellipsis" in fw_cfg:
+            fineweb_kwargs["max_ellipsis_lines_ratio"] = fw_cfg["max_lines_ending_with_ellipsis"]
+        if "min_alpha_words_ratio" in fw_cfg:
+            fineweb_kwargs["min_alpha_words_ratio"] = fw_cfg["min_alpha_words_ratio"]
+
+        self.heuristic_filter = QualityFilter(
+            use_gopher=goph_cfg.get("enabled", True),
+            use_c4=c4_cfg.get("enabled", True),
+            use_fineweb=fw_cfg.get("enabled", True),
+            gopher_kwargs=gopher_kwargs,
+            c4_kwargs=c4_kwargs,
+            fineweb_kwargs=fineweb_kwargs,
+        )
+
+        # 严格阈值过滤器（仅用于 bypass 价值分析）
+        # bypass 分析回答的问题是："如果用论文标准的严格规则，会误杀多少高质量文档？"
+        # 必须用严格阈值（论文默认值）才有意义，用宽松阈值会得到 0% 误杀的假象。
+        self.strict_heuristic_filter = QualityFilter(
+            use_gopher=True, use_c4=True, use_fineweb=True,
+        )
 
         # 改写数量限制
         self.rewrite_count = run_config.get("rewrite_count", 50)
@@ -96,8 +139,9 @@ class Gen3Pipeline:
         buckets = self.router.route(docs, ensemble_scores, self.heuristic_filter)
 
         # Bypass 价值分析（验证 Nemotron-CC 的 18.1% 发现）
+        # 用严格阈值（论文默认值）分析：如果不做 bypass，严格 heuristic 会误杀多少高质量文档？
         bypass_analysis = self.router.compute_bypass_value(
-            buckets["high_quality"], self.heuristic_filter
+            buckets["high_quality"], self.strict_heuristic_filter
         )
 
         # ── Step 3: 合成数据改写 ──────────────────────────────

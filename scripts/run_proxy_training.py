@@ -101,6 +101,9 @@ def parse_args() -> argparse.Namespace:
                    help="学习率（AdamW，默认 3e-4）")
     p.add_argument("--skip-benchmark", action="store_true",
                    help="跳过 lm-eval benchmark（节省时间）")
+    p.add_argument("--raw-limit", type=int, default=None,
+                   help="Raw 数据子采样上限（默认 None=使用 doc_limit）。"
+                        "设为 3000 可与 Gen1 量级匹配，大幅缩短训练时间")
     return p.parse_args()
 
 
@@ -232,49 +235,37 @@ def prepare_datasets(cfg: Dict, skip_pipeline: bool) -> Dict[str, Path]:
         log("未找到原始数据！请先运行 bash scripts/download_sample.sh", "ERR")
         sys.exit(1)
 
-    # ── gen1 ────────────────────────────────────────────────────
-    gen1_candidates = [
-        ROOT / "data/gen1_output/gen1_output.jsonl",
-        ROOT / "results/gen1_output/gen1_output.jsonl",
-        ROOT / "results/smoke_test/gen1_output/gen1_output.jsonl",
-    ]
-    gen1_file = next((p for p in gen1_candidates if p.exists()), None)
+    # ── gen1/gen2/gen3 ────────────────────────────────────────────
+    run_mode = cfg.get("run_mode", "smoke_test")
+    gen_configs = {
+        "gen1": "gen1_output",
+        "gen2": "gen2_output",
+        "gen3": "gen3_output",
+    }
 
-    if gen1_file:
-        paths["gen1"] = gen1_file
-        log(f"gen1 数据: {gen1_file}", "OK")
-    elif not skip_pipeline:
-        log("未找到 Gen1 输出，运行 Gen1 Pipeline...", "WARN")
-        _run_pipeline_script("scripts/run_gen1.py")
-        gen1_file = next((p for p in gen1_candidates if p.exists()), None)
-        if gen1_file:
-            paths["gen1"] = gen1_file
+    for gen_name, dir_name in gen_configs.items():
+        candidates = [
+            ROOT / f"data/{dir_name}/{run_mode}/{gen_name}_output.jsonl",
+            ROOT / f"data/{dir_name}/{gen_name}_output.jsonl",
+            ROOT / f"results/{dir_name}/{gen_name}_output.jsonl",
+        ]
+        gen_file = next((p for p in candidates if p.exists()), None)
+
+        if gen_file:
+            paths[gen_name] = gen_file
+            log(f"{gen_name} 数据: {gen_file}", "OK")
+        elif not skip_pipeline and gen_name != "gen2":
+            script = f"scripts/run_{gen_name}.py"
+            extra = ["--no-rephrase"] if gen_name == "gen3" else []
+            log(f"未找到 {gen_name} 输出，运行 Pipeline...", "WARN")
+            _run_pipeline_script(script, extra_args=extra)
+            gen_file = next((p for p in candidates if p.exists()), None)
+            if gen_file:
+                paths[gen_name] = gen_file
+            else:
+                log(f"{gen_name} Pipeline 运行后仍未找到输出，跳过", "WARN")
         else:
-            log("Gen1 Pipeline 运行后仍未找到输出，跳过 gen1 训练", "WARN")
-    else:
-        log("未找到 Gen1 输出（--skip-data 模式，跳过）", "WARN")
-
-    # ── gen3 ────────────────────────────────────────────────────
-    gen3_candidates = [
-        ROOT / "data/gen3_output/gen3_output.jsonl",
-        ROOT / "results/gen3_output/gen3_output.jsonl",
-        ROOT / "results/smoke_test/gen3_output/gen3_output.jsonl",
-    ]
-    gen3_file = next((p for p in gen3_candidates if p.exists()), None)
-
-    if gen3_file:
-        paths["gen3"] = gen3_file
-        log(f"gen3 数据: {gen3_file}", "OK")
-    elif not skip_pipeline:
-        log("未找到 Gen3 输出，运行 Gen3 Pipeline（--no-rephrase）...", "WARN")
-        _run_pipeline_script("scripts/run_gen3.py", extra_args=["--no-rephrase"])
-        gen3_file = next((p for p in gen3_candidates if p.exists()), None)
-        if gen3_file:
-            paths["gen3"] = gen3_file
-        else:
-            log("Gen3 Pipeline 运行后仍未找到输出，跳过 gen3 训练", "WARN")
-    else:
-        log("未找到 Gen3 输出（--skip-data 模式，跳过）", "WARN")
+            log(f"未找到 {gen_name} 输出，跳过", "WARN")
 
     log(f"可用数据集: {list(paths.keys())}", "OK")
     return paths
@@ -910,8 +901,13 @@ def main():
         log(f"处理数据集: {name} ({data_path})", "STEP")
         hr()
 
-        docs = read_jsonl(data_path, doc_limit=doc_limit)
-        log(f"读取 {len(docs):,} 条文档", "INFO")
+        # raw 数据可子采样以控制训练时间
+        if name == "raw" and args.raw_limit:
+            limit = args.raw_limit
+        else:
+            limit = doc_limit
+        docs = read_jsonl(data_path, doc_limit=limit)
+        log(f"读取 {len(docs):,} 条文档 (limit={limit})", "INFO")
 
         if not docs:
             log(f"数据集 {name} 为空，跳过", "WARN")
@@ -993,8 +989,8 @@ def main():
     for name, stats in all_stats.items():
         ppl = stats.get("final_val_perplexity", 0)
         chunks = stats.get("train_chunks", 0)
-        print(f"  {'原始数据' if name == 'raw' else 'Gen1 Heuristic' if name == 'gen1' else 'Gen3 Hybrid':15s}  "
-              f"Chunks: {chunks:6,}  |  Val PPL: {ppl:.1f}")
+        label = {'raw': '原始数据', 'gen1': 'Gen1 Heuristic', 'gen2': 'Gen2 Model-based', 'gen3': 'Gen3 Hybrid'}.get(name, name)
+        print(f"  {label:20s}  Chunks: {chunks:6,}  |  Val PPL: {ppl:.1f}")
     print()
     print(f"  📊 报告:   results/proxy_models/report.md")
     print(f"  📈 图表:   results/proxy_models/training_curves.png")

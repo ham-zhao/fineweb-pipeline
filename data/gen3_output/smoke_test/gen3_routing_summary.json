@@ -2,35 +2,43 @@
   "routing": {
     "total": 409,
     "high_quality": {
-      "count": 53,
-      "rate": 0.1296
+      "count": 63,
+      "rate": 0.154
     },
     "heuristic_passed": {
-      "count": 3,
-      "rate": 0.0073
+      "count": 142,
+      "rate": 0.3472
     },
     "heuristic_filtered": {
-      "count": 139,
-      "rate": 0.3399
+      "count": 0,
+      "rate": 0.0
     },
     "to_rephrase": {
-      "count": 116,
-      "rate": 0.2836
+      "count": 104,
+      "rate": 0.2543
     },
     "discarded": {
-      "count": 98,
-      "rate": 0.2396
+      "count": 100,
+      "rate": 0.2445
     },
-    "total_kept": 56
+    "total_kept": 205
   },
   "bypass_analysis": {
-    "high_quality_count": 53,
-    "would_be_filtered_count": 48,
-    "would_be_filtered_rate": 0.9057,
+    "high_quality_count": 63,
+    "would_be_filtered_count": 58,
+    "would_be_filtered_rate": 0.9206,
     "sample_false_kills": [
       {
         "text": "Newsom’s Hollow Ring of Freedom\nCalifornia Political Review\nNew Ideas for California's Future\nHome\nAbout Us\nContact Us\nAdvertise Here\nTop Stories\nTrending News\nCali-Culture\nCartoons\nVideos\nBlog\nNewsom",
         "reason": "c4:low_terminal_punct_ratio:0.20<0.7"
+      },
+      {
+        "text": "Land South\nLand South\nProfessional Asset Management\nUser Login\nHome\nOur Firm\nServices\nContact us\nLeading the way, PRESERVING\nthe VALUE of assets.\nWelcome to Land South\nWith an emphasis on the Southeas",
+        "reason": "c4:low_terminal_punct_ratio:0.19<0.7"
+      },
+      {
+        "text": "Breeze of Tokyo, International Dining in Marunouchi, Tokyo\nEOK!\nTop Restaurants & Bars Health & Beauty Shopping Travel Living 日本語\nEnglish Study Books Articles on Japan\nBreeze of Tokyo, International D",
+        "reason": "c4:low_terminal_punct_ratio:0.12<0.7"
       },
       {
         "text": "Classic wah-wah effect with inductance\nWelcome to the retro electronics world!\nRadio tech\nReceivers\nCB radio\nElectronics\nAudio tech\nMusic projekt\nA classic wah-wah effects pedal with a coil\nA wah-wah ",
@@ -39,19 +47,11 @@
       {
         "text": "Unraveling Quantum Computing: A Game Changer in the Digital World\nformatease.com\nSoftware\nInternet\nInnovations\nOther\nHomepage\nSoftware\nUnraveling Quantum Computing: A Game Changer in the Digital World",
         "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
-      },
-      {
-        "text": "DASI: Digital Archive for the Study of pre-islamic arabian Inscriptions: Corpus Home\nCSAI\nCorpus of Qatabanic Inscriptions\nDASI\nCorpus Home\nProjects\nCorpus of South Arabian Inscriptions\nOnline Corpus ",
-        "reason": "c4:low_terminal_punct_ratio:0.16<0.7"
-      },
-      {
-        "text": "Angelina's Pizzeria and Restaurant New Jersey's Full Service Restaurant and Pizzeria specializing in Authentic Northern Italian and American Cuisine\nAbout Angelina's Pizzeria and Restaurant\nPh: ([PHON",
-        "reason": "c4:low_terminal_punct_ratio:0.15<0.7"
       }
     ]
   },
   "rephrasing": {
     "skipped": true
   },
-  "elapsed_seconds": 0.6729049682617188
+  "elapsed_seconds": 0.6636590957641602
 }
