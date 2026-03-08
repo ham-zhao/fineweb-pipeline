@@ -1,0 +1,32 @@
+{
+  "run_mode": "full_run",
+  "timestamp": "2026-03-08T19:10:21.433154",
+  "datasets": [
+    "raw",
+    "gen1",
+    "gen2",
+    "gen3"
+  ],
+  "results": {
+    "raw": {
+      "final_val_perplexity": 2080.72,
+      "train_chunks": 19750,
+      "training_time_seconds": 1236.1
+    },
+    "gen1": {
+      "final_val_perplexity": 1384.79,
+      "train_chunks": 8844,
+      "training_time_seconds": 529.7
+    },
+    "gen2": {
+      "final_val_perplexity": 2615.63,
+      "train_chunks": 835,
+      "training_time_seconds": 51.5
+    },
+    "gen3": {
+      "final_val_perplexity": 1497.15,
+      "train_chunks": 6001,
+      "training_time_seconds": 360.1
+    }
+  }
+}

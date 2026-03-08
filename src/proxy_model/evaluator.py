@@ -305,7 +305,7 @@ class ProxyModelEvaluator:
         """
         evaluators = {}
         base = Path(proxy_dir)
-        for sub in ["raw", "gen1", "gen3"]:
+        for sub in ["raw", "gen1", "gen2", "gen3"]:
             model_path = base / sub / "model.pt"
             if model_path.exists():
                 try:
@@ -319,7 +319,7 @@ class ProxyModelEvaluator:
         """加载各数据集的训练统计 JSON。"""
         stats = {}
         base = Path(proxy_dir)
-        for sub in ["raw", "gen1", "gen3"]:
+        for sub in ["raw", "gen1", "gen2", "gen3"]:
             f = base / sub / "train_stats.json"
             if f.exists():
                 with open(f) as fp:

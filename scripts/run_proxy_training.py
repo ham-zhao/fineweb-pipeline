@@ -3,7 +3,7 @@
 scripts/run_proxy_training.py
 阶段四：Proxy Model 端到端验证 — 完全独立脚本
 
-目标：用 GPT-2 125M 级别的 Proxy Model，在三种数据集上训练并对比 downstream 任务表现，
+目标：用 GPT-2 125M 级别的 Proxy Model，在四种数据集上训练并对比 downstream 任务表现，
 验证"数据质量 × 数据量"对预训练效果的影响。
 
 用法：
@@ -11,16 +11,19 @@ scripts/run_proxy_training.py
     caffeinate -i python scripts/run_proxy_training.py --skip-data  # 已有数据，跳过 pipeline
     caffeinate -i python scripts/run_proxy_training.py --dry-run     # 仅检查依赖
 
-三种训练配置：
+四种训练配置：
     A. raw   —— 原始 CC 数据（无任何清洗）
     B. gen1  —— Gen1 Heuristic 清洗后
-    C. gen3  —— Gen3 Hybrid 清洗后（最终推荐）
+    C. gen2  —— Gen2 Model-based 清洗后（top-10%）
+    D. gen3  —— Gen3 Hybrid 清洗后（最终推荐）
+
+共享验证集：Wikipedia eval 数据（500 条），确保跨数据集 PPL 可横向比较。
 
 预期输出：
     results/proxy_models/report.md
     results/proxy_models/training_curves.png
-    results/proxy_models/{raw,gen1,gen3}/model.pt
-    results/proxy_models/{raw,gen1,gen3}/eval_results.json
+    results/proxy_models/{raw,gen1,gen2,gen3}/model.pt
+    results/proxy_models/{raw,gen1,gen2,gen3}/eval_results.json
 
 硬件要求（M4 Max）：
     - 显存：MPS backend，模型约占 0.5GB，训练峰值约 2GB
@@ -206,11 +209,11 @@ def read_jsonl(path: Path, doc_limit: Optional[int] = None) -> List[Dict]:
 
 def prepare_datasets(cfg: Dict, skip_pipeline: bool) -> Dict[str, Path]:
     """
-    准备三种训练数据集（raw / gen1 / gen3）并返回路径字典。
+    准备四种训练数据集（raw / gen1 / gen2 / gen3）并返回路径字典。
     如果 pipeline 输出已存在且 skip_pipeline=True，直接复用。
     """
     hr()
-    log("准备三种训练数据集", "STEP")
+    log("准备四种训练数据集", "STEP")
     hr()
 
     doc_limit = cfg.get("doc_limit", 1000)
@@ -700,14 +703,17 @@ def run_lm_eval_benchmark(
 # ═══════════════════════════════════════════════════════════════
 
 def plot_training_curves(all_stats: Dict[str, Dict], output_path: Path) -> None:
+    import matplotlib
     import matplotlib.pyplot as plt
     import matplotlib.gridspec as gridspec
+    matplotlib.rcParams['font.sans-serif'] = ['Arial Unicode MS', 'SimHei', 'DejaVu Sans']
+    matplotlib.rcParams['axes.unicode_minus'] = False
 
     fig = plt.figure(figsize=(16, 10))
     gs = gridspec.GridSpec(2, 2, figure=fig, hspace=0.4, wspace=0.35)
 
-    colors = {"raw": "#6c757d", "gen1": "#ffc107", "gen3": "#28a745"}
-    labels = {"raw": "原始数据", "gen1": "Gen1 Heuristic", "gen3": "Gen3 Hybrid"}
+    colors = {"raw": "#6c757d", "gen1": "#ffc107", "gen2": "#17a2b8", "gen3": "#28a745"}
+    labels = {"raw": "原始数据", "gen1": "Gen1 Heuristic", "gen2": "Gen2 Model-based", "gen3": "Gen3 Hybrid"}
 
     # ── 左上：训练 Loss 曲线 ──────────────────────────────────
     ax1 = fig.add_subplot(gs[0, 0])
@@ -875,7 +881,7 @@ def generate_report(
 def main():
     hr("═")
     print("  阶段四：Proxy Model 端到端验证")
-    print("  GPT-2 125M × 三种数据集 → Downstream 效果对比")
+    print("  GPT-2 125M × 四种数据集 → Downstream 效果对比")
     hr("═")
     print()
 
@@ -906,19 +912,26 @@ def main():
     max_tokens = args.max_tokens  # None = 不限制
 
     # ── 共享验证集（关键：确保所有模型在同一验证集上评估 PPL）──
-    # 从 raw 数据中取出固定 500 条作为共享验证集，不参与任何训练。
-    # 这样不同数据集训练的模型在同一验证集上算 PPL，结果可横向比较。
+    # 使用 Wikipedia 文本作为验证集，而非 raw CC WET 数据。
+    # 理由：
+    #   1. Wikipedia 是高质量文本，代表"好的语言建模"基准
+    #   2. 如果数据清洗有效，训练出的模型应该在高质量文本上 PPL 更低
+    #   3. 用 raw 数据做验证会偏向 raw 模型（同分布优势 + 数据泄漏风险）
+    #   4. 与 FineWeb/DCLM 的评估逻辑一致：在标准基准上衡量数据质量的效果
     shared_val_chunks = None
-    if "raw" in data_paths:
-        log("构建共享验证集（从 raw 数据中采样）...", "STEP")
-        raw_val_docs = read_jsonl(data_paths["raw"], doc_limit=500)
-        # 使用固定种子确保每次选取相同的验证集
+    wiki_val_path = ROOT / "data/reference/wikipedia_abstracts_eval.jsonl"
+    if wiki_val_path.exists():
+        log("构建共享验证集（从 Wikipedia eval 数据采样）...", "STEP")
+        wiki_val_docs = read_jsonl(wiki_val_path, doc_limit=500)
         random.seed(99)
-        random.shuffle(raw_val_docs)
-        raw_val_docs = raw_val_docs[:500]
-        shared_val_chunks = tokenizer.encode_docs(raw_val_docs, max_tokens=max_tokens, seq_len=args.seq_len)
-        log(f"  共享验证集: {len(shared_val_chunks):,} chunks（从 raw 数据采样 500 条）", "OK")
-        log(f"  所有模型将在此验证集上评估 PPL，确保跨数据集可比性", "INFO")
+        random.shuffle(wiki_val_docs)
+        wiki_val_docs = wiki_val_docs[:500]
+        shared_val_chunks = tokenizer.encode_docs(wiki_val_docs, max_tokens=max_tokens, seq_len=args.seq_len)
+        log(f"  共享验证集: {len(shared_val_chunks):,} chunks（Wikipedia eval 500 条）", "OK")
+        log(f"  预期：数据越干净 → 模型对 Wikipedia 文本 PPL 越低", "INFO")
+    else:
+        log(f"  Wikipedia eval 文件不存在: {wiki_val_path}", "WARN")
+        log(f"  将从各数据集内部切分 10% 作为验证集（PPL 不可跨数据集对比）", "WARN")
 
     all_stats = {}
     all_benchmarks = {}
