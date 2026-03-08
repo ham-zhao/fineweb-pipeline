@@ -827,37 +827,43 @@ Layer 3: Regression Check（回归检查）
 
 **问题**：训练多个模型（分别在不同数据集上训练）后用 Val PPL 做对比，但每个模型用自己数据的 10% 做验证集 → 不同验证集上的 PPL 无法横向比较。
 
-**案例**：Proxy Validation 中训练 4 个 GPT-2 125M（Raw/Gen1/Gen2/Gen3），初始方案每个模型从自身数据中划出 10% 做 val_set。结果 Raw PPL=76, Gen1 PPL=501 —— 完全反向（"脏数据上训练的模型 PPL 更低"不合理）。
+**案例（两轮迭代）**：
 
-**根因**：PPL 测量的是"模型对验证集文本的困惑度"。不同验证集的内在 entropy 不同（CC 原始数据更杂、entropy 更高），PPL 基线本身就不一样。只有在**同一验证集**上的 PPL 才有可比性。
+1. **第一轮**：每个模型从自身数据划出 10% 做 val_set → 不同验证集的 entropy 不同，PPL 无法横向比较。Raw PPL=76, Gen1 PPL=501（完全反向）。
+2. **第二轮**：改为从 Raw 数据统一采样 500 条做共享验证集 → PPL 仍然反向（Raw=305, Gen1=3578, Gen2=14731）。根因：(a) 验证集 500 条是 Raw 训练集前 3000 条的子集（数据泄漏）；(b) Raw 验证集天然偏向 Raw 模型（同分布优势）。
+3. **最终修复**：验证集改为 **Wikipedia eval 数据**（独立于所有训练数据）。Wikipedia 代表"好的语言建模"基准——如果数据清洗有效，训练出的模型应该在高质量文本上 PPL 更低。
+
+**根因**：PPL 测量的是"模型对验证集文本的困惑度"。验证集必须同时满足：(1) 所有模型共享同一份；(2) 独立于所有训练数据（无泄漏）；(3) 代表目标任务的"理想输出"（高质量文本，而非 raw web 数据）。
 
 **规则**：
 
-1. **固定一个共享验证集**：从某个固定来源（通常是 Raw 数据）中采样，用固定 seed 保证可复现
-2. **所有模型的训练数据 100% 用于训练**：不再从训练数据中划 val_set
-3. **评估一致**：所有模型在共享验证集上计算 PPL，差异完全来自训练数据质量差异
+1. **验证集来源独立**：使用高质量文本（如 Wikipedia）作为验证集，不从训练数据中取
+2. **固定且可复现**：用固定 seed 采样，所有实验使用同一份
+3. **所有模型 100% 训练数据用于训练**：不再从训练数据中划 val_set
+4. **验证集代表目标**：验证集应代表"好的语言建模"——如果清洗有效，模型在高质量文本上 PPL 应更低
 
 **实践模板**：
 
 ```python
-# 构建共享验证集（只做一次）
-raw_val_docs = read_jsonl("data/raw/cc_wet_sample.jsonl", doc_limit=500)
+# 构建共享验证集（使用 Wikipedia——独立于所有训练数据）
+wiki_val_docs = read_jsonl("data/reference/wikipedia_abstracts_eval.jsonl", doc_limit=500)
 random.seed(99)
-random.shuffle(raw_val_docs)
-shared_val_chunks = tokenizer.encode_docs(raw_val_docs[:500])
+random.shuffle(wiki_val_docs)
+shared_val_chunks = tokenizer.encode_docs(wiki_val_docs[:500])
 
 # 每个模型训练时传入共享验证集
 for dataset_name in ["raw", "gen1", "gen2", "gen3"]:
     train_model(
         chunks=all_chunks[dataset_name],      # 训练数据 100% 用于训练
-        shared_val_chunks=shared_val_chunks,   # 共享验证集
+        shared_val_chunks=shared_val_chunks,   # 共享 Wikipedia 验证集
     )
 ```
 
 **检查清单**：
 - [ ] 所有待比较的模型是否使用**同一个**验证集？
+- [ ] 验证集是否来自独立来源（不与任何训练数据重叠）？
+- [ ] 验证集是否代表目标任务的"理想输出"（高质量文本）？
 - [ ] 验证集是否用固定 seed 采样（可复现）？
-- [ ] 训练数据是否与验证集无重叠？
 
 ---
 

@@ -245,15 +245,20 @@ fineweb-pipeline/
   - 模型训练配置表（GPT-2 125M, seq_len=256, 1 epoch）
   - 单 Epoch 设计理由
 
-#### C. Proxy 训练关键 bug 修复（共享验证集）
+#### C. Proxy 训练关键 bug 修复（两轮迭代）
 
-- **发现的问题**：每个模型用自己数据的 10% 做验证集 → 不同验证集上的 PPL 无法横向对比
-  - Raw PPL=76, Gen1 PPL=501 —— 完全反向（数据越脏 PPL 越低）
-- **根因**：验证集内容不同，PPL 只在同一验证集上才可比
-- **修复**：在 `train_model()` 中新增 `shared_val_chunks` 参数
-  - 从 Raw 数据中取 500 条（seed=99）作为共享验证集
-  - 所有 4 个模型在同一验证集上计算 PPL
-- **状态**：已重新启动训练（17:25），等待完成
+**第一轮（17:25）——共享验证集**：
+- **问题**：每个模型用自己数据的 10% 做验证集 → 不同验证集上的 PPL 无法横向对比
+- **修复**：在 `train_model()` 中新增 `shared_val_chunks` 参数，从 Raw 数据取 500 条（seed=99）
+
+**第二轮（17:57）——验证集数据泄漏 + 分布偏向**：
+- **问题**：第一轮训练结果 PPL 完全反向（Raw=305, Gen1=3578, Gen2=14731）
+- **根因 1（数据泄漏）**：验证集从 `cc_wet_sample.jsonl` 前 500 条取，Raw 训练从同文件前 3000 条取 → 验证集是 Raw 训练集子集
+- **根因 2（分布偏向）**：即使无泄漏，Raw 验证集天然偏向 Raw 模型（同分布优势）
+- **修复**：验证集改为 `data/reference/wikipedia_abstracts_eval.jsonl`（500 条 Wikipedia 摘要，独立于所有训练数据）
+- **理由**：Wikipedia 代表"好的语言建模"基准；若清洗有效 → 训练数据更干净 → Wikipedia PPL 更低
+- **方法论**：新增 METHODOLOGY_PATTERNS.md Pattern #25（跨数据集模型对比必须共享评估集）
+- **状态**：训练重启，等待结果验证
 
 #### D. API 成本优化
 
@@ -300,6 +305,8 @@ fineweb-pipeline/
 - `49406ca`: NB00 expand proxy methodology — PPL vs MMLU + training config
 - `d3521d4`: fix proxy training shared validation set + NB09 add Gen2
 - `0c31c3a`: notebook quality audit — dependency assertions + surrogate handling + 口径
+- `d6708fb`: update interaction log + NB09 header for 4-model design
+- `c10b585`: add Pattern #25 — shared validation set for cross-dataset comparison
 
 ### 待完成
 
