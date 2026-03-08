@@ -489,9 +489,15 @@ def train_model(
     dataset_name: str,
     cfg: Dict,
     args: argparse.Namespace,
+    shared_val_chunks: Optional[List[List[int]]] = None,
 ) -> Dict:
     """
     在给定 chunks 上训练 GPT-2 125M。
+
+    关键设计：使用共享验证集（shared_val_chunks）确保不同数据集训练的
+    模型在同一验证集上评估 PPL，使结果可横向比较。如果未提供共享验证集，
+    则从训练数据中切分 10% 作为 fallback。
+
     返回训练统计 dict（loss curve, final perplexity 等）。
     """
     import torch
@@ -509,11 +515,17 @@ def train_model(
     random.seed(cfg.get("random_seed", 42))
     random.shuffle(chunks)
 
-    # 切分 train/val (90/10)
-    split = max(1, int(len(chunks) * 0.9))
-    train_chunks = chunks[:split]
-    val_chunks   = chunks[split:]
-    log(f"  Train: {len(train_chunks):,} chunks | Val: {len(val_chunks):,} chunks")
+    # 验证集策略：优先使用共享验证集，确保跨数据集 PPL 可比
+    if shared_val_chunks is not None:
+        train_chunks = chunks  # 全部用于训练
+        val_chunks = shared_val_chunks
+        log(f"  Train: {len(train_chunks):,} chunks | Shared Val: {len(val_chunks):,} chunks")
+    else:
+        # Fallback: 从训练数据切分 10%
+        split = max(1, int(len(chunks) * 0.9))
+        train_chunks = chunks[:split]
+        val_chunks = chunks[split:]
+        log(f"  Train: {len(train_chunks):,} chunks | Val (self-split): {len(val_chunks):,} chunks")
 
     model = build_gpt2_model(vocab_size=vocab_size)
     model = model.to(device)
@@ -893,6 +905,21 @@ def main():
     doc_limit = cfg.get("doc_limit", 1000)
     max_tokens = args.max_tokens  # None = 不限制
 
+    # ── 共享验证集（关键：确保所有模型在同一验证集上评估 PPL）──
+    # 从 raw 数据中取出固定 500 条作为共享验证集，不参与任何训练。
+    # 这样不同数据集训练的模型在同一验证集上算 PPL，结果可横向比较。
+    shared_val_chunks = None
+    if "raw" in data_paths:
+        log("构建共享验证集（从 raw 数据中采样）...", "STEP")
+        raw_val_docs = read_jsonl(data_paths["raw"], doc_limit=500)
+        # 使用固定种子确保每次选取相同的验证集
+        random.seed(99)
+        random.shuffle(raw_val_docs)
+        raw_val_docs = raw_val_docs[:500]
+        shared_val_chunks = tokenizer.encode_docs(raw_val_docs, max_tokens=max_tokens, seq_len=args.seq_len)
+        log(f"  共享验证集: {len(shared_val_chunks):,} chunks（从 raw 数据采样 500 条）", "OK")
+        log(f"  所有模型将在此验证集上评估 PPL，确保跨数据集可比性", "INFO")
+
     all_stats = {}
     all_benchmarks = {}
 
@@ -928,6 +955,7 @@ def main():
                 dataset_name=name,
                 cfg=cfg,
                 args=args,
+                shared_val_chunks=shared_val_chunks,
             )
             all_stats[name] = stats
         else:
