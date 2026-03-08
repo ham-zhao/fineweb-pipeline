@@ -7,8 +7,8 @@
   },
   "full_run": {
     "gen1_count": 3242,
-    "gen3_count": 1725,
-    "retention_rate": 0.5321,
-    "quality_mean": 0.749
+    "gen3_count": 1835,
+    "retention_rate": 0.566,
+    "quality_mean": 0.742
   }
 }

@@ -4,10 +4,10 @@
   "results": [
     {
       "label": "第三代完整版（基准）",
-      "count": 1725,
-      "retention_rate": 0.532079,
-      "quality_mean": 0.749,
-      "quality_p90": 0.8358,
+      "count": 1835,
+      "retention_rate": 0.566009,
+      "quality_mean": 0.742,
+      "quality_p90": 0.8344,
       "trigram_diversity": 0
     },
     {
