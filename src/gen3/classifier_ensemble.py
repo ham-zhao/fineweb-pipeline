@@ -75,7 +75,7 @@ class ClassifierEnsemble:
         negative_texts: List[str],
         model_path: Optional[str] = None,
         weight: float = 1.0,
-        max_features: int = 50000,
+        max_features: int = 10000,
     ) -> None:
         """
         训练 TF-IDF + LogisticRegression 分类器并注册。
