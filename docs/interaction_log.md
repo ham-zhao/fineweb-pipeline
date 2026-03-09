@@ -123,7 +123,7 @@ fineweb-pipeline/
 - **关键决策**：
   1. CLAUDE.md 从粗略规则升级为 253 行精炼版（含 before/after 示例、验证命令、来源标注）
   2. CC WET 数据从 10 个随机 segment 采样 12K docs，确保域名多样性（10,334 unique domains）
-  3. C4 terminal_punct_min_ratio 从 0.7 降至 0.1（CC WET p50=0.11）
+  3. C4 terminal_punct_min_ratio：改为仅计算内容行（>10词），阈值从 0.7 调至 0.3（经 eval classifier 分析选定）
   4. JS 检测精简为仅 "javascript"（C4 论文原始规则）
   5. Gen1 Pipeline 修复：config 阈值传参（之前全部使用硬编码默认值）
 

@@ -1023,7 +1023,7 @@ CC WET 数据下载成功，12,000 条文档来自 10 个随机 segment。
 关键代码修改：
 
 1. **Gen1 Pipeline 传参修复**：`src/gen1/pipeline.py` 原来创建 `QualityFilter` 时未传入 config 阈值，所有子过滤器使用硬编码默认值。修复后通过 `gopher_kwargs`/`c4_kwargs`/`fineweb_kwargs` 传入 YAML 配置值。
-2. **C4 terminal_punct_min_ratio**：从 0.7 降至 0.1。CC WET 文本的句末标点行比例中位数仅 0.11（p25=0.06, p75=0.22），0.7 阈值会杀掉 86% 的文档。
+2. **C4 terminal_punct_min_ratio**：改为仅计算内容行（>10词），阈值从 0.7 调至 0.3。CC WET 全行 P50=0.09（含大量导航/菜单短行），内容行 P50=0.50。阈值 0.3 经 eval classifier 分析选定（82.9% 好文档通过率）。
 3. **C4 JavaScript 检测**：从 5 个指标（`javascript`, `function()`, `var `, `document.`, `window.`）精简为仅 `javascript`（符合 C4 论文原始规则）。`var ` 在正常英文文本中有假阳性。
 4. **Gopher min_alpha_ratio**：从 0.7 降至 0.5。CC WET 原始文本含较多 URL、数字等非字母字符。
 
