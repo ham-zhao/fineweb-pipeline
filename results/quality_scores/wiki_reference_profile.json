@@ -1,0 +1,251 @@
+{
+  "n_docs": 5000,
+  "sample_size": 2000,
+  "scale": {
+    "n_docs": 5000,
+    "total_words": 322951,
+    "avg_words": 64.5902,
+    "median_words": 57.0
+  },
+  "quality": {
+    "method": "KenLM Wikipedia perplexity",
+    "stats": {
+      "mean": 94.67811339932223,
+      "median": 69.10975953865017,
+      "p10": 9.064756049451745,
+      "p25": 23.699487732289317,
+      "p75": 127.85126212925613,
+      "p90": 213.44652826109942,
+      "n_valid": 2000,
+      "n_inf": 0
+    },
+    "buckets": {
+      "head": {
+        "count": 1918,
+        "ratio": 0.959,
+        "description": "PPL < 300 (高质量，类 Wikipedia)"
+      },
+      "middle": {
+        "count": 81,
+        "ratio": 0.0405,
+        "description": "300 <= PPL < 1000 (中等质量)"
+      },
+      "tail": {
+        "count": 1,
+        "ratio": 0.0005,
+        "description": "PPL >= 1000 (低质量)"
+      },
+      "total": 2000,
+      "thresholds": {
+        "head": 300,
+        "middle": 1000
+      }
+    }
+  },
+  "language": {
+    "total_docs": 2000,
+    "english_count": 1999,
+    "english_ratio": 0.9995,
+    "avg_confidence": 0.9557121460735798,
+    "n_languages": 2,
+    "top_languages": [
+      {
+        "lang": "en",
+        "count": 1999,
+        "ratio": 0.9995
+      },
+      {
+        "lang": "fr",
+        "count": 1,
+        "ratio": 0.0005
+      }
+    ],
+    "language_counts": {
+      "en": 1999,
+      "fr": 1
+    }
+  },
+  "diversity": {
+    "ngram_diversity": {
+      "unigram": {
+        "unique_ratio": 0.2117,
+        "total_ngrams": 129902,
+        "unique_ngrams": 27498,
+        "top10_ngrams": [
+          {
+            "the": 9357
+          },
+          {
+            "of": 5539
+          },
+          {
+            "and": 4086
+          },
+          {
+            "in": 3681
+          },
+          {
+            "a": 3346
+          },
+          {
+            "is": 3008
+          },
+          {
+            "to": 1901
+          },
+          {
+            "was": 1446
+          },
+          {
+            "as": 1318
+          },
+          {
+            "by": 1170
+          }
+        ]
+      },
+      "bigram": {
+        "unique_ratio": 0.6546,
+        "total_ngrams": 127902,
+        "unique_ngrams": 83722,
+        "top10_ngrams": [
+          {
+            "of the": 1596
+          },
+          {
+            "in the": 1106
+          },
+          {
+            "is a": 1009
+          },
+          {
+            "it is": 420
+          },
+          {
+            "to the": 401
+          },
+          {
+            "and the": 378
+          },
+          {
+            "is the": 360
+          },
+          {
+            "was a": 299
+          },
+          {
+            "by the": 278
+          },
+          {
+            "is an": 266
+          }
+        ]
+      },
+      "trigram": {
+        "unique_ratio": 0.8834,
+        "total_ngrams": 125902,
+        "unique_ngrams": 111221,
+        "top10_ngrams": [
+          {
+            "one of the": 143
+          },
+          {
+            "member of the": 77
+          },
+          {
+            "part of the": 77
+          },
+          {
+            "also known as": 72
+          },
+          {
+            "it is the": 68
+          },
+          {
+            "the united states": 67
+          },
+          {
+            "as well as": 62
+          },
+          {
+            "in the united": 62
+          },
+          {
+            "is an american": 60
+          },
+          {
+            "was an american": 59
+          }
+        ]
+      }
+    },
+    "length_distribution": {
+      "mean": 65.0,
+      "median": 57.0,
+      "p10": 26.0,
+      "p25": 37.0,
+      "p75": 84.0,
+      "p90": 113.0,
+      "p99": 189.0,
+      "min": 13,
+      "max": 263,
+      "total_words": 129902
+    }
+  },
+  "toxicity": {
+    "toxicity": {
+      "mean": 0.0021467734565376304,
+      "p50": 0.000814752362202853,
+      "p90": 0.0014618900837376715,
+      "p95": 0.002249989821575581,
+      "p99": 0.01068725293502211,
+      "toxic_rate_50": 0.001,
+      "toxic_rate_80": 0.0005
+    },
+    "severe_toxicity": {
+      "mean": 0.00025316347272746496,
+      "p50": 0.0001227028333232738,
+      "p90": 0.00014195362164173275,
+      "p95": 0.00015481480295420624,
+      "p99": 0.00021976724252454005,
+      "toxic_rate_50": 0.0,
+      "toxic_rate_80": 0.0
+    },
+    "obscene": {
+      "mean": 0.0009086082910653204,
+      "p50": 0.00018606468802317977,
+      "p90": 0.0002266664931084961,
+      "p95": 0.0002598629464046096,
+      "p99": 0.0006852778443135318,
+      "toxic_rate_50": 0.0005,
+      "toxic_rate_80": 0.0005
+    },
+    "threat": {
+      "mean": 0.0001462625836065854,
+      "p50": 0.00013272977230371907,
+      "p90": 0.00016727472102502362,
+      "p95": 0.00018976417632075027,
+      "p99": 0.0003713543975027278,
+      "toxic_rate_50": 0.0,
+      "toxic_rate_80": 0.0
+    },
+    "insult": {
+      "mean": 0.0006895014858746436,
+      "p50": 0.00019214997882954776,
+      "p90": 0.000266896263929084,
+      "p95": 0.00031473714043386266,
+      "p99": 0.0008542343857698141,
+      "toxic_rate_50": 0.0005,
+      "toxic_rate_80": 0.0005
+    },
+    "identity_attack": {
+      "mean": 0.0002322952148024342,
+      "p50": 0.00015693072782596573,
+      "p90": 0.00021897618571529165,
+      "p95": 0.00027152426482643925,
+      "p99": 0.0006193972338223828,
+      "toxic_rate_50": 0.0,
+      "toxic_rate_80": 0.0
+    }
+  }
+}
