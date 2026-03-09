@@ -7,6 +7,11 @@ scripts/run_gen3.py
     始终从原始 CC WET 开始，内部先运行 Gen1 Pipeline，再应用 Gen3 逻辑。
     保留率口径 = Gen3 最终输出 / CC WET 原始输入。
 
+产出文件（输出到 data/gen3_output/{run_mode}/）：
+  gen3_output.jsonl              - 最终保留文档（bypass + 中等 + 改写）
+  gen3_routing_summary.json      - 路由统计 + bypass 分析 + 改写统计
+  gen3_stage_metrics.json        - 各阶段文档数追踪
+
 用法:
     python scripts/run_gen3.py                   # 标准运行（CC WET → Gen1 → Gen3）
     python scripts/run_gen3.py --no-rephrase     # 跳过 LLM 改写（无需 API）
@@ -104,12 +109,13 @@ def main():
     #   - 分离度从 0.14 提升到 0.47（EDU），从 0.44 提升到 0.62（DCLM）
     #   - 三个分类器用同一来源的负样本，分数尺度自然一致
     #   - 推理时对 Gen1 输出做排序取 top-X%，只需相对排序正确
+    clf_limit = run_cfg.get("classifier_train_limit", 5000)
     raw_neg_path = Path("data/raw/cc_wet_full.jsonl") if run_cfg.get("doc_limit", 0) > 12000 and Path("data/raw/cc_wet_full.jsonl").exists() else Path("data/raw/cc_wet_sample.jsonl")
     negative_texts_unified = []
     if raw_neg_path.exists():
         with open(raw_neg_path) as f:
             for i, line in enumerate(f):
-                if i >= 5000:
+                if i >= clf_limit:
                     break
                 try:
                     negative_texts_unified.append(json.loads(line).get("text", ""))
@@ -117,7 +123,7 @@ def main():
                     pass
     if not negative_texts_unified:
         print("  ⚠️  原始 CC WET 不存在，降级使用 Gen1 输出做负样本（分离度可能不足）")
-        negative_texts_unified = [d["text"] for d in docs[:5000]]
+        negative_texts_unified = [d["text"] for d in docs[:clf_limit]]
     print(f"  📊 统一负样本: 原始 CC WET {len(negative_texts_unified):,} 条")
 
     # 分类器 1: DCLM 风格 fastText（Gen3 独立训练，不复用 Gen2 模型）
@@ -135,7 +141,7 @@ def main():
     if wiki_texts:
         clf_dclm = Gen2QualityClassifier()
         clf_dclm.train(
-            positive_texts=wiki_texts[:5000],
+            positive_texts=wiki_texts[:clf_limit],
             negative_texts=negative_texts_unified,
             output_path="results/quality_scores/gen3_dclm_classifier.bin",
             dim=64,
@@ -151,7 +157,7 @@ def main():
         edu_texts = []
         with open(edu_path) as f:
             for i, line in enumerate(f):
-                if i >= 5000:
+                if i >= clf_limit:
                     break
                 try:
                     edu_texts.append(json.loads(line)["text"])
@@ -175,7 +181,7 @@ def main():
     if wiki_texts:
         ensemble.train_tfidf_lr(
             name="tfidf_lr_wiki",
-            positive_texts=wiki_texts[:5000],
+            positive_texts=wiki_texts[:clf_limit],
             negative_texts=negative_texts_unified,
             model_path="results/quality_scores/gen3_tfidf_lr.pkl",
             weight=0.2,

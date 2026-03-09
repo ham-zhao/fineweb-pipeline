@@ -3,6 +3,11 @@
 scripts/run_gen1.py
 第一代 Heuristic Filtering Pipeline — 独立运行脚本
 
+产出文件（输出到 data/gen1_output/{run_mode}/）：
+  gen1_output.jsonl          - 过滤后文档
+  gen1_stats.json            - 总体统计
+  gen1_stage_metrics.json    - 各步过滤统计（文档数、保留率）
+
 用法:
     python scripts/run_gen1.py                          # 使用默认配置
     python scripts/run_gen1.py --config configs/gen1_config.yaml

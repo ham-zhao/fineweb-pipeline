@@ -57,4 +57,4 @@
 
 - 尝试更长训练（`--epochs 3`）观察收敛差异
 
-- 参考 Notebook `09_proxy_model_validation.ipynb` 进行深度分析
+- 参考 Notebook `06_cross_generation_comparison.ipynb` 中的 Proxy Model 跨代比较章节进行深度分析

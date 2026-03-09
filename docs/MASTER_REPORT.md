@@ -365,14 +365,11 @@ src/evaluation/（独立于所有 Pipeline）
 | Notebook | 对应的主要源文件 |
 |---|---|
 | 01_data_exploration | `scripts/download_sample.sh` |
-| 02_gen1_heuristic | `src/gen1/filters/*.py` |
+| 02_gen1_heuristic | `src/gen1/filters/*.py`（含去重分析） |
 | 03_gen2_model | `src/gen2/quality_classifier.py`, `threshold_tuner.py` |
 | 04_gen3_hybrid | `src/gen3/classifier_ensemble.py`, `conditional_bypass.py`, `synthetic_rephraser.py` |
-| 05_deduplication | `src/dedup/exact_dedup.py`, `minhash_dedup.py` |
-| 06_cross_generation | `scripts/generate_comparison_report.py` |
+| 06_cross_generation | `scripts/generate_comparison_report.py`（含 Proxy Model 跨代对比） |
 | 07_ablation | `src/gen3/conditional_bypass.py`（`compute_bypass_value()`） |
-| 08_chinese | `src/gen1_zh/chinese_quality_filter.py` |
-| 09_proxy_model | `scripts/run_proxy_training.py`, `src/proxy_model/evaluator.py` |
 
 ---
 
@@ -409,8 +406,7 @@ caffeinate -i python scripts/run_proxy_training.py
 # 完成后查看：
 open results/proxy_models/training_curves.png
 cat results/proxy_models/report.md
-# 或在 Notebook 09 中进行深度分析：
-jupyter lab notebooks/09_proxy_model_validation.ipynb
+# Proxy 结果在 Notebook 06 的跨代对比章节中进行深度分析
 ```
 
 ---

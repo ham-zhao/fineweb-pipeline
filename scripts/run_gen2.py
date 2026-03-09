@@ -145,7 +145,8 @@ def load_or_train_classifier(pipe_cfg, run_cfg, gen1_docs=None, gen2_output_dir=
         negative_texts = ["buy now discount sale cheap free click here"] * 100
 
     # 平衡正负样本
-    min_count = min(len(positive_texts), len(negative_texts), 5000)
+    clf_limit = run_cfg.get("classifier_train_limit", 5000)
+    min_count = min(len(positive_texts), len(negative_texts), clf_limit)
     rng = random.Random(run_cfg.get("random_seed", 42))
     positive_texts = rng.sample(positive_texts, min(min_count, len(positive_texts)))
     negative_texts = rng.sample(negative_texts, min(min_count, len(negative_texts)))
@@ -244,7 +245,8 @@ def train_eval_classifier(run_cfg, eval_cfg):
     negative_texts = _load_raw_texts(run_cfg)
 
     # 平衡正负样本
-    min_count = min(len(positive_texts), len(negative_texts), 5000)
+    clf_limit = run_cfg.get("classifier_train_limit", 5000)
+    min_count = min(len(positive_texts), len(negative_texts), clf_limit)
     rng = random.Random(run_cfg.get("random_seed", 42) + 1)  # 不同种子，避免与 pipeline 分类器选中完全相同的负样本子集
     positive_texts = rng.sample(positive_texts, min(min_count, len(positive_texts)))
     negative_texts = rng.sample(negative_texts, min(min_count, len(negative_texts)))

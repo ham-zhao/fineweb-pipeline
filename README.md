@@ -72,19 +72,12 @@ Proxy Model 验证（GPT-2 125M 对比训练）
 **路径 B：系统学习方法论（2-3 小时）**
 ```
 00_methodology_overview         ← 术语表 + 演进全貌（必读）
-01_data_exploration             ← 原始数据长什么样
-02_gen1_heuristic_filtering     ← 第一代：7 个规则过滤器逐一拆解
+01_data_exploration             ← 原始数据 + 正样本探索
+02_gen1_heuristic_filtering     ← 第一代：7 个规则过滤器逐一拆解 + 去重分析
 03_gen2_model_based_filtering   ← 第二代：fastText 训练 + 阈值实验
 04_gen3_hybrid_pipeline         ← 第三代：集成 + Bypass + 改写
-05_deduplication_analysis       ← 精确去重 + MinHash 原理
-06_cross_generation_comparison  ← 核心对比（必读）
+06_cross_generation_comparison  ← 核心对比 + Proxy 模型跨代验证（必读）
 07_ablation_study               ← 消融：去掉哪个组件损失最大
-```
-
-**路径 C：扩展方向**
-```
-08_chinese_extension            ← 中文数据的特殊处理方式
-09_proxy_model_validation       ← 用 GPT-2 125M 做端到端效果验证
 ```
 
 ### ⚙️ Scripts — 直接运行 Pipeline

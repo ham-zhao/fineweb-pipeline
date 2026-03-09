@@ -866,7 +866,7 @@ def generate_report(
     lines.append("- 切换到 `full_run` 模式（`configs/run_config.yaml`）获得更多数据\n")
     lines.append("- 安装 `lm-eval` 进行 HellaSwag / ARC-Easy 等任务评估\n")
     lines.append("- 尝试更长训练（`--epochs 3`）观察收敛差异\n")
-    lines.append("- 参考 Notebook `09_proxy_model_validation.ipynb` 进行深度分析\n")
+    lines.append("- 参考 Notebook `06_cross_generation_comparison.ipynb` 中的 Proxy Model 跨代比较章节\n")
 
     report_path.parent.mkdir(parents=True, exist_ok=True)
     with open(report_path, "w", encoding="utf-8") as f:

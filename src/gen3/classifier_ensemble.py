@@ -98,7 +98,15 @@ class ClassifierEnsemble:
         lr = LogisticRegression(C=1.0, max_iter=200, solver="saga", n_jobs=-1)
         lr.fit(X_vec, y)
 
+        # Sanity check: 验证正/负样本分离度
+        pos_proba = lr.predict_proba(X_vec[:len(X_pos)])[:, 1]
+        neg_proba = lr.predict_proba(X_vec[len(X_pos):])[:, 1]
+        separation = float(np.mean(pos_proba)) - float(np.mean(neg_proba))
         print(f"  ✅ TF-IDF+LR 训练完成: {name}")
+        print(f"     Sanity check: pos_mean={np.mean(pos_proba):.4f}, neg_mean={np.mean(neg_proba):.4f}, "
+              f"separation={separation:.4f}")
+        if separation < 0.1:
+            print(f"  ⚠️  警告: 分离度 {separation:.4f} < 0.1，分类器可能无区分能力！")
 
         if model_path:
             Path(model_path).parent.mkdir(parents=True, exist_ok=True)
