@@ -15,7 +15,7 @@
 | 看理论和分析 | 📒 打开 `notebooks/00_methodology_overview.ipynb` |
 | 看三代对比的最终结论 | 📒 打开 `notebooks/06_cross_generation_comparison.ipynb` |
 | 看代码实现细节 | 📂 进入 `src/gen1/`、`src/gen2/`、`src/gen3/` |
-| 有疑问 | 📖 查看 `docs/FAQ.md` |
+| 有疑问 | 📖 查看 `docs/methodology/FAQ.md` |
 
 ---
 
@@ -240,5 +240,5 @@ api_key: "YOUR_API_KEY_HERE"    # 填入你的 Anthropic API Key
 
 ---
 
-> 📖 遇到问题请查看 [docs/FAQ.md](docs/FAQ.md)
+> 📖 遇到问题请查看 [docs/methodology/FAQ.md](docs/methodology/FAQ.md)
 > 方法论对标业界 2024 年最新 Pre-train 数据工程实践。
