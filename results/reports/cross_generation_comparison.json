@@ -8,6 +8,8 @@
       "quality_p90": 0.6639037787914277,
       "unigram_diversity": 0.2598,
       "trigram_diversity": 0.7775,
+      "trigram_unique": 163268,
+      "trigram_total": 209988,
       "avg_tokens": 3879.22
     },
     "gen1": {
@@ -18,6 +20,8 @@
       "quality_p90": 0.7965997457504272,
       "unigram_diversity": 0.1691,
       "trigram_diversity": 0.8873,
+      "trigram_unique": 175626,
+      "trigram_total": 197923,
       "avg_tokens": 2009.73
     },
     "gen2": {
@@ -28,6 +32,8 @@
       "quality_p90": 0.8589696109294892,
       "unigram_diversity": 0.2893,
       "trigram_diversity": 0.9486,
+      "trigram_unique": 30179,
+      "trigram_total": 31813,
       "avg_tokens": 991.5454545454545
     },
     "gen3": {
@@ -38,6 +44,8 @@
       "quality_p90": 0.823601222038269,
       "unigram_diversity": 0.1738,
       "trigram_diversity": 0.9159,
+      "trigram_unique": 197458,
+      "trigram_total": 215593,
       "avg_tokens": 1629.9
     }
   },
@@ -50,6 +58,8 @@
       "quality_p90": 0.6625725686550141,
       "unigram_diversity": 0.2598,
       "trigram_diversity": 0.7775,
+      "trigram_unique": 163268,
+      "trigram_total": 209988,
       "avg_tokens": 3879.22
     },
     "gen1": {
@@ -60,6 +70,8 @@
       "quality_p90": 0.8089129865169525,
       "unigram_diversity": 0.1703,
       "trigram_diversity": 0.9022,
+      "trigram_unique": 182332,
+      "trigram_total": 202104,
       "avg_tokens": 1803.05
     },
     "gen2": {
@@ -70,6 +82,8 @@
       "quality_p90": 0.8751088738441467,
       "unigram_diversity": 0.1766,
       "trigram_diversity": 0.9187,
+      "trigram_unique": 172472,
+      "trigram_total": 187726,
       "avg_tokens": 1554.07
     },
     "gen3": {
@@ -80,6 +94,8 @@
       "quality_p90": 0.8338547468185424,
       "unigram_diversity": 0.1577,
       "trigram_diversity": 0.9145,
+      "trigram_unique": 229925,
+      "trigram_total": 251412,
       "avg_tokens": 1539.41
     }
   }
