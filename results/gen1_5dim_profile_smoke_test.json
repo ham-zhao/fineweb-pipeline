@@ -1,0 +1,675 @@
+{
+  "gen1_input": {
+    "n_docs": 12000,
+    "sample_size": 409,
+    "scale": {
+      "n_docs": 12000,
+      "total_words": 8598933,
+      "avg_words": 716.57775,
+      "median_words": 313.0
+    },
+    "quality": {
+      "method": "KenLM Wikipedia perplexity",
+      "stats": {
+        "mean": 12013.427176374933,
+        "median": 2150.4213176000176,
+        "p10": 324.4156007098485,
+        "p25": 1016.4251045965267,
+        "p75": 5195.968540772448,
+        "p90": 43587.236894658876,
+        "n_valid": 409,
+        "n_inf": 0
+      },
+      "buckets": {
+        "head": {
+          "count": 38,
+          "ratio": 0.09290953545232274,
+          "description": "PPL < 300 (高质量，类 Wikipedia)"
+        },
+        "middle": {
+          "count": 63,
+          "ratio": 0.15403422982885084,
+          "description": "300 <= PPL < 1000 (中等质量)"
+        },
+        "tail": {
+          "count": 308,
+          "ratio": 0.7530562347188264,
+          "description": "PPL >= 1000 (低质量)"
+        },
+        "total": 409,
+        "thresholds": {
+          "head": 300,
+          "middle": 1000
+        }
+      }
+    },
+    "language": {
+      "total_docs": 409,
+      "english_count": 133,
+      "english_ratio": 0.3251833740831296,
+      "avg_confidence": 0.8700537837513501,
+      "n_languages": 31,
+      "top_languages": [
+        {
+          "lang": "en",
+          "count": 133,
+          "ratio": 0.3251833740831296
+        },
+        {
+          "lang": "zh",
+          "count": 60,
+          "ratio": 0.1466992665036675
+        },
+        {
+          "lang": "ja",
+          "count": 42,
+          "ratio": 0.10268948655256724
+        },
+        {
+          "lang": "ru",
+          "count": 42,
+          "ratio": 0.10268948655256724
+        },
+        {
+          "lang": "fr",
+          "count": 21,
+          "ratio": 0.05134474327628362
+        },
+        {
+          "lang": "es",
+          "count": 16,
+          "ratio": 0.039119804400977995
+        },
+        {
+          "lang": "de",
+          "count": 14,
+          "ratio": 0.034229828850855744
+        },
+        {
+          "lang": "pl",
+          "count": 8,
+          "ratio": 0.019559902200488997
+        },
+        {
+          "lang": "fa",
+          "count": 8,
+          "ratio": 0.019559902200488997
+        },
+        {
+          "lang": "id",
+          "count": 7,
+          "ratio": 0.017114914425427872
+        }
+      ],
+      "language_counts": {
+        "de": 14,
+        "fr": 21,
+        "en": 133,
+        "zh": 60,
+        "el": 4,
+        "ja": 42,
+        "es": 16,
+        "ru": 42,
+        "ro": 1,
+        "th": 2,
+        "sv": 3,
+        "uk": 4,
+        "hu": 2,
+        "nl": 5,
+        "ar": 2,
+        "vi": 4,
+        "he": 1,
+        "cs": 6,
+        "bg": 1,
+        "ca": 1,
+        "pt": 4,
+        "id": 7,
+        "pl": 8,
+        "tr": 4,
+        "hy": 2,
+        "fa": 8,
+        "ko": 5,
+        "it": 4,
+        "ms": 1,
+        "hr": 1,
+        "fi": 1
+      }
+    },
+    "diversity": {
+      "ngram_diversity": {
+        "unigram": {
+          "unique_ratio": 0.3203,
+          "total_ngrams": 257057,
+          "unique_ngrams": 82341,
+          "top10_ngrams": [
+            {
+              "the": 2929
+            },
+            {
+              "a": 2276
+            },
+            {
+              "(1)": 2208
+            },
+            {
+              "to": 2036
+            },
+            {
+              "and": 1937
+            },
+            {
+              "of": 1847
+            },
+            {
+              "in": 1582
+            },
+            {
+              "de": 1274
+            },
+            {
+              "-": 1201
+            },
+            {
+              "|": 938
+            }
+          ]
+        },
+        "bigram": {
+          "unique_ratio": 0.7141,
+          "total_ngrams": 256648,
+          "unique_ngrams": 183267,
+          "top10_ngrams": [
+            {
+              "in the": 297
+            },
+            {
+              "of the": 286
+            },
+            {
+              "상품 수": 174
+            },
+            {
+              "수 1": 174
+            },
+            {
+              "вернуться к": 172
+            },
+            {
+              "к началу": 169
+            },
+            {
+              "repair elmwoodparks": 164
+            },
+            {
+              ") {": 140
+            },
+            {
+              "if (": 139
+            },
+            {
+              "<# }": 127
+            }
+          ]
+        },
+        "trigram": {
+          "unique_ratio": 0.8276,
+          "total_ngrams": 256239,
+          "unique_ngrams": 212073,
+          "top10_ngrams": [
+            {
+              "상품 수 1": 174
+            },
+            {
+              "вернуться к началу": 169
+            },
+            {
+              "<# if (": 101
+            },
+            {
+              "<# } #>": 90
+            },
+            {
+              ") { #>": 88
+            },
+            {
+              "원 상품 수": 87
+            },
+            {
+              "수 1 감소": 87
+            },
+            {
+              "1 감소 상품": 87
+            },
+            {
+              "감소 상품 수": 87
+            },
+            {
+              "수 1 증가": 87
+            }
+          ]
+        }
+      },
+      "length_distribution": {
+        "mean": 628.5,
+        "median": 308.0,
+        "p10": 51.8,
+        "p25": 121.0,
+        "p75": 722.0,
+        "p90": 1342.4,
+        "p99": 5233.7,
+        "min": 7,
+        "max": 14728,
+        "total_words": 257057
+      },
+      "domain_entropy": {
+        "entropy": 5.6005,
+        "max_entropy": 5.6439,
+        "normalized_entropy": 0.9923,
+        "n_domains": 406,
+        "top_10_domains": [
+          {
+            "domain": "francoiscobos.free.fr",
+            "count": 3
+          },
+          {
+            "domain": "catalog.lib.kagoshima-u.ac.jp",
+            "count": 2
+          },
+          {
+            "domain": "doku.mediola.com",
+            "count": 1
+          },
+          {
+            "domain": "lanvaon.bzh",
+            "count": 1
+          },
+          {
+            "domain": "angel3829.synology.me",
+            "count": 1
+          },
+          {
+            "domain": "bluemir2.com",
+            "count": 1
+          },
+          {
+            "domain": "greek.choirs.gr",
+            "count": 1
+          },
+          {
+            "domain": "cgzo.com.cn",
+            "count": 1
+          },
+          {
+            "domain": "lifenglin.vip",
+            "count": 1
+          },
+          {
+            "domain": "162.243.163.95",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "toxicity": {
+      "toxicity": {
+        "mean": 0.040009190418363566,
+        "p50": 0.0061990064568817616,
+        "p90": 0.07366029024124145,
+        "p95": 0.17395213246345498,
+        "p99": 0.8424110960960419,
+        "toxic_rate_50": 0.019559902200488997,
+        "toxic_rate_80": 0.012224938875305624
+      },
+      "severe_toxicity": {
+        "mean": 0.0012264373976382038,
+        "p50": 0.00012906285701319575,
+        "p90": 0.00047339500742964445,
+        "p95": 0.0006827553268522011,
+        "p99": 0.023029468804598066,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "obscene": {
+        "mean": 0.014369404103917476,
+        "p50": 0.0006270048907026649,
+        "p90": 0.00728015014901757,
+        "p95": 0.016797879338264345,
+        "p99": 0.5124114561080964,
+        "toxic_rate_50": 0.012224938875305624,
+        "toxic_rate_80": 0.007334963325183374
+      },
+      "threat": {
+        "mean": 0.0007571667646580776,
+        "p50": 0.00023104580759536475,
+        "p90": 0.0010518899653106928,
+        "p95": 0.0018793473951518526,
+        "p99": 0.012027170881629023,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "insult": {
+        "mean": 0.0070990554602776285,
+        "p50": 0.00038552997284568846,
+        "p90": 0.0021181861869990822,
+        "p95": 0.004766587354242786,
+        "p99": 0.21932801544666528,
+        "toxic_rate_50": 0.004889975550122249,
+        "toxic_rate_80": 0.0
+      },
+      "identity_attack": {
+        "mean": 0.0034590584725058414,
+        "p50": 0.00020969686738681048,
+        "p90": 0.0009591106791049238,
+        "p95": 0.0018820737954229083,
+        "p99": 0.033384252935648104,
+        "toxic_rate_50": 0.0024449877750611247,
+        "toxic_rate_80": 0.0
+      }
+    }
+  },
+  "gen1_output": {
+    "n_docs": 409,
+    "sample_size": 409,
+    "scale": {
+      "n_docs": 409,
+      "total_words": 354130,
+      "avg_words": 865.8435207823961,
+      "median_words": 508.0
+    },
+    "quality": {
+      "method": "KenLM Wikipedia perplexity",
+      "stats": {
+        "mean": 1066.6534679319382,
+        "median": 887.0344940183677,
+        "p10": 444.7934999123193,
+        "p25": 625.5095725782286,
+        "p75": 1325.7730610043634,
+        "p90": 1907.0179539844169,
+        "n_valid": 409,
+        "n_inf": 0
+      },
+      "buckets": {
+        "head": {
+          "count": 7,
+          "ratio": 0.017114914425427872,
+          "description": "PPL < 300 (高质量，类 Wikipedia)"
+        },
+        "middle": {
+          "count": 226,
+          "ratio": 0.5525672371638142,
+          "description": "300 <= PPL < 1000 (中等质量)"
+        },
+        "tail": {
+          "count": 176,
+          "ratio": 0.43031784841075793,
+          "description": "PPL >= 1000 (低质量)"
+        },
+        "total": 409,
+        "thresholds": {
+          "head": 300,
+          "middle": 1000
+        }
+      }
+    },
+    "language": {
+      "total_docs": 409,
+      "english_count": 405,
+      "english_ratio": 0.9902200488997555,
+      "avg_confidence": 0.8973644521898045,
+      "n_languages": 3,
+      "top_languages": [
+        {
+          "lang": "en",
+          "count": 405,
+          "ratio": 0.9902200488997555
+        },
+        {
+          "lang": "pt",
+          "count": 3,
+          "ratio": 0.007334963325183374
+        },
+        {
+          "lang": "fr",
+          "count": 1,
+          "ratio": 0.0024449877750611247
+        }
+      ],
+      "language_counts": {
+        "en": 405,
+        "fr": 1,
+        "pt": 3
+      }
+    },
+    "diversity": {
+      "ngram_diversity": {
+        "unigram": {
+          "unique_ratio": 0.1479,
+          "total_ngrams": 354130,
+          "unique_ngrams": 52361,
+          "top10_ngrams": [
+            {
+              "the": 13915
+            },
+            {
+              "to": 8297
+            },
+            {
+              "and": 7989
+            },
+            {
+              "of": 6937
+            },
+            {
+              "a": 6897
+            },
+            {
+              "in": 4645
+            },
+            {
+              "is": 3465
+            },
+            {
+              "for": 3300
+            },
+            {
+              "you": 2967
+            },
+            {
+              "i": 2500
+            }
+          ]
+        },
+        "bigram": {
+          "unique_ratio": 0.6181,
+          "total_ngrams": 353721,
+          "unique_ngrams": 218639,
+          "top10_ngrams": [
+            {
+              "of the": 1432
+            },
+            {
+              "in the": 1121
+            },
+            {
+              "to the": 603
+            },
+            {
+              "on the": 562
+            },
+            {
+              "years ago": 450
+            },
+            {
+              "for the": 433
+            },
+            {
+              "to be": 395
+            },
+            {
+              "is a": 385
+            },
+            {
+              "and the": 363
+            },
+            {
+              "it is": 342
+            }
+          ]
+        },
+        "trigram": {
+          "unique_ratio": 0.8629,
+          "total_ngrams": 353312,
+          "unique_ngrams": 304889,
+          "top10_ngrams": [
+            {
+              "one of the": 115
+            },
+            {
+              "as well as": 87
+            },
+            {
+              "supplements for candida": 83
+            },
+            {
+              "for candida diet": 73
+            },
+            {
+              "a lot of": 68
+            },
+            {
+              "7 years ago": 65
+            },
+            {
+              "if you are": 59
+            },
+            {
+              "skip to content": 56
+            },
+            {
+              "you need to": 55
+            },
+            {
+              "in order to": 55
+            }
+          ]
+        }
+      },
+      "length_distribution": {
+        "mean": 865.8,
+        "median": 508.0,
+        "p10": 121.8,
+        "p25": 235.0,
+        "p75": 1066.0,
+        "p90": 1871.6,
+        "p99": 4497.4,
+        "min": 50,
+        "max": 8989,
+        "total_words": 354130
+      },
+      "domain_entropy": {
+        "entropy": 5.4887,
+        "max_entropy": 5.6439,
+        "normalized_entropy": 0.9725,
+        "n_domains": 384,
+        "top_10_domains": [
+          {
+            "domain": "forum.billion.uk.com",
+            "count": 6
+          },
+          {
+            "domain": "immarketing.me",
+            "count": 2
+          },
+          {
+            "domain": "eduardooqzs824.iamarrows.com",
+            "count": 2
+          },
+          {
+            "domain": "idahoindex.com",
+            "count": 2
+          },
+          {
+            "domain": "grasphelp.org",
+            "count": 2
+          },
+          {
+            "domain": "dmsdjing.com",
+            "count": 2
+          },
+          {
+            "domain": "blog.lechlak.com",
+            "count": 2
+          },
+          {
+            "domain": "bahrainmonitor.org",
+            "count": 2
+          },
+          {
+            "domain": "johnathanoxtr830.lowescouponn.com",
+            "count": 2
+          },
+          {
+            "domain": "castsugar.blogspot.com",
+            "count": 2
+          }
+        ]
+      }
+    },
+    "toxicity": {
+      "toxicity": {
+        "mean": 0.022459188199540587,
+        "p50": 0.0008947665337473154,
+        "p90": 0.006996168009936808,
+        "p95": 0.02341443337500095,
+        "p99": 0.9403893637657166,
+        "toxic_rate_50": 0.019559902200488997,
+        "toxic_rate_80": 0.017114914425427872
+      },
+      "severe_toxicity": {
+        "mean": 0.002499817983005543,
+        "p50": 0.00011266495130257681,
+        "p90": 0.00012685534020420163,
+        "p95": 0.00015754695341456675,
+        "p99": 0.08227922976017055,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "obscene": {
+        "mean": 0.01846276845115244,
+        "p50": 0.00019359379075467587,
+        "p90": 0.0005451036151498552,
+        "p95": 0.001417893520556384,
+        "p99": 0.8560166883468631,
+        "toxic_rate_50": 0.019559902200488997,
+        "toxic_rate_80": 0.017114914425427872
+      },
+      "threat": {
+        "mean": 0.00043501156797259134,
+        "p50": 0.00012245918333064765,
+        "p90": 0.00016501926002092653,
+        "p95": 0.0003643095027655362,
+        "p99": 0.010862273797392873,
+        "toxic_rate_50": 0.0,
+        "toxic_rate_80": 0.0
+      },
+      "insult": {
+        "mean": 0.011788580851776817,
+        "p50": 0.00018332793843001127,
+        "p90": 0.00045848593581467864,
+        "p95": 0.0012169748311862264,
+        "p99": 0.5133593964576721,
+        "toxic_rate_50": 0.014669926650366748,
+        "toxic_rate_80": 0.0024449877750611247
+      },
+      "identity_attack": {
+        "mean": 0.0054122120774439866,
+        "p50": 0.00014539682888425887,
+        "p90": 0.00024283814127556977,
+        "p95": 0.0005129408789798582,
+        "p99": 0.12143210113048693,
+        "toxic_rate_50": 0.004889975550122249,
+        "toxic_rate_80": 0.0
+      }
+    }
+  }
+}

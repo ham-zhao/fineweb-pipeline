@@ -1,62 +1,58 @@
 {
   "routing": {
-    "total": 3242,
+    "total": 3488,
     "high_quality": {
-      "count": 589,
-      "rate": 0.1817
+      "count": 601,
+      "rate": 0.1723
     },
     "medium_quality": {
-      "count": 1105,
-      "rate": 0.3408
+      "count": 1173,
+      "rate": 0.3363
     },
     "to_rephrase": {
-      "count": 772,
-      "rate": 0.2381
+      "count": 843,
+      "rate": 0.2417
     },
     "discarded": {
-      "count": 776,
-      "rate": 0.2394
+      "count": 871,
+      "rate": 0.2497
     },
-    "total_kept": 1694
+    "total_kept": 1774
   },
   "bypass_analysis": {
-    "high_quality_count": 589,
-    "would_be_filtered_count": 549,
-    "would_be_filtered_rate": 0.9321,
+    "high_quality_count": 601,
+    "would_be_filtered_count": 4,
+    "would_be_filtered_rate": 0.0067,
     "sample_false_kills": [
       {
-        "text": "Boss Ballet Barres: The Ballet Barre is Not Just For Ballet\nBoss Ballet Barres\nFriday 2 August 2013\nThe Ballet Barre is Not Just For Ballet\nIt seems that ballet barre exercise is not just for the youn",
-        "reason": "c4:low_terminal_punct_ratio:0.17<0.7"
+        "text": "पंकज शर्मा: Hijacking Bapu's legacy\nWednesday, November 20, 2019\nHijacking Bapu's legacy\nRepresentation of the country as similar to the right-wing ideologue by reshaping Gandhian values is a grave di",
+        "reason": "gopher:low_alpha_ratio:0.70<0.7"
       },
       {
-        "text": "Our Services - Adaptive EdgeAdaptive Edge\nClients\nServices\nServices\nMethodology\nWorking Principles\nResources & White Papers\nBlog\nContact Us\nMission\nTeam\nPress\nFirst Name\nLast Name\nEmail Address\nInquir",
-        "reason": "c4:low_terminal_punct_ratio:0.31<0.7"
+        "text": "IOSPE PHOTOS\nTelipogon suarezii D.E.Benn. & Christenson 2001\nTYPE Drawing by © Pastorelli, Bennett & Dodson\nCommon Name Suarez's Telipogon [Bolivian Orchid Illustrator and Collector of species current",
+        "reason": "gopher:low_alpha_ratio:0.65<0.7"
       },
       {
-        "text": "paa2007\nHomeHome\nDaysBrowse by Day/Time\nTopicsBrowse by Topic\nPeopleLookup Participant\nThe Timing of Early-Life Health and Socioeconomic Disadvantage\nMargot I. Jackson, University of California, Los A",
-        "reason": "c4:low_terminal_punct_ratio:0.18<0.7"
+        "text": "Menu ▾\nHOME\nBLOGS▾ ▾\nBats\nBig Cypress Blog\n11 Fathoms Up\nEverything Else\nCorkscrew Swamp Sanctuary Blog\nPANTHERS▾ ▾\nBig Cypress National Preserve\nCorkscrew Swamp Sanctuary\nRalph Arwood Photography\nHom",
+        "reason": "gopher:low_alpha_ratio:0.70<0.7"
       },
       {
-        "text": "Invisible Fence installation\nNote: This is an older version of the page, click here to see the most current version.\nInvisible Fence Installation\nHow and where your Invisible Fence is installed\nThe in",
-        "reason": "c4:low_terminal_punct_ratio:0.50<0.7"
-      },
-      {
-        "text": "Asia Buildings Material Ltd.\nChinese Poplar\nGeneral Characteristics\nYellow Poplar contains two species. The Yellow Poplar of North America (Litulipifera) and a Chinese specie (L. chinensis). Both spec",
-        "reason": "c4:low_terminal_punct_ratio:0.17<0.7"
+        "text": "﻿ Internet Archive Wayback Machine\nInternet Archive's Wayback Machine\nLoading...\n/wp-content/plugins/download-monitor/download.php?id=106 | 10:10:11 Dec 6, 2013\nGot an HTTP 302 response at crawl time\n",
+        "reason": "gopher:low_alpha_ratio:0.54<0.7"
       }
     ]
   },
   "rephrasing": {
-    "total_input": 772,
-    "success": 576,
-    "failed": 2,
-    "quality_filtered": 194,
-    "total_api_calls": 772,
+    "total_input": 843,
+    "success": 621,
+    "failed": 5,
+    "quality_filtered": 217,
+    "total_api_calls": 843,
     "status_counts": {
-      "success": 770,
-      "empty_result": 2
+      "success": 838,
+      "empty_result": 5
     },
-    "success_rate": 0.7461
+    "success_rate": 0.7367
   },
-  "elapsed_seconds": 334.0752491950989
+  "elapsed_seconds": 361.5337793827057
 }
