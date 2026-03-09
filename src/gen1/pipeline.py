@@ -160,6 +160,8 @@ class Gen1Pipeline:
             c4_kwargs["filter_lorem_ipsum"] = c4_cfg["filter_lorem_ipsum"]
         if "terminal_punct_min_ratio" in c4_cfg:
             c4_kwargs["terminal_punct_min_ratio"] = c4_cfg["terminal_punct_min_ratio"]
+        if "content_line_min_words" in c4_cfg:
+            c4_kwargs["content_line_min_words"] = c4_cfg["content_line_min_words"]
         fineweb_kwargs = {}
         if "max_lines_starting_with_bullet" in fw_cfg:
             fineweb_kwargs["max_bullet_lines_ratio"] = fw_cfg["max_lines_starting_with_bullet"]

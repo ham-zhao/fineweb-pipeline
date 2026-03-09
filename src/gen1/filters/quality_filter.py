@@ -178,7 +178,8 @@ class C4QualityFilter:
         filter_javascript: bool = True,
         filter_lorem_ipsum: bool = True,
         require_terminal_punctuation: bool = True,
-        terminal_punct_min_ratio: float = 0.7,  # 至少 70% 的行以句末标点结尾
+        terminal_punct_min_ratio: float = 0.3,  # 论文 0.7，本项目用 0.3（仅计算内容行>10词）
+        content_line_min_words: int = 10,  # 内容行定义：>N 词的行才纳入 tp_ratio 计算
     ):
         self.min_lines = min_lines
         self.min_words_per_line = min_words_per_line
@@ -186,6 +187,7 @@ class C4QualityFilter:
         self.filter_lorem_ipsum = filter_lorem_ipsum
         self.require_terminal_punctuation = require_terminal_punctuation
         self.terminal_punct_min_ratio = terminal_punct_min_ratio
+        self.content_line_min_words = content_line_min_words
 
     def check(self, text: str) -> Tuple[bool, str]:
         """
@@ -207,13 +209,20 @@ class C4QualityFilter:
         if self.filter_lorem_ipsum and "lorem ipsum" in text.lower():
             return False, "contains_lorem_ipsum"
 
-        # 规则 4: 句末标点比例（非模板化文本的特征）
+        # 规则 4: 句末标点比例（仅计算内容行，排除导航/菜单等短行）
+        #   CC WET 保留了大量非内容行（菜单、导航栏、sidebar 等短行），
+        #   这些短行通常不以标点结尾，导致全行 tp_ratio P50 仅 0.09。
+        #   只计算内容行（>10 词）时，P50 = 0.500，与论文口径对齐。
         if self.require_terminal_punctuation and lines:
+            content_lines = [l for l in lines if len(l.split()) > self.content_line_min_words]
+            if not content_lines:
+                # 无内容行 = 整个文档都是短行（导航页/产品列表/验证页），直接过滤
+                return False, "no_content_lines"
             terminal_lines = sum(
-                1 for l in lines
+                1 for l in content_lines
                 if l and l[-1] in TERMINAL_PUNCTUATION
             )
-            ratio = terminal_lines / len(lines)
+            ratio = terminal_lines / len(content_lines)
             if ratio < self.terminal_punct_min_ratio:
                 return False, f"low_terminal_punct_ratio:{ratio:.2f}<{self.terminal_punct_min_ratio}"
 

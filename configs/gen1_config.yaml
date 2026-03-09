@@ -47,8 +47,14 @@ filters:
     enabled: true
     # 行末标点（保留以句末标点结尾的行）
     terminal_punctuation: [".", "?", "!", "\"", "\""]
-    # 句末标点行比例下限（CC WET 原始文本 p50=0.11，0.1 保留约 55% 的文档）
-    terminal_punct_min_ratio: 0.1
+    # 句末标点行比例下限（仅计算内容行 >10 词）
+    # 阈值选取依据：eval classifier 分析好文档（eval≥0.55）通过率
+    #   0.2 → 87.7% 好文档通过（过于宽松）
+    #   0.3 → 82.9% 好文档通过（最佳平衡，净救回 +304 好文档 vs 旧方案）
+    #   0.5 → 72.3% 好文档通过（过于激进）
+    terminal_punct_min_ratio: 0.3
+    # 内容行定义：词数 >N 的行才纳入 tp_ratio 计算（排除导航/菜单短行）
+    content_line_min_words: 10
     # JavaScript 内容过滤
     filter_javascript: true
     # Lorem ipsum 过滤
