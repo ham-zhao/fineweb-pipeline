@@ -1,14 +1,14 @@
 {
   "smoke_test": {
     "gen1_count": 409,
-    "gen3_count": 205,
-    "retention_rate": 0.5012,
-    "quality_mean": 0.7475
+    "gen3_count": 210,
+    "retention_rate": 0.5134,
+    "quality_mean": 0.7443
   },
   "full_run": {
     "gen1_count": 3242,
-    "gen3_count": 1835,
-    "retention_rate": 0.566,
-    "quality_mean": 0.742
+    "gen3_count": 1856,
+    "retention_rate": 0.5725,
+    "quality_mean": 0.7415
   }
 }

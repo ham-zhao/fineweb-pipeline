@@ -2,43 +2,31 @@
   "routing": {
     "total": 409,
     "high_quality": {
-      "count": 63,
-      "rate": 0.154
+      "count": 59,
+      "rate": 0.1443
     },
-    "heuristic_passed": {
+    "medium_quality": {
       "count": 142,
       "rate": 0.3472
-    },
-    "heuristic_filtered": {
-      "count": 0,
-      "rate": 0.0
     },
     "to_rephrase": {
       "count": 104,
       "rate": 0.2543
     },
     "discarded": {
-      "count": 100,
-      "rate": 0.2445
+      "count": 104,
+      "rate": 0.2543
     },
-    "total_kept": 205
+    "total_kept": 201
   },
   "bypass_analysis": {
-    "high_quality_count": 63,
-    "would_be_filtered_count": 58,
-    "would_be_filtered_rate": 0.9206,
+    "high_quality_count": 59,
+    "would_be_filtered_count": 54,
+    "would_be_filtered_rate": 0.9153,
     "sample_false_kills": [
       {
         "text": "Newsom’s Hollow Ring of Freedom\nCalifornia Political Review\nNew Ideas for California's Future\nHome\nAbout Us\nContact Us\nAdvertise Here\nTop Stories\nTrending News\nCali-Culture\nCartoons\nVideos\nBlog\nNewsom",
         "reason": "c4:low_terminal_punct_ratio:0.20<0.7"
-      },
-      {
-        "text": "Land South\nLand South\nProfessional Asset Management\nUser Login\nHome\nOur Firm\nServices\nContact us\nLeading the way, PRESERVING\nthe VALUE of assets.\nWelcome to Land South\nWith an emphasis on the Southeas",
-        "reason": "c4:low_terminal_punct_ratio:0.19<0.7"
-      },
-      {
-        "text": "Breeze of Tokyo, International Dining in Marunouchi, Tokyo\nEOK!\nTop Restaurants & Bars Health & Beauty Shopping Travel Living 日本語\nEnglish Study Books Articles on Japan\nBreeze of Tokyo, International D",
-        "reason": "c4:low_terminal_punct_ratio:0.12<0.7"
       },
       {
         "text": "Classic wah-wah effect with inductance\nWelcome to the retro electronics world!\nRadio tech\nReceivers\nCB radio\nElectronics\nAudio tech\nMusic projekt\nA classic wah-wah effects pedal with a coil\nA wah-wah ",
@@ -47,11 +35,28 @@
       {
         "text": "Unraveling Quantum Computing: A Game Changer in the Digital World\nformatease.com\nSoftware\nInternet\nInnovations\nOther\nHomepage\nSoftware\nUnraveling Quantum Computing: A Game Changer in the Digital World",
         "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
+      },
+      {
+        "text": "DASI: Digital Archive for the Study of pre-islamic arabian Inscriptions: Corpus Home\nCSAI\nCorpus of Qatabanic Inscriptions\nDASI\nCorpus Home\nProjects\nCorpus of South Arabian Inscriptions\nOnline Corpus ",
+        "reason": "c4:low_terminal_punct_ratio:0.16<0.7"
+      },
+      {
+        "text": "Angelina's Pizzeria and Restaurant New Jersey's Full Service Restaurant and Pizzeria specializing in Authentic Northern Italian and American Cuisine\nAbout Angelina's Pizzeria and Restaurant\nPh: ([PHON",
+        "reason": "c4:low_terminal_punct_ratio:0.15<0.7"
       }
     ]
   },
   "rephrasing": {
-    "skipped": true
+    "total_input": 104,
+    "success": 9,
+    "failed": 41,
+    "quality_filtered": 54,
+    "total_api_calls": 104,
+    "status_counts": {
+      "empty_result": 41,
+      "success": 63
+    },
+    "success_rate": 0.0865
   },
-  "elapsed_seconds": 0.6636590957641602
+  "elapsed_seconds": 138.98972582817078
 }

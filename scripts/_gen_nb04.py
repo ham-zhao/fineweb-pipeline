@@ -172,10 +172,10 @@ axes[0].set_title('Gen3 输出文档的集成分数分布')
 axes[0].legend(fontsize=9)
 
 # -- 右图：各路由捕获的文档数量 --
-route_names = ['高质量\\n(bypass)', 'Heuristic\\n通过', '待改写', '丢弃']
+route_names = ['高质量\\n(bypass)', '中等质量\\n(直接通过)', '待改写', '丢弃']
 route_counts = [
     routing['high_quality']['count'],
-    routing['heuristic_passed']['count'],
+    routing['medium_quality']['count'],
     routing['to_rephrase']['count'],
     routing['discarded']['count'],
 ]
@@ -215,7 +215,7 @@ cells.append(md([
     ">\n",
     "> **\u89e3\u51b3\u65b9\u6848\uff08Bypass \u8def\u7531\uff09**\uff1a\n",
     "> - score >= 0.7\uff1a\u76f4\u63a5\u4fdd\u7559\uff08\u8df3\u8fc7 heuristic\uff09\n",
-    "> - 0.3 <= score < 0.7\uff1a\u5e94\u7528 heuristic\n",
+    "> - 0.3 <= score < 0.7\uff1a\u76f4\u63a5\u4fdd\u7559\uff08\u5df2\u5728 Gen1 \u901a\u8fc7 heuristic\uff09\n",
     "> - score < 0.3\uff1a\u9001\u53bb LLM \u6539\u5199\u6216\u4e22\u5f03"
 ]))
 
@@ -229,21 +229,19 @@ fig, axes = plt.subplots(1, 2, figsize=(14, 6))
 
 # -- 左图：路由漏斗（横向条形图） --
 hq = routing['high_quality']['count']
-hp = routing['heuristic_passed']['count']
-hf = routing['heuristic_filtered']['count']
+mq = routing['medium_quality']['count']
 tr = routing['to_rephrase']['count']
 dc = routing['discarded']['count']
 
 funnel_labels = [
     f'输入\\n({total_input:,})',
     f'高质量 bypass\\n({hq:,})',
-    f'Heuristic 通过\\n({hp:,})',
-    f'Heuristic 过滤\\n({hf:,})',
+    f'中等质量 直接通过\\n({mq:,})',
     f'待改写\\n({tr:,})',
     f'丢弃\\n({dc:,})',
 ]
-funnel_values = [total_input, hq, hp, hf, tr, dc]
-funnel_colors = ['#2c3e50', '#28a745', '#4CAF50', '#FF9800', '#17a2b8', '#6c757d']
+funnel_values = [total_input, hq, mq, tr, dc]
+funnel_colors = ['#2c3e50', '#28a745', '#4CAF50', '#17a2b8', '#6c757d']
 
 y_pos = range(len(funnel_labels))
 hbars = axes[0].barh(y_pos, funnel_values, color=funnel_colors, alpha=0.85,
@@ -475,9 +473,9 @@ print('=' * 60)
 print(f'  输入文档数: {total_input:,}')
 print(f'  最终输出: {total_kept:,} 条')
 hq_c = routing['high_quality']['count']
-hp_c = routing['heuristic_passed']['count']
+mq_c = routing['medium_quality']['count']
 print(f'  |-- 高质量(bypass): {hq_c:,} 条')
-print(f'  |-- 中等(heuristic通过): {hp_c:,} 条')
+print(f'  |-- 中等质量(直接通过): {mq_c:,} 条')
 print(f'  +-- 合成数据(改写): {synthetic_count:,} 条')
 print(f'  总保留率: {retention_rate:.1%}')
 print()
@@ -496,8 +494,7 @@ print('路由明细表：')
 print(f'{header_route:<20} {header_count:>8} {header_pct:>8}')
 print('-' * 38)
 for name, key in [('高质量 bypass', 'high_quality'),
-                   ('Heuristic 通过', 'heuristic_passed'),
-                   ('Heuristic 过滤', 'heuristic_filtered'),
+                   ('中等质量 直接通过', 'medium_quality'),
                    ('待改写', 'to_rephrase'),
                    ('丢弃', 'discarded')]:
     c = routing[key]['count']

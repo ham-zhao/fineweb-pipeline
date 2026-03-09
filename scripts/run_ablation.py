@@ -122,8 +122,8 @@ def main():
     # === 消融 3: 去掉合成改写（低质量直接丢弃）===
     print("\n消融 3: 去掉合成改写...")
     router = ConditionalBypass(high_quality_threshold=0.7, medium_quality_threshold=0.3)
-    buckets = router.route(docs, ensemble_scores, quality_filter)
-    ablation3_docs = buckets['high_quality'] + buckets['heuristic_passed']
+    buckets = router.route(docs, ensemble_scores)
+    ablation3_docs = buckets['high_quality'] + buckets['medium_quality']
     result_ablation3 = evaluate(ablation3_docs, '去掉合成改写', total_docs, eval_clf)
     print(f"  结果: {result_ablation3['count']:,} 条 | quality={result_ablation3['quality_mean']:.4f}")
 

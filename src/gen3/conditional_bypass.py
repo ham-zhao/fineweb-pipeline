@@ -12,10 +12,14 @@ Nemotron-CC 的关键发现：
   3. 问答格式文本：平均句子短，被 Gopher 的 avg_sentence_length 过滤
   以上内容可能质量很高，但长相"不像"高质量文本（不符合 heuristic 的统计假设）
 
-分层路由逻辑：
+分层路由逻辑（串联架构：Gen1 heuristic → Gen3 model routing）：
   score >= high_quality_threshold  →  直接保留（跳过 heuristic）
-  medium_threshold <= score < high  →  应用 heuristic 过滤
+  medium_threshold <= score < high  →  直接保留（已在 Gen1 通过 heuristic）
   score < medium_threshold          →  送去 LLM 改写或丢弃
+
+注：本项目采用串联架构（Gen1→Gen3），Gen3 输入已经过 Gen1 heuristic 过滤，
+    因此中等质量路由不再重复应用 heuristic（全量运行中仅 2/1117=0.18% 被过滤，
+    证明了重复过滤的冗余性）。
 """
 
 import numpy as np
@@ -28,7 +32,7 @@ class RoutingDecision:
     """单条文档的路由决策记录。"""
     doc_index: int
     ensemble_score: float
-    route: str          # "high_quality" | "heuristic_filtered" | "heuristic_passed" | "rephrase" | "discard"
+    route: str          # "high_quality" | "medium_quality" | "rephrase" | "discard"
     heuristic_reason: str = ""
     final_action: str = ""  # "kept" | "filtered" | "rephrase" | "discarded"
 
@@ -60,24 +64,25 @@ class ConditionalBypass:
         self,
         docs: List[Dict],
         ensemble_scores: np.ndarray,
-        quality_filter,       # QualityFilter 实例（第一代的规则过滤器）
+        quality_filter=None,  # 不再使用（串联架构中 Gen1 已完成 heuristic 过滤）
     ) -> Dict[str, List]:
         """
         将所有文档按分数路由到不同处理桶。
 
+        串联架构下（Gen1→Gen3），所有输入已通过 Gen1 heuristic 过滤，
+        中等质量路由不再重复应用 heuristic。
+
         Returns:
             dict，包含：
               - high_quality: 直接保留（bypass heuristic）的文档
-              - heuristic_passed: 经过 heuristic 且通过的文档
-              - heuristic_filtered: 经过 heuristic 被过滤的文档
+              - medium_quality: 中等质量直接保留的文档
               - to_rephrase: 待 LLM 改写的文档
               - discarded: 直接丢弃的文档
               - routing_log: 每条文档的路由决策记录
         """
         buckets = {
             "high_quality": [],
-            "heuristic_passed": [],
-            "heuristic_filtered": [],
+            "medium_quality": [],
             "to_rephrase": [],
             "discarded": [],
         }
@@ -100,20 +105,11 @@ class ConditionalBypass:
                 buckets["high_quality"].append(doc)
 
             elif score >= self.medium_threshold:
-                # 路径 B：中等质量 → 应用 heuristic
-                passes, reason = quality_filter.check(doc["text"])
-                if passes:
-                    decision.route = "heuristic_passed"
-                    decision.final_action = "kept"
-                    doc["_route"] = "heuristic_passed"
-                    buckets["heuristic_passed"].append(doc)
-                else:
-                    decision.route = "heuristic_filtered"
-                    decision.heuristic_reason = reason
-                    decision.final_action = "filtered"
-                    doc["_route"] = "heuristic_filtered"
-                    doc["_heuristic_reason"] = reason
-                    buckets["heuristic_filtered"].append(doc)
+                # 路径 B：中等质量 → 直接保留（已在 Gen1 通过 heuristic）
+                decision.route = "medium_quality"
+                decision.final_action = "kept"
+                doc["_route"] = "medium_quality"
+                buckets["medium_quality"].append(doc)
 
             else:
                 # 路径 C：低质量 → 改写或丢弃
@@ -208,6 +204,6 @@ class ConditionalBypass:
             }
         summary["total_kept"] = (
             summary.get("high_quality", {}).get("count", 0)
-            + summary.get("heuristic_passed", {}).get("count", 0)
+            + summary.get("medium_quality", {}).get("count", 0)
         )
         return summary

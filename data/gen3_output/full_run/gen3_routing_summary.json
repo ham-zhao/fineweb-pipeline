@@ -2,35 +2,35 @@
   "routing": {
     "total": 3242,
     "high_quality": {
-      "count": 633,
-      "rate": 0.1952
+      "count": 645,
+      "rate": 0.199
     },
-    "heuristic_passed": {
-      "count": 1115,
-      "rate": 0.3439
-    },
-    "heuristic_filtered": {
-      "count": 2,
-      "rate": 0.0006
+    "medium_quality": {
+      "count": 1129,
+      "rate": 0.3482
     },
     "to_rephrase": {
-      "count": 752,
-      "rate": 0.232
+      "count": 726,
+      "rate": 0.2239
     },
     "discarded": {
-      "count": 740,
-      "rate": 0.2283
+      "count": 742,
+      "rate": 0.2289
     },
-    "total_kept": 1748
+    "total_kept": 1774
   },
   "bypass_analysis": {
-    "high_quality_count": 633,
-    "would_be_filtered_count": 591,
-    "would_be_filtered_rate": 0.9336,
+    "high_quality_count": 645,
+    "would_be_filtered_count": 602,
+    "would_be_filtered_rate": 0.9333,
     "sample_false_kills": [
       {
         "text": "Boss Ballet Barres: The Ballet Barre is Not Just For Ballet\nBoss Ballet Barres\nFriday 2 August 2013\nThe Ballet Barre is Not Just For Ballet\nIt seems that ballet barre exercise is not just for the youn",
         "reason": "c4:low_terminal_punct_ratio:0.17<0.7"
+      },
+      {
+        "text": "Exploring Virtual Reality: A Game-Changer for Audio Visual Experiences – kredy thi pote cznyt aniej\nkredy thi pote cznyt aniej\nSample Page\nExploring Virtual Reality: A Game-Changer for Audio Visual Ex",
+        "reason": "c4:low_terminal_punct_ratio:0.31<0.7"
       },
       {
         "text": "Our Services - Adaptive EdgeAdaptive Edge\nClients\nServices\nServices\nMethodology\nWorking Principles\nResources & White Papers\nBlog\nContact Us\nMission\nTeam\nPress\nFirst Name\nLast Name\nEmail Address\nInquir",
@@ -43,24 +43,20 @@
       {
         "text": "Invisible Fence installation\nNote: This is an older version of the page, click here to see the most current version.\nInvisible Fence Installation\nHow and where your Invisible Fence is installed\nThe in",
         "reason": "c4:low_terminal_punct_ratio:0.50<0.7"
-      },
-      {
-        "text": "Asia Buildings Material Ltd.\nChinese Poplar\nGeneral Characteristics\nYellow Poplar contains two species. The Yellow Poplar of North America (Litulipifera) and a Chinese specie (L. chinensis). Both spec",
-        "reason": "c4:low_terminal_punct_ratio:0.17<0.7"
       }
     ]
   },
   "rephrasing": {
-    "total_input": 752,
-    "success": 87,
-    "failed": 307,
-    "quality_filtered": 358,
-    "total_api_calls": 752,
+    "total_input": 726,
+    "success": 82,
+    "failed": 303,
+    "quality_filtered": 341,
+    "total_api_calls": 726,
     "status_counts": {
-      "success": 445,
-      "empty_result": 307
+      "empty_result": 303,
+      "success": 423
     },
-    "success_rate": 0.1157
+    "success_rate": 0.1129
   },
-  "elapsed_seconds": 498.35067915916443
+  "elapsed_seconds": 456.9321479797363
 }
