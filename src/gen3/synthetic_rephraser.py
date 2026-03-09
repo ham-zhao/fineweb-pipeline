@@ -46,11 +46,11 @@ class SyntheticRephraser:
         rephrase_cfg = api_config.get("rephrasing", {})
         self.system_prompt = rephrase_cfg.get(
             "system_prompt",
-            "你是一位专业的文本质量改写专家。将低质量网络文本改写为高质量、信息密集的内容。直接输出改写结果。"
+            "You are a professional text quality rewriter. Rewrite low-quality web text into high-quality, information-dense content. Output ONLY the rewritten text. Write in the SAME LANGUAGE as the input."
         )
         self.user_prompt_template = rephrase_cfg.get(
             "user_prompt_template",
-            "请改写以下文本：\n\n{text}"
+            "Rewrite the following text:\n\n{text}"
         )
         self.requests_per_minute = rephrase_cfg.get("requests_per_minute", 50)
         self.max_retries = rephrase_cfg.get("max_retries", 3)
@@ -113,13 +113,44 @@ class SyntheticRephraser:
         )
         return response.choices[0].message.content.strip()
 
+    @staticmethod
+    def _detect_language(text: str) -> Optional[str]:
+        """检测文本语言（使用 fasttext 的 langdetect 或简单启发式）。"""
+        try:
+            import fasttext
+            # 复用 Gen1 的语言检测模型（如果存在）
+            model_path = "results/lid.176.ftz"
+            if not Path(model_path).exists():
+                # fallback: 简单启发式 — 检查 ASCII 比例
+                ascii_ratio = sum(1 for c in text if ord(c) < 128) / max(len(text), 1)
+                if ascii_ratio > 0.8:
+                    return "en"
+                return None
+            model = fasttext.load_model(model_path)
+            labels, _ = model.predict(text.replace("\n", " ")[:500], k=1)
+            return labels[0].replace("__label__", "")
+        except Exception:
+            # fallback: ASCII 比例启发式
+            ascii_ratio = sum(1 for c in text if ord(c) < 128) / max(len(text), 1)
+            if ascii_ratio > 0.8:
+                return "en"
+            return None
+
+    def _check_language_consistency(self, original_text: str, rephrased_text: str) -> bool:
+        """检查改写后的文本语言是否与输入一致。"""
+        orig_lang = self._detect_language(original_text)
+        reph_lang = self._detect_language(rephrased_text)
+        if orig_lang and reph_lang and orig_lang != reph_lang:
+            return False
+        return True
+
     def rephrase_single(self, text: str) -> Tuple[Optional[str], str]:
         """
         改写单条文本。
 
         Returns:
             (rephrased_text, status)
-            status: "success" | "api_error" | "too_short"
+            status: "success" | "api_error" | "too_short" | "lang_mismatch"
         """
         if len(text.split()) < 30:
             return None, "too_short"
@@ -144,6 +175,9 @@ class SyntheticRephraser:
                     return None, f"unknown_provider:{self.provider}"
 
                 if result and len(result.split()) >= 20:
+                    # 语言一致性检查：确保输出语言与输入一致
+                    if not self._check_language_consistency(text, result):
+                        return None, "lang_mismatch"
                     return result, "success"
                 return None, "empty_result"
 

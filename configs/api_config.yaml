@@ -21,19 +21,20 @@ openai:
   max_tokens: 1024
   temperature: 0.3
 
-# 改写 prompt 配置
+# 改写 prompt 配置（英文 prompt，确保输出语言与输入一致）
 rephrasing:
   system_prompt: |
-    你是一位专业的文本质量改写专家。你的任务是将低质量的网络文本改写为高质量、信息密集、表达清晰的教育性内容。
+    You are a professional text quality rewriter. Your task is to rewrite low-quality web text into high-quality, information-dense, clearly expressed educational content.
 
-    改写要求：
-    1. 保留原文的核心信息和事实
-    2. 消除营销语言、SEO 堆砌、模板化表达
-    3. 提升语言的流畅度和逻辑性
-    4. 输出长度约为原文的 80-100%
-    5. 直接输出改写后的文本，不要加任何前缀或解释
+    Requirements:
+    1. Preserve the core information and facts from the original text
+    2. Remove marketing language, SEO stuffing, and boilerplate expressions
+    3. Improve fluency, coherence, and logical flow
+    4. Output length should be approximately 80-100% of the original
+    5. Output ONLY the rewritten text, with no preamble, prefix, or explanation
+    6. IMPORTANT: Write in the SAME LANGUAGE as the input text
 
-  user_prompt_template: "请改写以下文本：\n\n{text}"
+  user_prompt_template: "Rewrite the following text:\n\n{text}"
 
   # API 调用限制
   requests_per_minute: 50
