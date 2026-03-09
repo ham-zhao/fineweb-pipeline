@@ -1,61 +1,40 @@
 {
   "routing": {
-    "total": 409,
+    "total": 437,
     "high_quality": {
-      "count": 50,
-      "rate": 0.1222
+      "count": 57,
+      "rate": 0.1304
     },
     "medium_quality": {
-      "count": 139,
-      "rate": 0.3399
+      "count": 146,
+      "rate": 0.3341
     },
     "to_rephrase": {
-      "count": 109,
-      "rate": 0.2665
+      "count": 121,
+      "rate": 0.2769
     },
     "discarded": {
-      "count": 111,
-      "rate": 0.2714
+      "count": 113,
+      "rate": 0.2586
     },
-    "total_kept": 189
+    "total_kept": 203
   },
   "bypass_analysis": {
-    "high_quality_count": 50,
-    "would_be_filtered_count": 45,
-    "would_be_filtered_rate": 0.9,
-    "sample_false_kills": [
-      {
-        "text": "Classic wah-wah effect with inductance\nWelcome to the retro electronics world!\nRadio tech\nReceivers\nCB radio\nElectronics\nAudio tech\nMusic projekt\nA classic wah-wah effects pedal with a coil\nA wah-wah ",
-        "reason": "c4:low_terminal_punct_ratio:0.31<0.7"
-      },
-      {
-        "text": "Unraveling Quantum Computing: A Game Changer in the Digital World\nformatease.com\nSoftware\nInternet\nInnovations\nOther\nHomepage\nSoftware\nUnraveling Quantum Computing: A Game Changer in the Digital World",
-        "reason": "c4:low_terminal_punct_ratio:0.35<0.7"
-      },
-      {
-        "text": "DASI: Digital Archive for the Study of pre-islamic arabian Inscriptions: Corpus Home\nCSAI\nCorpus of Qatabanic Inscriptions\nDASI\nCorpus Home\nProjects\nCorpus of South Arabian Inscriptions\nOnline Corpus ",
-        "reason": "c4:low_terminal_punct_ratio:0.16<0.7"
-      },
-      {
-        "text": "Angelina's Pizzeria and Restaurant New Jersey's Full Service Restaurant and Pizzeria specializing in Authentic Northern Italian and American Cuisine\nAbout Angelina's Pizzeria and Restaurant\nPh: ([PHON",
-        "reason": "c4:low_terminal_punct_ratio:0.15<0.7"
-      },
-      {
-        "text": "The World Trip\nskip to main | skip to sidebar\nThe World Trip\nWednesday 19 August 2009\nSettling back into Island Life\nWe are starting to get established into Island Life again, but this time in Jersey.",
-        "reason": "c4:low_terminal_punct_ratio:0.53<0.7"
-      }
-    ]
+    "high_quality_count": 57,
+    "would_be_filtered_count": 0,
+    "would_be_filtered_rate": 0.0,
+    "sample_false_kills": []
   },
   "rephrasing": {
-    "total_input": 109,
-    "success": 78,
+    "total_input": 121,
+    "success": 90,
     "failed": 0,
     "quality_filtered": 31,
-    "total_api_calls": 109,
+    "total_api_calls": 121,
     "status_counts": {
-      "success": 109
+      "success": 121
     },
-    "success_rate": 0.7156
+    "success_rate": 0.7438
   },
-  "elapsed_seconds": 98.66930103302002
+  "elapsed_seconds": 106.17312097549438
 }

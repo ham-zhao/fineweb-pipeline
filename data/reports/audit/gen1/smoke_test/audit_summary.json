@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-06T17:52:26.492853",
+  "generated_at": "2026-03-09T14:49:25.310419",
   "filter_stats": {
     "url_filter": {
       "total_filtered": 50,
@@ -18,7 +18,7 @@
     },
     "repetition_filter": {
       "total_filtered": 50,
-      "filter_rate": 0.06009615384615385,
+      "filter_rate": 0.05512679162072767,
       "audit_sample_size": 50
     }
   },

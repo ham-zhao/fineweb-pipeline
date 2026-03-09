@@ -1,7 +1,7 @@
 [
   {
     "stage": "gen1_input",
-    "timestamp": "2026-03-06T17:52:22.479955",
+    "timestamp": "2026-03-09T14:49:20.767472",
     "doc_count": 12000,
     "retention_rate": 1.0,
     "sample_size": 500,
@@ -15,7 +15,7 @@
   },
   {
     "stage": "gen1_after_lang",
-    "timestamp": "2026-03-06T17:52:23.524672",
+    "timestamp": "2026-03-09T14:49:21.850790",
     "doc_count": 2912,
     "retention_rate": 0.2427,
     "sample_size": 500,
@@ -29,30 +29,30 @@
   },
   {
     "stage": "gen1_after_quality",
-    "timestamp": "2026-03-06T17:52:24.841616",
-    "doc_count": 832,
-    "retention_rate": 0.0693,
+    "timestamp": "2026-03-09T14:49:23.292521",
+    "doc_count": 907,
+    "retention_rate": 0.0756,
     "sample_size": 500,
-    "unigram_unique_ratio": 0.1113,
-    "bigram_unique_ratio": 0.4978,
-    "trigram_unique_ratio": 0.7296,
-    "estimated_total_tokens": 1629272,
-    "avg_tokens_per_doc": 1958.3,
-    "domain_entropy": 5.4409,
-    "n_unique_domains": 472
+    "unigram_unique_ratio": 0.1059,
+    "bigram_unique_ratio": 0.5021,
+    "trigram_unique_ratio": 0.7421,
+    "estimated_total_tokens": 3256764,
+    "avg_tokens_per_doc": 3590.7,
+    "domain_entropy": 5.5135,
+    "n_unique_domains": 467
   },
   {
     "stage": "gen1_output",
-    "timestamp": "2026-03-06T17:52:26.267214",
-    "doc_count": 409,
-    "retention_rate": 0.0341,
-    "sample_size": 409,
-    "unigram_unique_ratio": 0.1479,
-    "bigram_unique_ratio": 0.6181,
-    "trigram_unique_ratio": 0.8629,
-    "estimated_total_tokens": 422611,
-    "avg_tokens_per_doc": 1033.3,
-    "domain_entropy": 5.4887,
-    "n_unique_domains": 384
+    "timestamp": "2026-03-09T14:49:25.010191",
+    "doc_count": 437,
+    "retention_rate": 0.0364,
+    "sample_size": 437,
+    "unigram_unique_ratio": 0.1362,
+    "bigram_unique_ratio": 0.605,
+    "trigram_unique_ratio": 0.8574,
+    "estimated_total_tokens": 791752,
+    "avg_tokens_per_doc": 1811.8,
+    "domain_entropy": 5.4781,
+    "n_unique_domains": 407
   }
 ]
