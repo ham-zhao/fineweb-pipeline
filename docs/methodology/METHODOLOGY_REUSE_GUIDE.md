@@ -36,7 +36,7 @@ cp "$SRC/docs/METHODOLOGY_COMPACT.md"  <TARGET_PROJECT>/docs/
 
 1. 读取 docs/STANDARD_METHODOLOGY.md（完整方法论）和 docs/METHODOLOGY_COMPACT.md（精简版），理解全部内容
 2. 读取全局规则 ~/.claude/CLAUDE.md，确认理解
-3. 用 METHODOLOGY_COMPACT.md 的全部内容覆盖项目 CLAUDE.md（忽略原有内容，从零开始），末尾加一行：完整方法论参考 docs/STANDARD_METHODOLOGY.md
+3. 用 STANDARD_METHODOLOGY.md 的全部内容覆盖项目 CLAUDE.md（忽略原有内容，从零开始）
 4. 在 memory 中记录：方法论已导入，完整版位置，导入日期
 5. 未来执行中发现新的方法论规则时（如踩坑、反模式、用户纠正），按以下流程处理：
    - 识别：主动向用户提出"发现一条潜在方法论规则：[描述]，是否纳入？"
