@@ -735,9 +735,18 @@ Layer 3：方法论文档（docs/STANDARD_METHODOLOGY.md）
   └── 新项目通过引用激活
 
 新规则纳入流程（Agent 自动执行）：
-  ① 判断通用性 → 通用则写 Layer 1，项目特有则写 Layer 2
-  ② 方法论性质 → 写入 docs/METHODOLOGY_DELTA.md（增量文件），不直接修改本文档
-  ③ 若需 Agent 自动执行 → 必须写入 Layer 1（CLAUDE.md）
+
+  Step 1 识别：Agent 在执行中发现潜在新规则时（如踩坑、发现反模式、用户纠正等），
+         主动向用户提出："发现一条潜在方法论规则：[规则描述]，是否纳入？"
+
+  Step 2 确认：用户确认后，Agent 判断规则类型并写入对应位置：
+         ① 全局通用 → 写入 ~/.claude/CLAUDE.md（Layer 1）
+         ② 项目特有 → 写入 MEMORY.md（Layer 2）
+         ③ 方法论性质 → 写入 docs/METHODOLOGY_DELTA.md（增量文件），不直接修改本文档
+         ④ 若需 Agent 自动执行 → 必须同时写入 Layer 1（CLAUDE.md）
+
+  Step 3 提醒合并：当 METHODOLOGY_DELTA.md 累积达到 5 条以上已验证规则时，
+         Agent 主动提醒用户："DELTA 中已有 N 条已验证规则待合并，是否执行合并流程？"
 
 新项目启动：
   ① Layer 1 自动继承
