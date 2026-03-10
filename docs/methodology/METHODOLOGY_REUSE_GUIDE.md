@@ -27,10 +27,12 @@ cp "$SRC/docs/METHODOLOGY_COMPACT.md"  <TARGET_PROJECT>/docs/
 
 ## 二、给 Claude Code 的初始化命令
 
-在目标项目的 Claude Code 窗口中粘贴以下**统一命令**（无需区分项目是否已有 CLAUDE.md，Agent 会自己判断并处理）：
+在目标项目的 Claude Code 窗口中，先执行 `/compact`（如有历史对话），然后粘贴以下命令：
 
 ```
-请完成方法论初始化：
+请完成以下两件事：
+
+一、方法论初始化
 
 1. 读取 docs/STANDARD_METHODOLOGY.md（完整方法论）和 docs/METHODOLOGY_COMPACT.md（精简版），理解全部内容
 2. 读取全局规则 ~/.claude/CLAUDE.md，确认理解
@@ -44,8 +46,18 @@ cp "$SRC/docs/METHODOLOGY_COMPACT.md"  <TARGET_PROJECT>/docs/
      - 方法论性质的规则 → 写入 docs/METHODOLOGY_DELTA.md（增量文件），不要直接修改 STANDARD_METHODOLOGY.md
    - METHODOLOGY_DELTA.md 格式：每条规则包含标题、发现日期、触发场景、规则内容、验证状态（已验证/待验证）
    - 提醒合并：当 DELTA 累积 5 条以上已验证规则时，主动提醒用户执行合并
-6. 输出初始化核销表，逐项确认完成
+
+二、按照方法论执行项目任务
+
+初始化完成后，按照 STANDARD_METHODOLOGY.md 的方法论要求，执行以下项目任务：
+
+[在此填写具体的项目任务描述]
 ```
+
+**使用方法：** 将 `[在此填写具体的项目任务描述]` 替换为你要让 Agent 做的事情。例如：
+
+- 项目 2："审查现有的所有 Notebook，按照方法论的五要素定义、输出必有结论、层次化评估框架等要求，逐个检查并修正"
+- 项目 3："从数据准备阶段开始，按照方法论重新规划整个 Pipeline，先出方法论 Notebook，确认后再执行"
 
 ---
 
