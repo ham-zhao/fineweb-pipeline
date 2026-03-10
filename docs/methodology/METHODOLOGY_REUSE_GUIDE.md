@@ -36,7 +36,11 @@ cp "$SRC/docs/METHODOLOGY_COMPACT.md"  <TARGET_PROJECT>/docs/
 2. 读取全局规则 ~/.claude/CLAUDE.md，确认理解
 3. 用 METHODOLOGY_COMPACT.md 的全部内容覆盖项目 CLAUDE.md（忽略原有内容，从零开始），末尾加一行：完整方法论参考 docs/STANDARD_METHODOLOGY.md
 4. 在 memory 中记录：方法论已导入，完整版位置，导入日期
-5. 未来发现新的方法论规则时，写入 docs/METHODOLOGY_DELTA.md（增量文件），不要直接修改 STANDARD_METHODOLOGY.md
+5. 未来执行中发现新的方法论规则时，按以下机制处理：
+   - 全局通用规则 → 直接写入 ~/.claude/CLAUDE.md
+   - 项目特有规则 → 写入 memory
+   - 方法论性质的规则 → 写入 docs/METHODOLOGY_DELTA.md（增量文件），不要直接修改 STANDARD_METHODOLOGY.md
+   METHODOLOGY_DELTA.md 的格式：每条规则包含标题、发现日期、触发场景、规则内容、验证状态（已验证/待验证）
 6. 输出初始化核销表，逐项确认完成
 ```
 
