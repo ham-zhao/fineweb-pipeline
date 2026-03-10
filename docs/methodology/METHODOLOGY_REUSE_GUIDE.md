@@ -61,17 +61,52 @@ cp "$SRC/docs/METHODOLOGY_COMPACT.md"  <TARGET_PROJECT>/docs/
 
 ## 五、未来新规则的流入
 
-```
-新规则纳入流程（Agent 自动执行）：
+### 规则分流（Agent 自动执行）
 
-  通用教训 → Agent 写入 ~/.claude/CLAUDE.md → 所有项目自动继承
-  项目特有 → Agent 写入项目 MEMORY.md → 不影响其他项目
-  方法论性质 → 写入 docs/STANDARD_METHODOLOGY.md → 需手动同步到其他项目
-
-跨项目同步方案：
-  短期：手动 cp 更新后的文件到其他项目
-  长期：可考虑符号链接或共享目录，让多个项目引用同一份方法论文件
 ```
+每个项目执行中发现新规则时：
+
+  全局规则 → 直接写 ~/.claude/CLAUDE.md → 所有项目自动继承，无需同步
+  项目特有 → 直接写 MEMORY.md → 不需要同步
+  方法论性质 → 写入 docs/METHODOLOGY_DELTA.md → 增量文件，不动主文档
+```
+
+### 增量文件格式（docs/METHODOLOGY_DELTA.md）
+
+每个项目独立维护一份"新规则收集箱"，不直接修改 `STANDARD_METHODOLOGY.md`：
+
+```markdown
+# 方法论增量规则
+
+## 来自项目 X
+
+### 新规则 1：[标题]
+- 发现日期：YYYY-MM-DD
+- 触发场景：什么情况下暴露了这个问题
+- 规则内容：具体的方法论规则
+- 验证状态：已验证 / 待验证
+
+### 新规则 2：...
+```
+
+### 定期合并流程（项目结束或阶段性回顾时）
+
+在 fineweb-pipeline 窗口告诉 Agent：
+
+```
+请合并项目 2 和项目 3 的方法论增量：
+1. 读取所有项目的 docs/METHODOLOGY_DELTA.md
+2. 筛选"已验证"的规则
+3. 合并到 docs/STANDARD_METHODOLOGY.md
+4. 重新复制到其他项目
+5. 清空已合并的 DELTA 条目
+```
+
+### 为什么不直接改主文档
+
+- **审计追溯**：每条新规则记录了发现日期、来源项目、触发场景
+- **检查门禁**：只有"已验证"的规则才会合并到主文档
+- **主文档稳定**：STANDARD_METHODOLOGY.md 始终是经过验证的稳定版本
 
 ---
 
