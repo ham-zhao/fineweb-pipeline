@@ -9,45 +9,36 @@
 只需复制 **2 个文件**到目标项目的 `docs/` 目录下：
 
 ```bash
+# 源项目路径
+SRC="/Users/pengjuzhao/Desktop/claude code/tiktok-ml-projects/fineweb-pipeline"
+
 # 替换 <TARGET_PROJECT> 为目标项目路径
-cp docs/STANDARD_METHODOLOGY.md <TARGET_PROJECT>/docs/
-cp docs/METHODOLOGY_COMPACT.md  <TARGET_PROJECT>/docs/
+cp "$SRC/docs/STANDARD_METHODOLOGY.md" <TARGET_PROJECT>/docs/
+cp "$SRC/docs/METHODOLOGY_COMPACT.md"  <TARGET_PROJECT>/docs/
 ```
 
 **不需要**复制全局 `~/.claude/CLAUDE.md`——它已经自动对所有项目生效。
+
+**已完成的复制：**
+- [x] post-train-pipeline/docs/ （2026-03-10）
+- [x] safety-dataset/docs/ （2026-03-10）
 
 ---
 
 ## 二、给 Claude Code 的初始化命令
 
-### 情况 A：目标项目没有 CLAUDE.md（如 post-train-pipeline）
-
-在目标项目的 Claude Code 窗口中粘贴：
+在目标项目的 Claude Code 窗口中粘贴以下**统一命令**（无需区分项目是否已有 CLAUDE.md，Agent 会自己判断并处理）：
 
 ```
 请完成方法论初始化：
 
-1. 读取 docs/STANDARD_METHODOLOGY.md（完整方法论）和 docs/METHODOLOGY_COMPACT.md（精简版）
+1. 读取 docs/STANDARD_METHODOLOGY.md（完整方法论）和 docs/METHODOLOGY_COMPACT.md（精简版），理解全部内容
 2. 读取全局规则 ~/.claude/CLAUDE.md，确认理解
-3. 在项目根目录创建 CLAUDE.md，内容为：
-   - 首先粘贴 METHODOLOGY_COMPACT.md 的全部内容
-   - 然后追加项目概况段落（从项目已有文件中了解）
-   - 最后加一行：详细方法论参考 docs/STANDARD_METHODOLOGY.md
-4. 在 memory 中记录：方法论已导入，完整版在 docs/STANDARD_METHODOLOGY.md
-5. 输出初始化核销表，逐项确认完成
-```
-
-### 情况 B：目标项目已有 CLAUDE.md（如 safety-dataset）
-
-在目标项目的 Claude Code 窗口中粘贴：
-
-```
-请完成方法论初始化：
-
-1. 读取 docs/STANDARD_METHODOLOGY.md（完整方法论）和 docs/METHODOLOGY_COMPACT.md（精简版）
-2. 读取全局规则 ~/.claude/CLAUDE.md，确认理解
-3. 读取现有 CLAUDE.md，在其现有内容【之前】插入 METHODOLOGY_COMPACT.md 的全部内容，保留所有现有项目规则不删除。在末尾加一行：详细方法论参考 docs/STANDARD_METHODOLOGY.md
-4. 在 memory 中记录：方法论已导入，完整版在 docs/STANDARD_METHODOLOGY.md
+3. 更新项目 CLAUDE.md（如不存在则创建）：
+   - 将 METHODOLOGY_COMPACT.md 的全部内容放在文件最前面
+   - 保留现有的项目特有规则（如果有的话）
+   - 末尾加一行：完整方法论参考 docs/STANDARD_METHODOLOGY.md
+4. 在 memory 中记录：方法论已导入，完整版位置，导入日期
 5. 输出初始化核销表，逐项确认完成
 ```
 
