@@ -43,7 +43,7 @@ cp "$SRC/docs/METHODOLOGY_COMPACT.md"  <TARGET_PROJECT>/docs/
 
 ## 三、是否需要 /compact
 
-**不需要。** 新项目窗口是新对话，上下文是干净的。`/compact` 只在长对话接近上下文上限时使用。
+**建议先执行 `/compact`。** 如果项目窗口已有之前的对话历史（如已跑过一轮数据），上下文中会残留旧的规则和习惯。`/compact` 会压缩旧对话但保留关键信息，让 Agent 以更干净的状态接收新方法论，避免新旧规则冲突。
 
 ---
 
