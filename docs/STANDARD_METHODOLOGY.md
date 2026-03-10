@@ -736,16 +736,49 @@ Layer 3：方法论文档（docs/STANDARD_METHODOLOGY.md）
 
 新规则纳入流程（Agent 自动执行）：
   ① 判断通用性 → 通用则写 Layer 1，项目特有则写 Layer 2
-  ② 方法论性质 → 同步写 Layer 3
+  ② 方法论性质 → 写入 docs/METHODOLOGY_DELTA.md（增量文件），不直接修改本文档
   ③ 若需 Agent 自动执行 → 必须写入 Layer 1（CLAUDE.md）
-  ④ 维护规则变更日志
 
 新项目启动：
   ① Layer 1 自动继承
-  ② 复制 STANDARD_METHODOLOGY.md 到新项目 docs/
-  ③ 将 METHODOLOGY_COMPACT.md 内容写入项目 CLAUDE.md
+  ② 复制 STANDARD_METHODOLOGY.md + METHODOLOGY_COMPACT.md 到新项目 docs/
+  ③ 用 METHODOLOGY_COMPACT.md 覆盖项目 CLAUDE.md
   ④ Layer 2 从模板初始化
 ```
+
+**增量规则文件（docs/METHODOLOGY_DELTA.md）：**
+
+每个项目独立维护一份"新规则收集箱"，不直接修改 `STANDARD_METHODOLOGY.md`：
+
+```markdown
+# 方法论增量规则
+
+## 来自项目 X
+
+### 新规则 1：[标题]
+- 发现日期：YYYY-MM-DD
+- 触发场景：什么情况下暴露了这个问题
+- 规则内容：具体的方法论规则
+- 验证状态：已验证 / 待验证
+
+### 新规则 2：...
+```
+
+**定期合并流程（项目结束或阶段性回顾时）：**
+
+```
+合并步骤：
+  ① 读取所有项目的 docs/METHODOLOGY_DELTA.md
+  ② 筛选"已验证"的规则
+  ③ 合并到 docs/STANDARD_METHODOLOGY.md 对应章节
+  ④ 重新复制到其他项目
+  ⑤ 清空已合并的 DELTA 条目
+```
+
+**为什么不直接改主文档：**
+- **审计追溯**：每条新规则记录了发现日期、来源项目、触发场景
+- **检查门禁**：只有"已验证"的规则才会合并到主文档
+- **主文档稳定**：STANDARD_METHODOLOGY.md 始终是经过验证的稳定版本
 
 ---
 
